@@ -26,3 +26,5 @@ class Profesional:
             if cert.name == nombre_certificacion and cert.esta_vigente(fecha):
                 return True
         return False
+    
+    
