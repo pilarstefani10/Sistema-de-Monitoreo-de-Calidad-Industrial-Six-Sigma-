@@ -1,4 +1,4 @@
-
+from Defecto import Defecto 
 class Muestra:
 
     def __init__(self, ID, unidades_representadas, lote):
@@ -16,6 +16,8 @@ class Muestra:
         self.defectos = []
         self.inspeccion = None
 
+
+
     def iniciar_inspeccion(self):
 
         if self.estado != "PENDIENTE":
@@ -24,3 +26,11 @@ class Muestra:
             )
 
         self.estado = "EN_INSPECCION"
+
+    def registrar_defecto(self, defecto):
+
+        if not isinstance(defecto, Defecto):
+            raise ValueError("Se debe ingresar un objeto de tipo Defecto")
+
+        self.defectos.append(defecto)
+        

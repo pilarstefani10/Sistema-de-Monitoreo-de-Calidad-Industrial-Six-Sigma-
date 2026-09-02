@@ -7,11 +7,12 @@ class Equipo:
             raise ValueError("La ultima calibración debe ser un objeto de tipo date.")
         elif not ID.isdigit():
             raise ValueError("El ID del equipo debe ser un número entero.")
-        
+        elif not isinstance(categoria, str) or categoria == "":
+            raise ValueError("La categoria del equipo no puede estar vacía.")
         else: 
             self.ultima_calibracion = ultima_calibracion
             self.ID = ID
-            self.categoria = categoria
+            self.categoria = categoria.lower() 
 
 
 

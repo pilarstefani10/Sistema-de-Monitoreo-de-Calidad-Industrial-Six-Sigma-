@@ -20,7 +20,7 @@ class Procedimiento:
         else:
             self.ID = ID
             self.nombre = nombre 
-            self.categoria_equipo_requerida = categoria_equipo_requerida
+            self.categoria_equipo_requerida = categoria_equipo_requerida.lower() 
             self.certificacion_requerida = certificacion_requerida
             self.limite_gravedad = limite_gravedad
         

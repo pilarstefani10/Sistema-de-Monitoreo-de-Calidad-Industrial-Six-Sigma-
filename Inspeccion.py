@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from Profesional import Profesional 
 from Equipo import Equipo
 from Muestra import Muestra
@@ -32,14 +32,20 @@ class Inspeccion:
             self.procedimiento = procedimiento
             self.muestra = muestra
 
-    def equipo_apto(self, equipo):
-        if equipo.ultima_calibracion:
-            return##########################################
+    def equipo_apto(self):
 
-# fecha_inspeccion - 6 meses <= fecha_calibracion <= fecha_inspeccion. Para este TP, seis meses se calculan como 182 días
+        fecha_limite = self.fecha - timedelta(days=182)
 
-    def ejecutar(self, Observaciones):
+        calibracion_ok = (fecha_limite <= self.equipo.ultima_calibracion <= self.fecha)
+        categoria_ok = (self.equipo.categoria == self.procedimiento.categoria)
+
+        return calibracion_ok and categoria_ok
+
+
+    
+    def ejecutar(self, Observaciones): #Funcionalidad incompleta, solo boceto del futuro
         if not isinstance(Observaciones, str):
             raise ValueError("Formato de Observaciones inválido.")
-        else:##############################################
+        else:###########################################################
+            self.muestra.defectos.append(self.defecto)
             return
