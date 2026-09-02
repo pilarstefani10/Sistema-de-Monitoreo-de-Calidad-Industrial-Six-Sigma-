@@ -7,7 +7,7 @@ class Profesional:
             raise ValueError("El ID del profesional no puede estar vacío.")
         else:
             self.name = name
-            self.id = id
+            self.ID = id
             self.certificaciones = []
 
     @staticmethod
@@ -19,6 +19,8 @@ class Profesional:
         return isinstance(nombre, str) and nombre != ""
 
     def agregar_certificacion(self, certificacion):
+        if not isinstance(certificacion, Certificacion):
+            raise ValueError("El objeto proporcionado no es una instancia de la clase Certificacion.")
         self.certificaciones.append(certificacion)
 
     def certificacion_vigente(self, nombre_certificacion, fecha):

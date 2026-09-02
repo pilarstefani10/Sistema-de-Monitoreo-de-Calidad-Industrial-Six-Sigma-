@@ -1,16 +1,22 @@
 class Defecto:
-    def __init__(self, nombre, gravedad):
-        if not self.validar_nombre(nombre):
+    def __init__(self, tipo, gravedad, descripcion):
+        if not self.validar_tipo(tipo):
             raise ValueError("El nombre del defecto no puede estar vacío.")
-        if not isinstance(gravedad, int) or gravedad < 1 or gravedad > 5:
+        elif not isinstance(gravedad, int) or gravedad < 1 or gravedad > 5:
             raise ValueError("La gravedad del defecto debe ser un número entero entre 1 y 5.")
-        self.nombre = nombre
-        self.gravedad = gravedad
+        elif not isinstance(descripcion, str) or descripcion == "":
+            raise ValueError("La descripción del defecto no puede estar vacía.")
+        else:
+            self.tipo = tipo
+            self.gravedad = gravedad
+            self.descripcion = descripcion
 
     def es_critco(self):
         return self.gravedad == 5
 
     @staticmethod
-    def validar_nombre(nombre):
-            return isinstance(nombre, str) and nombre != ""
+    def validar_tipo(tipo):
+            return isinstance(tipo, str) and tipo != ""
 
+    def __str__(self):
+        return f"Defecto: {self.tipo}, Gravedad: {self.gravedad}, Descripción: {self.descripcion}"
