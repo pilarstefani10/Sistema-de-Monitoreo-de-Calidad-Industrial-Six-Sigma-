@@ -3,7 +3,6 @@ from Profesional import Profesional
 from Equipo import Equipo
 from Muestra import Muestra
 from Procedimiento import Procedimiento
-from Reporte import Reporte
 class Inspeccion:
     def __init__(self, ID, fecha, profesional, equipo, procedimiento, muestra):
         if not isinstance(fecha, date):
@@ -21,11 +20,22 @@ class Inspeccion:
         elif not isinstance(muestra, Muestra):
             raise ValueError("La muestra debe ser una instancia de la clase Muestra.")
 
-        elif not ID.isdigit():
-            raise ValueError("El ID de la inspección debe ser un número entero.")
+        elif muestra.estado != "PENDIENTE":
+            raise ValueError("La muestra debe estar en estado PENDIENTE para iniciar la inspección.")
+
+        elif not profesional.certificacion_vigente(procedimiento.certificacion_requerida, fecha):
+            raise ValueError("El profesional no tiene la certificación requerida vigente para este procedimiento.")
+
+        elif not (
+            fecha - timedelta(days=182)
+            <= equipo.ultima_calibracion
+            <= fecha
+            and equipo.categoria == procedimiento.categoria_equipo_requerida
+        ):
+            raise ValueError("El equipo no es apto para realizar la inspección según el procedimiento y la fecha de calibración.")
 
         else:
-            self.ID = ID
+            self.ID =  str(ID) + "I"
             self.fecha = fecha
             self.profesional = profesional
             self.equipo = equipo
@@ -37,11 +47,15 @@ class Inspeccion:
         fecha_limite = self.fecha - timedelta(days=182)
 
         calibracion_ok = (fecha_limite <= self.equipo.ultima_calibracion <= self.fecha)
-        categoria_ok = (self.equipo.categoria == self.procedimiento.categoria)
+        categoria_ok = (
+            self.equipo.categoria
+            == self.procedimiento.categoria_equipo_requerida
+        )
 
         return calibracion_ok and categoria_ok
 
-
+    def __str__(self):
+        return f"Inspección {self.ID} - Fecha: {self.fecha} - Profesional: {self.profesional.name} - Equipo: {self.equipo.ID} - Procedimiento: {self.procedimiento.nombre} - Muestra: {self.muestra.ID}"
     
     def ejecutar(self, Observaciones): #Funcionalidad incompleta, solo boceto del futuro
         if not isinstance(Observaciones, str):

@@ -1,13 +1,13 @@
 from Certificacion import Certificacion
 class Profesional:
-    def __init__(self, name, id):
+    nextid = 1
+    def __init__(self, name):
         if not self.validar_nombre(name):
             raise ValueError("El nombre del profesional no puede estar vacío.")
-        elif not self.validar_id(id):
-            raise ValueError("El ID del profesional no puede estar vacío.")
         else:
             self.name = name
-            self.ID = id
+            self.ID = "P" + str(Profesional.nextid)
+            Profesional.nextid += 1
             self.certificaciones = []
 
     @staticmethod
@@ -28,5 +28,6 @@ class Profesional:
             if cert.name == nombre_certificacion and cert.esta_vigente(fecha):
                 return True
         return False
-    
+    def __str__(self):
+        return f"Profesional: {self.name}, ID: {self.ID}, Certificaciones: {[cert.name for cert in self.certificaciones]}"  
     

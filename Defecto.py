@@ -20,3 +20,6 @@ class Defecto:
 
     def __str__(self):
         return f"Defecto: {self.tipo}, Gravedad: {self.gravedad}, Descripción: {self.descripcion}"
+
+    def __repr__(self):
+        return self.__str__()

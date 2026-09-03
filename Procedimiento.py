@@ -1,11 +1,8 @@
 
 class Procedimiento:
-
-    def __init__(self, ID, nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad):
-        if not ID.isdigit():
-            raise ValueError("El ID del procedimiento debe ser un número entero.")
-
-        elif not isinstance(nombre, str) or nombre == "":
+    nextid = 1
+    def __init__(self, nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad):
+        if not isinstance(nombre, str) or nombre == "":
             raise ValueError("El nombre del procedimiento no puede estar vacío.")
 
         elif not isinstance(categoria_equipo_requerida, str) or categoria_equipo_requerida == "":
@@ -18,7 +15,8 @@ class Procedimiento:
             raise ValueError("El límite de gravedad debe ser un número entero entre 1 y 5.")
 
         else:
-            self.ID = ID
+            self.ID = "PR" + str(Procedimiento.nextid)
+            Procedimiento.nextid += 1
             self.nombre = nombre 
             self.categoria_equipo_requerida = categoria_equipo_requerida.lower() 
             self.certificacion_requerida = certificacion_requerida
