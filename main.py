@@ -29,7 +29,7 @@ luis = Profesional("Luis Gomez")
 certificacion = Certificacion("Certificacion A", date(2026, 1, 1), date(2027, 1, 1))
 ana.agregar_certificacion(certificacion)
 
-equipo = Equipo("10", "metal", date(2026, 8, 1))
+equipo = Equipo("metal", date(2026, 8, 1))
 procedimiento = Procedimiento(
 	"Control visual",
 	"metal",

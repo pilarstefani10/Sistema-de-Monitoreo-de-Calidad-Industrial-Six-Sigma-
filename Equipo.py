@@ -2,7 +2,7 @@ from datetime import date
 
 class Equipo:
     nextid = 1
-    def __init__(self, ID, categoria, ultima_calibracion):
+    def __init__(self, categoria, ultima_calibracion):
 
         if not isinstance(ultima_calibracion, date):
             raise ValueError("La ultima calibración debe ser un objeto de tipo date.")
