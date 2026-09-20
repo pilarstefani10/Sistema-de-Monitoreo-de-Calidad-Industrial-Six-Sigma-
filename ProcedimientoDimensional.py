@@ -1,10 +1,12 @@
 from Procedimiento import Procedimiento
-class ProcedimientoDimensional(Procedimiento):
-    def __init__(self, nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad, valor_esperado, tolerancia, rangos_gravedad):
-            super().__init__(nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad)
+from Profesional import Profesional
+class ProcedimientoDimensional(Procedimiento, Profesional):
+    def __init__(self, nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad, valor_esperado, tolerancia, rangos_gravedad,categoria):
+            super().__init__(nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad, categoria)
             self.valor_esperado = valor_esperado
             self.tolerancia = tolerancia
             self.rangos_gravedad = rangos_gravedad  # Diccionario con los rangos de gravedad
+            self.categoria= categoria
     
     def calcular_gravedad(self,diferencia):
         if diferencia < self.rangos_gravedad["leve"]:
@@ -19,15 +21,15 @@ class ProcedimientoDimensional(Procedimiento):
             return 5
 
     def evaluar(self, observaciones):
-        defectos = []
-    
-        for valor in observaciones:
+        defectos =  None
+        gravedad = 0
+        diferencia = abs(observaciones - self.valor_esperado)
+        if diferencia > self.tolerancia:
+            gravedad = self.calcular_gravedad(diferencia)
 
-            diferencia = abs(valor - self.valor_esperado)
-
-            if diferencia > self.tolerancia:
-
-                gravedad = self.calcular_gravedad(diferencia)
-    
-            return defectos
+        return defectos, gravedad
         #Criterios sería un diccionario con la estructura: {"criterio1": valor1, "criterio2": valor2, ...}
+
+
+
+

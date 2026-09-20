@@ -1,4 +1,7 @@
 from Certificacion import Certificacion
+from random import random
+
+
 class Profesional:
     nextid = 1
     def __init__(self, name):
@@ -9,6 +12,7 @@ class Profesional:
             self.ID = "P" + str(Profesional.nextid)
             Profesional.nextid += 1
             self.certificaciones = []
+
 
     @staticmethod
     def validar_id(id_profesional):
@@ -31,3 +35,11 @@ class Profesional:
     def __str__(self):
         return f"Profesional: {self.name}, ID: {self.ID}, Certificaciones: {[cert.name for cert in self.certificaciones]}"  
     
+    def valores_creados(categoria, valor_esperado):
+        if categoria == 1:
+            observacion=random(-1,1)*valor_esperado+valor_esperado
+        elif categoria==10:
+            observacion=random(0,20)
+        elif categoria==100:
+            observacion=random(0,200)
+        return observacion
