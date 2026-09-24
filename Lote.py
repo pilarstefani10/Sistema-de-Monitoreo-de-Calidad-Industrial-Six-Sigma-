@@ -15,11 +15,11 @@ class Lote:
 
     def crear_muestra(self):
         cantidad_muestra = round(self.cantidad_fabricada * 0.05)
+
         muestra = Muestra(
             str(self.ID) +"M" + str(len(self.muestras) + 1),
             cantidad_muestra,
             self)
         self.muestras.append(muestra)
-        self.qmuestras+=1
         return muestra
     
