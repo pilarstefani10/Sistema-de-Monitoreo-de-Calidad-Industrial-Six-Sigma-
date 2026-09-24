@@ -4,6 +4,9 @@ from Equipo import Equipo
 from Muestra import Muestra
 from Procedimiento import Procedimiento
 class Inspeccion:
+
+    inspecciones = []
+
     def __init__(self, ID, fecha, profesional, equipo, procedimiento, muestra):
         if not isinstance(fecha, date):
             raise ValueError("La fecha debe ser un objeto de tipo date.")
@@ -19,9 +22,6 @@ class Inspeccion:
 
         elif not isinstance(muestra, Muestra):
             raise ValueError("La muestra debe ser una instancia de la clase Muestra.")
-
-        elif muestra.estado != "PENDIENTE":
-            raise ValueError("La muestra debe estar en estado PENDIENTE para iniciar la inspección.")
 
         elif not profesional.certificacion_vigente(procedimiento.certificacion_requerida, fecha):
             raise ValueError("El profesional no tiene la certificación requerida vigente para este procedimiento.")

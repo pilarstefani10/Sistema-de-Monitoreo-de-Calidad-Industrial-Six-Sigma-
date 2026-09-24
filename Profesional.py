@@ -48,11 +48,11 @@ class Profesional:
     def __str__(self):
         return f"Profesional: {self.name}, ID: {self.ID}, Certificaciones: {[cert.name for cert in self.certificaciones]}"  
     
-    def valores_creados(categoria, valor_esperado):
-        if categoria == 1:
-            observacion=random(-1,1)*valor_esperado+valor_esperado
-        elif categoria==10:
-            observacion=random(0,20)
-        elif categoria==100:
-            observacion=random(0,200)
-        return observacion
+    def obtener_inspecciones(self, muestras):
+        inspecciones = []
+
+        for muestra in muestras:
+            if muestra.inspeccion.profesional == self:
+                inspecciones.append(muestra.inspeccion)
+
+        return inspecciones

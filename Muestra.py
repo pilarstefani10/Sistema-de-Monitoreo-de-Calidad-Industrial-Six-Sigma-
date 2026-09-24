@@ -1,7 +1,9 @@
 from Defecto import Defecto 
+from Inspeccion import Inspeccion
+
 class Muestra:
 
-    def __init__(self, ID, unidades_representadas, lote):
+    def __init__(self, ID, unidades_representadas, lote, date, profesional, equipo, procedimiento):
 
         if unidades_representadas <= 0:
             raise ValueError(
@@ -14,16 +16,6 @@ class Muestra:
         self.estado = "PENDIENTE"
         self.lote = lote
         self.defectos = []
-        self.inspeccion = None
-
-
-
-    def iniciar_inspeccion(self, date, profesional, equipo, procedimiento):
-
-        if self.estado != "PENDIENTE":
-            raise ValueError("Solo se puede inspeccionar una muestra pendiente")
-
-        from Inspeccion import Inspeccion
 
         self.inspeccion = Inspeccion(
             self.ID,
@@ -31,10 +23,8 @@ class Muestra:
             profesional,
             equipo,
             procedimiento,
-            self
-        )
-        self.estado = "EN_INSPECCION"
-        return self.inspeccion
+            self)
+
 
     def registrar_defecto(self, defecto):
 

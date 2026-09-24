@@ -1,12 +1,13 @@
 from Procedimiento import Procedimiento
-from Profesional import Profesional
-class ProcedimientoDimensional(Procedimiento, Profesional):
-    def __init__(self, nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad, valor_esperado, tolerancia, rangos_gravedad,categoria):
-            super().__init__(nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad, categoria)
+from Defecto import Defecto
+import random
+class ProcedimientoDimensional(Procedimiento):
+    def __init__(self, nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad, valor_esperado, tolerancia, rangos_gravedad,desvio):
+            super().__init__(nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad)
             self.valor_esperado = valor_esperado
             self.tolerancia = tolerancia
             self.rangos_gravedad = rangos_gravedad  # Diccionario con los rangos de gravedad
-            self.categoria= categoria
+            self.desvio_estandar= desvio
     
     def calcular_gravedad(self,diferencia):
         if diferencia < self.rangos_gravedad["leve"]:
@@ -20,14 +21,19 @@ class ProcedimientoDimensional(Procedimiento, Profesional):
         else:
             return 5
 
-    def evaluar(self, observaciones):
-        defectos =  None
+    def evaluar_unidad(self):
+        defecto =  None
         gravedad = 0
-        diferencia = abs(observaciones - self.valor_esperado)
+        observacion = random.gauss(self.valor_esperado, self.desvio)
+        diferencia = abs(observacion - self.valor_esperado)
         if diferencia > self.tolerancia:
             gravedad = self.calcular_gravedad(diferencia)
-
-        return defectos, gravedad
+            defecto = Defecto(
+                    tipo="Desviación Dimensional",
+                    descripcion=f"Medida {observacion:.4f} excedió la tolerancia por {diferencia:.4f}",
+                    gravedad=gravedad
+                )
+        return defecto, gravedad
         #Criterios sería un diccionario con la estructura: {"criterio1": valor1, "criterio2": valor2, ...}
 
 

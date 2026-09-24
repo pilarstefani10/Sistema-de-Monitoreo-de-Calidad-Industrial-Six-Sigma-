@@ -16,13 +16,17 @@ class Lote:
         self.estado = "PENDIENTE"
         self.muestras = []
 
-    def crear_muestra(self):
+    def crear_muestra(self, fecha, profesional, equipo, procedimiento):
         cantidad_muestra = round(self.cantidad_fabricada * 0.05)
 
         muestra = Muestra(
             str(self.ID) +"M" + str(len(self.muestras) + 1),
             cantidad_muestra,
-            self)
+            self, fecha,
+            profesional,
+            equipo,
+            procedimiento)
+        
         self.muestras.append(muestra)
         return muestra
     
