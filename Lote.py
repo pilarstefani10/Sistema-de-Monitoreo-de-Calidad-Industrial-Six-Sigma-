@@ -1,7 +1,9 @@
  
 from Muestra import Muestra
+
 class Lote:
     nextid = 1
+
     def __init__(self, cantidad_fabricada):
 
         if not isinstance (cantidad_fabricada, int) or cantidad_fabricada <= 0:
@@ -9,6 +11,7 @@ class Lote:
             
         self.ID = "L" + str(Lote.nextid)
         Lote.nextid += 1
+        
         self.cantidad_fabricada = cantidad_fabricada
         self.estado = "PENDIENTE"
         self.muestras = []

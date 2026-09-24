@@ -2,6 +2,7 @@ from datetime import date
 
 class Equipo:
     nextid = 1
+
     def __init__(self, categoria, ultima_calibracion):
 
         if not isinstance(ultima_calibracion, date):
@@ -12,8 +13,8 @@ class Equipo:
 
         else: 
             self.ultima_calibracion = ultima_calibracion
-            self.ID = "E" + str(self.nextid)
-            self.nextid += 1
+            self.ID = "E" + str(Equipo.nextid)
+            Equipo.nextid += 1
             self.categoria = categoria.lower() 
 
     def calibrar(self, fecha_calibracion):
