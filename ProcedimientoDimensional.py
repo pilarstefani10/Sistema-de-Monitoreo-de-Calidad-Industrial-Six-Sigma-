@@ -34,7 +34,6 @@ class ProcedimientoDimensional(Procedimiento):
                     gravedad=gravedad
                 )
         return defecto, gravedad
-        #Criterios sería un diccionario con la estructura: {"criterio1": valor1, "criterio2": valor2, ...}
 
 
 

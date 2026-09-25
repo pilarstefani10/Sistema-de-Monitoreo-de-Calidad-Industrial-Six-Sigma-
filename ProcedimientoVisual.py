@@ -19,10 +19,10 @@ class ProcedimientoVisual(Procedimiento):
             descripcion_al_azar = random.choice(self.frases_posibles)
             
             defecto = Defecto(
-                tipo="Anomalía Visual",
+                tipo="Anomalía Visual del procedimiento " + self.nombre,
                 descripcion=descripcion_al_azar,
                 gravedad=5 
             )
-        return defecto, observacion
+        return defecto, descripcion_al_azar
 
 
