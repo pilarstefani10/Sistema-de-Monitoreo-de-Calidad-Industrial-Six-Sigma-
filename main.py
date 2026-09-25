@@ -6,6 +6,7 @@ from Certificacion import Certificacion
 from Equipo import Equipo
 from Procedimiento import Procedimiento
 from Reporte import Reporte
+from Muestra import Muestra
 
 # lote = Lote(100)
 # muestra = lote.crear_muestra()
@@ -159,7 +160,8 @@ else:
 
             print("Sesión finalizada.")
 
-
         else:
 
             print("Opción incorrecta.")
+
+

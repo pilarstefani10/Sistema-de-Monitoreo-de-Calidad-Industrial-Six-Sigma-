@@ -1,6 +1,4 @@
 from Defecto import Defecto 
-from Inspeccion import Inspeccion
-
 class Muestra:
 
     def __init__(self, ID, unidades_representadas, lote, date, profesional, equipo, procedimiento):
@@ -16,6 +14,8 @@ class Muestra:
         self.estado = "PENDIENTE"
         self.lote = lote
         self.defectos = []
+
+        from Inspeccion import Inspeccion
 
         self.inspeccion = Inspeccion(
             self.ID,
