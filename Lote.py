@@ -19,6 +19,9 @@ class Lote:
     def crear_muestra(self, fecha, profesional, equipo, procedimiento):
         cantidad_muestra = round(self.cantidad_fabricada * 0.05)
 
+        if not self.puede_agregar_muestra(cantidad_muestra):
+            raise ValueError("La muestra supera la cantidad disponible del lote.")
+        
         muestra = Muestra(
             str(self.ID) +"M" + str(len(self.muestras) + 1),
             cantidad_muestra,
@@ -29,4 +32,13 @@ class Lote:
         
         self.muestras.append(muestra)
         return muestra
+
+    def puede_agregar_muestra(self, cantidad_muestra):
+
+        total = 0
+
+        for muestra in self.muestras:
+            total += muestra.unidades_representadas
+
+        return total + cantidad_muestra <= self.cantidad_fabricada
     

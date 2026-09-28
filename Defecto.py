@@ -11,7 +11,7 @@ class Defecto:
             self.gravedad = gravedad
             self.descripcion = descripcion
 
-    def es_critco(self):
+    def es_critico(self):
         return self.gravedad == 5
 
     @staticmethod
