@@ -58,7 +58,7 @@ class Inspeccion:
         return f"Inspección {self.ID} - Fecha: {self.fecha} - Profesional: {self.profesional.name} - Equipo: {self.equipo.ID} - Procedimiento: {self.procedimiento.nombre} - Muestra: {self.muestra.ID}"
     
     def ejecutar(self, Observaciones): #Funcionalidad incompleta, solo boceto del futuro
-        if not isinstance(Observaciones, str):
+        if not isinstance(Observaciones, str): 
             raise ValueError("Formato de Observaciones inválido.")
         else:###########################################################
             self.muestra.defectos.append(self.defecto)

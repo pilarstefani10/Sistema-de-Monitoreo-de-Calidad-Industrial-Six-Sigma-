@@ -2,12 +2,45 @@ from Procedimiento import Procedimiento
 from Defecto import Defecto
 import random
 class ProcedimientoDimensional(Procedimiento):
-    def __init__(self, nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad, valor_esperado, tolerancia, rangos_gravedad,desvio):
-            super().__init__(nombre, categoria_equipo_requerida, certificacion_requerida, limite_gravedad)
-            self.valor_esperado = valor_esperado
-            self.tolerancia = tolerancia
-            self.rangos_gravedad = rangos_gravedad  # Diccionario con los rangos de gravedad
-            self.desvio_estandar= desvio
+    def __init__(self, **kwargs_config_proc):
+            self.validar_rangos_gravedad
+            if not isinstance(kwargs_config_proc["limite_gravedad"], int) or kwargs_config_proc["limite_gravedad"] < 1:
+                raise ValueError("El límite de gravedad debe ser un número entero mayor a 1.")
+            elif not isinstance(kwargs_config_proc["valor_esperado"], float):
+                raise ValueError("Los datos de creación del Procedimiento están incompletos o erróneos")
+            elif not isinstance(kwargs_config_proc["tolerancia"], float):
+                raise ValueError("")
+            elif not isinstance(kwargs_config_proc["desvio"],float):
+                raise ValueError("")
+            
+            super().__init__(kwargs_config_proc["nombre"],
+                kwargs_config_proc["categoria_equipo_requerida"],
+                kwargs_config_proc["certificacion_requerida"],
+                kwargs_config_proc["limite_gravedad"])
+
+            self.valor_esperado = kwargs_config_proc["valor_esperado"]
+            self.tolerancia = kwargs_config_proc["tolerancia"]
+            self.rangos_gravedad = kwargs_config_proc["rangos_gravedad"]  # Diccionario con los rangos de gravedad
+            self.desvio_estandar= kwargs_config_proc["desvio"]
+    
+    def validar_rangos_gravedad(rangos):
+        claves = ("leve", "moderado", "serio", "severo", "crítico")
+
+        if not isinstance(rangos, dict):
+            raise TypeError("rangos_gravedad debe ser un diccionario.")
+
+        faltantes = [k for k in claves if k not in rangos]
+        if faltantes:
+            raise ValueError(f"Faltan rangos de gravedad: {faltantes}")
+
+        for k in claves:
+            if not isinstance(rangos[k], (int, float)):
+                raise TypeError(f"El rango '{k}' debe ser numérico.")
+
+        if not (rangos["leve"] < rangos["moderado"] < rangos["serio"] < rangos["severo"]):
+            raise ValueError(
+                "Los rangos deben estar en orden creciente: leve < moderado < serio < severo."
+            )
     
     def calcular_gravedad(self,diferencia):
         if diferencia < self.rangos_gravedad["leve"]:

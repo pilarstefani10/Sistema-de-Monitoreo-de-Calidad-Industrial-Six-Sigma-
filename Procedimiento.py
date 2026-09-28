@@ -11,9 +11,6 @@ class Procedimiento:
         elif not isinstance(certificacion_requerida, str) or certificacion_requerida == "":
             raise ValueError("La certificación requerida no puede estar vacía.")
 
-        elif not isinstance(limite_gravedad, int) or limite_gravedad < 1 or limite_gravedad > 5:
-            raise ValueError("El límite de gravedad debe ser un número entero entre 1 y 5.")
-
         else:
             self.ID = "PR" + str(Procedimiento.nextid)
             Procedimiento.nextid += 1
@@ -22,4 +19,6 @@ class Procedimiento:
             self.certificacion_requerida = certificacion_requerida
             self.limite_gravedad = limite_gravedad
 
+def evaluar(self):
+        raise NotImplementedError
         

@@ -2,26 +2,34 @@ from Procedimiento import Procedimiento
 from Defecto import Defecto
 import random
 class ProcedimientoVisual(Procedimiento):
-    def __init__(self, config_proc):
-        super().__init__(config_proc.get("nombre"), config_proc.get("categoria_equipo_requerida"), config_proc.get("certificacion_requerida"), config_proc.get("limite_gravedad"))
-        self.frases_posibles= config_proc.get("frases_posibles")
+    def __init__(self, **kwargs_config_proc):
+        #Uso corchetes y no get para que falle si no encuentra algo con esa key
+        super().__init__(kwargs_config_proc["nombre"]
+                        , kwargs_config_proc["categoria_equipo_requerida"]
+                        , kwargs_config_proc["certificacion_requerida"]
+                        , kwargs_config_proc.get("limite_gravedad"))#Como para visual no hace falta el límite de gravedad
+        
+        self.descripciones= kwargs_config_proc["descripciones"]
+        self.zonas_posibles = kwargs_config_proc["zonas_posibles"]
+        self.probabilidad=kwargs_config_proc["probabilidad"]
+
 
     def generar_kwargs(self):
-        return {"zona_afectada": random.choice(self.config_proc.get("zonas_posibles")),
-            "descripcion": random.choice(self.config_proc.get("descripciones")),
-            "ocurrencia": random.choice(self.config_proc.get("ocurrencias"))}
+        return {"zona_afectada": random.choice(self.zonas_posibles),
+            "descripcion": random.choice(self.descripciones),
+            "ocurrencia":random.choices(
+                [0, 1], 
+                weights=[1 - self.probabilidad, self.probabilidad]
+                )[0]}
 
-    def evaluar_unidad(self,generar_kwargs):
+    def evaluar_unidad(self):
         defecto = None
         # 1. Generamos la observación (1 = Anomalía, 0 = Conforme)
-        """observacion = random.choices(
-            [0, 1], 
-            weights=[1 - self.probabilidad_defecto, self.probabilidad_defecto]
-        )[0]"""
-        observacion = generar_kwargs.get("ocurrencia")
+        Unidad=self.generar_kwargs()
+        observacion = Unidad.get("ocurrencia")
         if observacion == 1:
             # random.choice() toma la lista y devuelve un único string al azar
-            descripcion_al_azar = generar_kwargs.get("descripcion") + " en la zona " + generar_kwargs.get("zona_afectada")
+            descripcion_al_azar = Unidad.get("descripcion") + " en la zona " + Unidad.get("zona_afectada")
             
             defecto = Defecto(
                 tipo="Anomalía Visual del procedimiento " + self.nombre,
