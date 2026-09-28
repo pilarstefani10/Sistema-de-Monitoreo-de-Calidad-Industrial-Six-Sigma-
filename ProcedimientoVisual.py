@@ -18,7 +18,7 @@ class ProcedimientoVisual(Procedimiento):
             [0, 1], 
             weights=[1 - self.probabilidad_defecto, self.probabilidad_defecto]
         )[0]"""
-        observacion = observaciones.get("ocurrencia")
+        observacion = generar_kwargs.get("ocurrencia")
         if observacion == 1:
             # random.choice() toma la lista y devuelve un único string al azar
             descripcion_al_azar = generar_kwargs.get("descripcion") + " en la zona " + generar_kwargs.get("zona_afectada")
