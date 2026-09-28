@@ -19,6 +19,6 @@ class Procedimiento:
             self.certificacion_requerida = certificacion_requerida
             self.limite_gravedad = limite_gravedad
 
-def evaluar(self):
-        raise NotImplementedError
+    def evaluar_unidad(self): 
+        raise NotImplementedError ("No")
         
