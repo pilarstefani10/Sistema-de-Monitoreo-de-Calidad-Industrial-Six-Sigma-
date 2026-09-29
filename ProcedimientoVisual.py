@@ -39,4 +39,3 @@ class ProcedimientoVisual(Procedimiento):
         return defecto
 
 
-

@@ -20,5 +20,9 @@ class Procedimiento:
             self.limite_gravedad = limite_gravedad
 
     def evaluar_unidad(self): 
-        raise NotImplementedError ("No")
+        raise NotImplementedError ("No se está evaluando la unidad correctamente")
+
+
+    def getter_limitegravedad(self):
+        return self.limite_gravedad
         

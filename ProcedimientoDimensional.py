@@ -69,7 +69,7 @@ class ProcedimientoDimensional(Procedimiento):
         return defecto
 
 
-    def getter_limitegravedad(self):
-        return self.limite_gravedad
+
+    
 
 

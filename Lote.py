@@ -37,7 +37,7 @@ class Lote:
         total = 0
 
         for muestra in self.muestras:
-            total += muestra.unidades_representadas
+            total += muestra.getter_unidadesrepresentadas()
 
         return total + cantidad_muestra <= self.cantidad_fabricada
     

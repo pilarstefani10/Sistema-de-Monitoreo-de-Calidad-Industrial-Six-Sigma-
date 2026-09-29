@@ -70,7 +70,7 @@ class Inspeccion:
         return
 
     def conformidad(self):
-        defectos = self.muestra.getter_defectos
+        defectos = self.muestra.getter_defectos()
         
         gravedad_total = 0
         hay_defecto_critico = False
@@ -78,7 +78,7 @@ class Inspeccion:
         for d in defectos:
             gravedad_total += d.getter_gravedad()
 
-            if d.gravedad == 5:
+            if d.es_critico():
                 hay_defecto_critico = True
 
         if hay_defecto_critico or gravedad_total >= self.procedimiento.getter_limitegravedad():

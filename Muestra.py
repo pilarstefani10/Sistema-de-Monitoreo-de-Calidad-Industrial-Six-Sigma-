@@ -54,7 +54,7 @@ class Muestra:
             )
 
         else:
-            self.__estado= "EN INSPECCIÓN"
+            self.__estado= "EN_INSPECCIÓN"
             self.inspeccion = Inspeccion(
                 self.ID,
                 fecha,
@@ -94,7 +94,7 @@ class Muestra:
         if self.inspeccion.conformidad():
             self.__estado="CONFORME"
         else:
-            self.__estado ="NO CONFORME"
+            self.__estado ="NO_CONFORME"
 
     #Getters y Setters
     def getter_unidadesrepresentadas(self):
@@ -102,4 +102,4 @@ class Muestra:
 
 
     def getter_defectos(self):
-        return self.__defectos
+        return self.__defectos.copy()
