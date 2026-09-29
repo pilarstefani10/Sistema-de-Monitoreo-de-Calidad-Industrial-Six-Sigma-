@@ -1,7 +1,6 @@
 from datetime import date, timedelta
 from Profesional import Profesional 
 from Equipo import Equipo
-from Muestra import Muestra
 from Procedimiento import Procedimiento
 from Defecto import Defecto
 class Inspeccion:
@@ -20,9 +19,6 @@ class Inspeccion:
 
         elif not isinstance(procedimiento, Procedimiento):
             raise ValueError("El procedimiento debe ser una instancia de la clase Procedimiento.")
-
-        elif not isinstance(muestra, Muestra):
-            raise ValueError("La muestra debe ser una instancia de la clase Muestra.")
 
         elif not profesional.certificacion_vigente(procedimiento.certificacion_requerida, fecha):
             raise ValueError("El profesional no tiene la certificación requerida vigente para este procedimiento.")

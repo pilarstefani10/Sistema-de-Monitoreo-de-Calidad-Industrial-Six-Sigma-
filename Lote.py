@@ -25,10 +25,9 @@ class Lote:
         muestra = Muestra(
             str(self.ID) +"M" + str(len(self.muestras) + 1),
             cantidad_muestra,
-            self, fecha,
-            profesional,
-            equipo,
-            procedimiento)
+            self)
+
+        muestra.crear_inspeccion(fecha, profesional, equipo, procedimiento)
         
         self.muestras.append(muestra)
         return muestra

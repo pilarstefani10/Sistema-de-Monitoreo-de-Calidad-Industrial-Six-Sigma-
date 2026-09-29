@@ -107,61 +107,61 @@ muestra3 = lote.crear_muestra(
 
 
 
-# INGRESO
+#INGRESO
 
-# print("===== CONTROL DE CALIDAD DE LECHE =====")
+print("===== CONTROL DE CALIDAD DE LECHE =====")
 
-# nombre = input("Nombre: ")
-# ID = input("ID: ")
+nombre = input("Nombre: ")
+ID = input("ID: ")
 
-# profesional_actual = Profesional.buscar_profesional(nombre, ID)
-# if profesional_actual is None:
+profesional_actual = Profesional.buscar_profesional(nombre, ID)
+if profesional_actual is None:
 
-#     print("Profesional incorrecto.")
+    print("Profesional incorrecto.")
 
-# else:
+else:
 
-#     print("\nBienvenido/a", profesional_actual.name)
-#     opcion = ""
+    print("\nBienvenido/a", profesional_actual.name)
+    opcion = ""
 
-#     while opcion != "0":
+    while opcion != "0":
 
-#         print("\n===== MENÚ PRINCIPAL =====")
-#         print("1. Ver mis inspecciones")
-#         print("0. Salir")
-
-
-#         opcion = input("Opción: ")
+        print("\n===== MENÚ PRINCIPAL =====")
+        print("1. Ver mis inspecciones")
+        print("0. Salir")
 
 
-#         if opcion == "1":
-
-#             inspecciones = profesional_actual.obtener_inspecciones(
-#                 lote.muestras
-#             )
-#             print("\n--- MIS INSPECCIONES ---")
-
-#             if len(inspecciones) == 0:
-#                 print("No tiene inspecciones.")
-
-#             else:
-
-#                 for inspeccion in inspecciones:
-#                     print(
-#                         inspeccion.ID,
-#                         "- Muestra:",
-#                         inspeccion.muestra.ID,
-#                         "- Procedimiento:",
-#                         inspeccion.procedimiento.nombre
-#                     )
+        opcion = input("Opción: ")
 
 
-#         elif opcion == "0":
+        if opcion == "1":
 
-#             print("Sesión finalizada.")
+            inspecciones = profesional_actual.obtener_inspecciones(
+                lote.muestras
+            )
+            print("\n--- MIS INSPECCIONES ---")
 
-#         else:
+            if len(inspecciones) == 0:
+                print("No tiene inspecciones.")
 
-#             print("Opción incorrecta.")
+            else:
+
+                for inspeccion in inspecciones:
+                    print(
+                        inspeccion.ID,
+                        "- Muestra:",
+                        inspeccion.muestra.ID,
+                        "- Procedimiento:",
+                        inspeccion.procedimiento.nombre
+                    )
+
+
+        elif opcion == "0":
+
+            print("Sesión finalizada.")
+
+        else:
+
+            print("Opción incorrecta.")
 
 
