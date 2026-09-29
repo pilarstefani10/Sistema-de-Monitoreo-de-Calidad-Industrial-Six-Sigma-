@@ -21,7 +21,7 @@ class ProcedimientoDimensional(Procedimiento):
             self.valor_esperado = kwargs_config_proc["valor_esperado"]
             self.tolerancia = kwargs_config_proc["tolerancia"]
             self.rangos_gravedad = kwargs_config_proc["rangos_gravedad"]  # Diccionario con los rangos de gravedad
-            self.desvio_estandar= kwargs_config_proc["desvio"]
+            self.desvio= kwargs_config_proc["desvio"]
     
     def validar_rangos_gravedad(rangos):
         claves = ("leve", "moderado", "serio", "severo", "crítico")

@@ -59,31 +59,31 @@ class Inspeccion:
         return f"Inspección {self.ID} - Fecha: {self.fecha} - Profesional: {self.profesional.name} - Equipo: {self.equipo.ID} - Procedimiento: {self.procedimiento.nombre} - Muestra: {self.muestra.ID}"
     
 
-def ejecutar(self, defectos, observaciones):
-    if not isinstance(observaciones, str):
-        raise ValueError("Formato de observaciones inválido.")
+    def ejecutar(self, defectos, observaciones):
+        if not isinstance(observaciones, str):
+            raise ValueError("Formato de observaciones inválido.")
 
-    if not isinstance(defectos, list):
-        raise ValueError("Los defectos deben ingresarse en una lista.")
+        if not isinstance(defectos, list):
+            raise ValueError("Los defectos deben ingresarse en una lista.")
 
-    for defecto in defectos:
-        if not isinstance(defecto, Defecto):
-            raise ValueError("Todos los elementos deben ser objetos Defecto.")
+        for defecto in defectos:
+            if not isinstance(defecto, Defecto):
+                raise ValueError("Todos los elementos deben ser objetos Defecto.")
 
-    self.muestra.defectos = defectos
+        self.muestra.defectos = defectos
 
-    gravedad_total = 0
-    hay_defecto_critico = False
+        gravedad_total = 0
+        hay_defecto_critico = False
 
-    for defecto in defectos:
-        gravedad_total += defecto.gravedad
+        for defecto in defectos:
+            gravedad_total += defecto.gravedad
 
-        if defecto.gravedad == 5:
-            hay_defecto_critico = True
+            if defecto.gravedad == 5:
+                hay_defecto_critico = True
 
-    if hay_defecto_critico or gravedad_total >= 5:
-        self.muestra.estado = "RECHAZADO"
-    else:
-        self.muestra.estado = "APROBADO"
+        if hay_defecto_critico or gravedad_total >= 5:
+            self.muestra.estado = "RECHAZADO"
+        else:
+            self.muestra.estado = "APROBADO"
 
-    return defectos
+        return defectos
