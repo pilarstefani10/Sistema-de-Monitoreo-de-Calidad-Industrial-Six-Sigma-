@@ -14,16 +14,16 @@ class Muestra:
             )
 
         self.ID = ID
-        self.unidades_representadas = unidades_representadas
+        self.__unidades_representadas = unidades_representadas
         self.inspeccion=None
-        self.estado = "PENDIENTE"
+        self.__estado = "PENDIENTE"
         self.lote = lote
-        self.defectos = []
+        self.__defectos = []
 
 
     def crear_inspeccion(self, fecha, profesional, equipo, procedimiento):
 
-        if self.estado != "PENDIENTE":
+        if self.__estado != "PENDIENTE":
             raise ValueError(
                 "Solo se puede inspeccionar una muestra pendiente."
             )
@@ -54,6 +54,7 @@ class Muestra:
             )
 
         else:
+            self.__estado= "EN INSPECCIÓN"
             self.inspeccion = Inspeccion(
                 self.ID,
                 fecha,
@@ -84,11 +85,21 @@ class Muestra:
                         "Todos los elementos de la lista deben ser objetos de tipo Defecto."
                     )
 
-            self.defectos.extend(defectos)
+            self.__defectos.extend(defectos)
 
+    def cerrar(self):
+        if self.__estado != "EN_INSPECCION":
+            raise ValueError("La muestra no está en inspección.")
 
+        if self.inspeccion.conformidad():
+            self.__estado="CONFORME"
+        else:
+            self.__estado ="NO CONFORME"
+
+    #Getters y Setters
     def getter_unidadesrepresentadas(self):
-        return self.unidades_representadas
+        return self.__unidades_representadas
 
-    def setter_estado(self, estado):
-        self.estado= estado
+
+    def getter_defectos(self):
+        return self.__defectos

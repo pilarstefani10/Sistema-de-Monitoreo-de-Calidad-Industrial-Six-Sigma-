@@ -67,18 +67,22 @@ class Inspeccion:
 
         self.muestra.registrar_defectos(defectos)
 
+        return
+
+    def conformidad(self):
+        defectos = self.muestra.getter_defectos
+        
         gravedad_total = 0
         hay_defecto_critico = False
 
         for d in defectos:
             gravedad_total += d.getter_gravedad()
 
-            if defecto.gravedad == 5:
+            if d.gravedad == 5:
                 hay_defecto_critico = True
 
         if hay_defecto_critico or gravedad_total >= self.procedimiento.getter_limitegravedad():
-            self.muestra.setter_estado("RECHAZADO")
+            return False
         else:
-            self.muestra.setter_estado("APROBADO")
+            return True
 
-        return 
