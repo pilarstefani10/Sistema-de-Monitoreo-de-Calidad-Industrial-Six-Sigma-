@@ -85,4 +85,10 @@ class Muestra:
                     )
 
             self.defectos.extend(defectos)
-        
+
+
+    def getter_unidadesrepresentadas(self):
+        return self.unidades_representadas
+
+    def setter_estado(self, estado):
+        self.estado= estado

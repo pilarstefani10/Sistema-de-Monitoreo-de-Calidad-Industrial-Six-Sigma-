@@ -2,7 +2,6 @@ from datetime import date, timedelta
 from Profesional import Profesional 
 from Equipo import Equipo
 from Procedimiento import Procedimiento
-from Defecto import Defecto
 class Inspeccion:
 
     inspecciones = []
@@ -55,31 +54,31 @@ class Inspeccion:
         return f"Inspección {self.ID} - Fecha: {self.fecha} - Profesional: {self.profesional.name} - Equipo: {self.equipo.ID} - Procedimiento: {self.procedimiento.nombre} - Muestra: {self.muestra.ID}"
     
 
-    def ejecutar(self, defectos, observaciones):
-        if not isinstance(observaciones, str):
-            raise ValueError("Formato de observaciones inválido.")
+    def ejecutar(self):
 
-        if not isinstance(defectos, list):
-            raise ValueError("Los defectos deben ingresarse en una lista.")
+        defectos = []
+        
+        for i in range(self.muestra.getter_unidadesrepresentadas()):
 
-        for defecto in defectos:
-            if not isinstance(defecto, Defecto):
-                raise ValueError("Todos los elementos deben ser objetos Defecto.")
+            defecto = self.procedimiento.evaluar_unidad()
 
-        self.muestra.defectos = defectos
+            if defecto is not None:
+                defectos.append(defecto)
+
+        self.muestra.registrar_defectos(defectos)
 
         gravedad_total = 0
         hay_defecto_critico = False
 
-        for defecto in defectos:
-            gravedad_total += defecto.gravedad
+        for d in defectos:
+            gravedad_total += d.getter_gravedad()
 
             if defecto.gravedad == 5:
                 hay_defecto_critico = True
 
-        if hay_defecto_critico or gravedad_total >= 5:
-            self.muestra.estado = "RECHAZADO"
+        if hay_defecto_critico or gravedad_total >= self.procedimiento.getter_limitegravedad():
+            self.muestra.setter_estado("RECHAZADO")
         else:
-            self.muestra.estado = "APROBADO"
+            self.muestra.setter_estado("APROBADO")
 
-        return defectos
+        return 

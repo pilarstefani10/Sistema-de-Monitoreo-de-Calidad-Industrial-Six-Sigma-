@@ -18,6 +18,9 @@ class Defecto:
     def validar_tipo(tipo):
             return isinstance(tipo, str) and tipo != ""
 
+    def getter_gravedad(self):
+        return self.gravedad
+    
     def __str__(self):
         return f"Defecto: {self.tipo}, Gravedad: {self.gravedad}, Descripción: {self.descripcion}"
 
