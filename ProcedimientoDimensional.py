@@ -66,7 +66,7 @@ class ProcedimientoDimensional(Procedimiento):
                     descripcion=f"Medida {observacion:.4f} excedió la tolerancia por {diferencia:.4f}",
                     gravedad=gravedad
                 )
-        return defecto, gravedad
+        return defecto
 
 
     def getter_limitegravedad(self):
