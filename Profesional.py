@@ -49,10 +49,15 @@ class Profesional:
         return f"Profesional: {self.name}, ID: {self.ID}, Certificaciones: {[cert.name for cert in self.certificaciones]}"  
     
     def obtener_inspecciones(self, muestras):
-        inspecciones = []
+        muestras_del_profesional = filter(
+            lambda muestra: muestra.inspeccion is not None
+            and muestra.inspeccion.profesional == self,
+            muestras
+        )
 
-        for muestra in muestras:
-            if muestra.inspeccion.profesional == self:
-                inspecciones.append(muestra.inspeccion)
-
-        return inspecciones
+        return list(
+            map(
+                lambda muestra: muestra.getter_inspeccion(),
+                muestras_del_profesional
+            )
+        )

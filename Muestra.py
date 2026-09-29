@@ -54,7 +54,7 @@ class Muestra:
             )
 
         else:
-            self.__estado= "EN_INSPECCIÓN"
+            self.__estado= "EN_INSPECCION"
             self.inspeccion = Inspeccion(
                 self.ID,
                 fecha,
@@ -73,7 +73,7 @@ class Muestra:
                 "Los defectos deben ingresarse en una lista."
             )
 
-        elif self.estado in ["CONFORME", "NO_CONFORME"]:
+        elif self.__estado in ["CONFORME", "NO_CONFORME"]:
             raise ValueError(
                 "No se pueden agregar defectos a una muestra cerrada."
             )
@@ -100,6 +100,12 @@ class Muestra:
     def getter_unidadesrepresentadas(self):
         return self.__unidades_representadas
 
-
     def getter_defectos(self):
         return self.__defectos.copy()
+
+    def getter_estado(self):
+        return self.__estado
+
+    def getter_inspeccion(self):
+        return self.inspeccion
+    

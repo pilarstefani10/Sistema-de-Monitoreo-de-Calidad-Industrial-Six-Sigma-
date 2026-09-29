@@ -20,6 +20,9 @@ class Defecto:
 
     def getter_gravedad(self):
         return self.gravedad
+
+    def getter_descripcion(self):
+        return self.descripcion
     
     def __str__(self):
         return f"Defecto: {self.tipo}, Gravedad: {self.gravedad}, Descripción: {self.descripcion}"

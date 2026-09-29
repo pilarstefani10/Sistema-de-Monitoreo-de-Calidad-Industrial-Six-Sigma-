@@ -67,6 +67,7 @@ class Inspeccion:
 
         self.muestra.registrar_defectos(defectos)
 
+        self.muestra.cerrar()
         return
 
     def conformidad(self):
@@ -75,13 +76,13 @@ class Inspeccion:
         gravedad_total = 0
         hay_defecto_critico = False
 
-        for d in defectos:
-            gravedad_total += d.getter_gravedad()
+        gravedad_total= sum(map(lambda defecto: defecto.getter_gravedad(),
+                                 defectos))
 
-            if d.es_critico():
-                hay_defecto_critico = True
+        hay_defecto_critico = any(
+            map(lambda defecto: defecto.es_critico(), defectos))
 
-        if hay_defecto_critico or gravedad_total >= self.procedimiento.getter_limitegravedad():
+        if hay_defecto_critico or gravedad_total > self.procedimiento.getter_limitegravedad():
             return False
         else:
             return True

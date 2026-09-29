@@ -27,19 +27,19 @@ class Reporte:
         self.muestra = muestra
         self.lote = lote
         self.responsables = profesional
-        self.causas = muestra.defectos
+        self.causas = muestra.getter_defectos()
 
     def crear_resumen(self):
         Resumen="\nReporte"+ str(self.ID)+'\n'
         Resumen+="Fecha:"+str(self.fecha)+'\n'
         Resumen+="Muestra:"+str(self.muestra.ID)+'\n'
         Resumen+="Responsable:"+str(self.responsables.name)+'\n'
-        for i in range(len(self.muestra.defectos)):
-            defecto = self.muestra.defectos[i]
+        for i in range(len(self.causas)):
+            defecto = self.causas[i]
 
             Resumen += str(i + 1) + ". "
             Resumen += "Tipo: " + defecto.tipo
-            Resumen += " | Descripción: " + defecto.descripcion
+            Resumen += " | Descripción: " + defecto.getter_descripcion()
             Resumen += " | Gravedad: " + str(defecto.gravedad)
             Resumen += "\n"
 

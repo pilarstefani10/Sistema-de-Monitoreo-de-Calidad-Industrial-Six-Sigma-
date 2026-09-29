@@ -143,7 +143,7 @@ else:
 
             if len(inspecciones) == 0:
                 print("No tiene inspecciones.")
-
+        
             else:
 
                 for inspeccion in inspecciones:
