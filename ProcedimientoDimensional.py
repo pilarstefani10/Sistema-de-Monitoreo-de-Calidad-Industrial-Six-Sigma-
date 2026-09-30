@@ -18,10 +18,10 @@ class ProcedimientoDimensional(Procedimiento):
                 kwargs_config_proc["certificacion_requerida"],
                 kwargs_config_proc["limite_gravedad"])
 
-            self.valor_esperado = kwargs_config_proc["valor_esperado"]
-            self.tolerancia = kwargs_config_proc["tolerancia"]
-            self.rangos_gravedad = kwargs_config_proc["rangos_gravedad"]  # Diccionario con los rangos de gravedad
-            self.desvio= kwargs_config_proc["desvio"]
+            self.__valor_esperado = kwargs_config_proc["valor_esperado"]
+            self.__tolerancia = kwargs_config_proc["tolerancia"]
+            self.__rangos_gravedad = kwargs_config_proc["rangos_gravedad"]  # Diccionario con los rangos de gravedad
+            self.__desvio= kwargs_config_proc["desvio"]
 
     @staticmethod
     def validar_rangos_gravedad(rangos):
@@ -44,13 +44,13 @@ class ProcedimientoDimensional(Procedimiento):
             )
     
     def calcular_gravedad(self,diferencia):
-        if diferencia < self.rangos_gravedad["leve"]:
+        if diferencia < self.__rangos_gravedad["leve"]:
             return 1
-        elif diferencia < self.rangos_gravedad["moderado"]:
+        elif diferencia < self.__rangos_gravedad["moderado"]:
             return 2
-        elif diferencia < self.rangos_gravedad["serio"]:
+        elif diferencia < self.__rangos_gravedad["serio"]:
             return 3
-        elif diferencia < self.rangos_gravedad["severo"]:
+        elif diferencia < self.__rangos_gravedad["severo"]:
             return 4
         else:
             return 5
@@ -58,9 +58,9 @@ class ProcedimientoDimensional(Procedimiento):
     def evaluar_unidad(self):
         defecto =  None
         gravedad = 0
-        observacion = random.gauss(self.valor_esperado, self.desvio)
-        diferencia = abs(observacion - self.valor_esperado)
-        if diferencia > self.tolerancia:
+        observacion = random.gauss(self.__valor_esperado, self.__desvio)
+        diferencia = abs(observacion - self.__valor_esperado)
+        if diferencia > self.__tolerancia:
             gravedad = self.calcular_gravedad(diferencia)
             defecto = Defecto(
                     tipo="Desviación Dimensional",

@@ -17,7 +17,7 @@ class Muestra:
         self.__unidades_representadas = unidades_representadas
         self.__inspeccion=None
         self.__estado = "PENDIENTE"
-        self.lote = lote
+        self.__lote = lote
         self.__defectos = []
 
 
@@ -108,4 +108,7 @@ class Muestra:
 
     def getter_inspeccion(self):
         return self.__inspeccion
+
+    def getter_lote(self):
+        return self.__lote
     

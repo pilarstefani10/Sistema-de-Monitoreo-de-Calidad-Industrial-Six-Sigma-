@@ -9,18 +9,18 @@ class ProcedimientoVisual(Procedimiento):
                         , kwargs_config_proc["certificacion_requerida"]
                         , kwargs_config_proc.get("limite_gravedad", 5))#Como para visual no hace falta el límite de gravedad
         
-        self.descripciones= kwargs_config_proc["descripciones"]
-        self.zonas_posibles = kwargs_config_proc["zonas_posibles"]
-        self.probabilidad=kwargs_config_proc["probabilidad"]
+        self.__descripciones= kwargs_config_proc["descripciones"]
+        self.__zonas_posibles = kwargs_config_proc["zonas_posibles"]
+        self.__probabilidad=kwargs_config_proc["probabilidad"]
     
 
 
     def generar_kwargs(self):
-        return {"zona_afectada": random.choice(self.zonas_posibles),
-            "descripcion": random.choice(self.descripciones),
+        return {"zona_afectada": random.choice(self.__zonas_posibles),
+            "descripcion": random.choice(self.__descripciones),
             "ocurrencia":random.choices(
                 [0, 1], 
-                weights=[1 - self.probabilidad, self.probabilidad]
+                weights=[1 - self.__probabilidad, self.__probabilidad]
                 )[0]}
 
     def evaluar_unidad(self):
