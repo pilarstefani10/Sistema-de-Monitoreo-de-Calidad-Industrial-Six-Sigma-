@@ -15,7 +15,7 @@ class Muestra:
 
         self.ID = ID
         self.__unidades_representadas = unidades_representadas
-        self.inspeccion=None
+        self.__inspeccion=None
         self.__estado = "PENDIENTE"
         self.lote = lote
         self.__defectos = []
@@ -28,7 +28,7 @@ class Muestra:
                 "Solo se puede inspeccionar una muestra pendiente."
             )
 
-        elif self.inspeccion is not None:
+        elif self.__inspeccion is not None:
             raise ValueError(
                 "La muestra ya posee una inspección."
             )
@@ -55,7 +55,7 @@ class Muestra:
 
         else:
             self.__estado= "EN_INSPECCION"
-            self.inspeccion = Inspeccion(
+            self.__inspeccion = Inspeccion(
                 self.ID,
                 fecha,
                 profesional,
@@ -64,7 +64,7 @@ class Muestra:
                 self
             )
 
-            return self.inspeccion
+            return self.__inspeccion
 
     def registrar_defectos(self, defectos):
 
@@ -91,7 +91,7 @@ class Muestra:
         if self.__estado != "EN_INSPECCION":
             raise ValueError("La muestra no está en inspección.")
 
-        if self.inspeccion.conformidad():
+        if self.__inspeccion.conformidad():
             self.__estado="CONFORME"
         else:
             self.__estado ="NO_CONFORME"
@@ -107,5 +107,5 @@ class Muestra:
         return self.__estado
 
     def getter_inspeccion(self):
-        return self.inspeccion
+        return self.__inspeccion
     

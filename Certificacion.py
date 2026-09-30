@@ -6,9 +6,9 @@ class Certificacion:
         elif not self.validar_fechas(fecha_inicio, fecha_vencimiento):
             raise ValueError("Las fechas de inicio y vencimiento no son válidas.")
         else:
-            self.name = name
-            self.fecha_inicio = fecha_inicio
-            self.fecha_vencimiento = fecha_vencimiento
+            self.__name = name
+            self.__fecha_inicio = fecha_inicio
+            self.__fecha_vencimiento = fecha_vencimiento
 
     @staticmethod
     def validar_nombre(nombre):
@@ -23,4 +23,13 @@ class Certificacion:
         )
 
     def esta_vigente(self, fecha):
-        return self.fecha_inicio <= fecha <= self.fecha_vencimiento
+        return self.__fecha_inicio <= fecha <= self.__fecha_vencimiento
+
+    def getter_nombre(self):
+        return self.__name
+
+    def getter_fecha_inicio(self):
+        return self.__fecha_inicio
+
+    def getter_fecha_vencimiento(self):
+        return self.__fecha_vencimiento

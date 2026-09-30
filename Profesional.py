@@ -15,7 +15,7 @@ class Profesional:
             self.ID = "P" + str(Profesional.nextid)
             Profesional.profesionales.append(self)
             Profesional.nextid += 1
-            self.certificaciones = []
+            self.__certificaciones = []
 
     @staticmethod
     def validar_nombre(nombre):
@@ -24,11 +24,11 @@ class Profesional:
     def agregar_certificacion(self, certificacion):
         if not isinstance(certificacion, Certificacion):
             raise ValueError("El objeto proporcionado no es una instancia de la clase Certificacion.")
-        self.certificaciones.append(certificacion)
+        self.__certificaciones.append(certificacion)
 
     def certificacion_vigente(self, nombre_certificacion, fecha):
-        for cert in self.certificaciones:
-            if cert.name == nombre_certificacion and cert.esta_vigente(fecha):
+        for cert in self.__certificaciones:
+            if cert.getter_nombre() == nombre_certificacion and cert.esta_vigente(fecha):
                 return True
         return False
 
@@ -46,12 +46,12 @@ class Profesional:
 
     
     def __str__(self):
-        return f"Profesional: {self.name}, ID: {self.ID}, Certificaciones: {[cert.name for cert in self.certificaciones]}"  
+        return f"Profesional: {self.name}, ID: {self.ID}, Certificaciones: {[cert.getter_nombre() for cert in self.__certificaciones]}"  
     
     def obtener_inspecciones(self, muestras):
         muestras_del_profesional = filter(
-            lambda muestra: muestra.inspeccion is not None
-            and muestra.inspeccion.profesional == self,
+            lambda muestra: muestra.getter_inspeccion() is not None
+            and muestra.getter_inspeccion().getter_profesional() == self,
             muestras
         )
 

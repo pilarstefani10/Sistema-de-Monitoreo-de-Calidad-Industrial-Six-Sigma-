@@ -33,7 +33,7 @@ class ProcedimientoVisual(Procedimiento):
             descripcion_al_azar = Unidad.get("descripcion") + " en la zona " + Unidad.get("zona_afectada")
             
             defecto = Defecto(
-                tipo="Anomalía Visual del procedimiento " + self.nombre,
+                tipo="Anomalía Visual del procedimiento " + self.getter_nombre(),
                 descripcion=descripcion_al_azar,
                 gravedad=5 
             )

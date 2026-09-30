@@ -12,7 +12,7 @@ def test_crear_muestra_correctamente():
     assert muestra.lote == "L1"
     assert muestra.getter_estado() == "PENDIENTE"
     assert muestra.getter_defectos() == []
-    assert muestra.inspeccion is None
+    assert muestra.getter_inspeccion() is None
 
 
 def test_muestra_con_unidades_invalidas():

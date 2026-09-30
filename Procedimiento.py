@@ -14,15 +14,23 @@ class Procedimiento:
         else:
             self.ID = "PR" + str(Procedimiento.nextid)
             Procedimiento.nextid += 1
-            self.nombre = nombre 
-            self.categoria_equipo_requerida = categoria_equipo_requerida.lower() 
-            self.certificacion_requerida = certificacion_requerida
-            self.limite_gravedad = limite_gravedad
+            self.__nombre = nombre 
+            self.__categoria_equipo_requerida = categoria_equipo_requerida.lower() 
+            self.__certificacion_requerida = certificacion_requerida
+            self.__limite_gravedad = limite_gravedad
 
     def evaluar_unidad(self): 
         raise NotImplementedError ("No se está evaluando la unidad correctamente")
 
 
     def getter_limitegravedad(self):
-        return self.limite_gravedad
-        
+        return self.__limite_gravedad
+
+    def getter_nombre(self):
+        return self.__nombre
+
+    def getter_categoria_equipo(self):
+        return self.__categoria_equipo_requerida
+
+    def getter_certificacion_requerida(self):
+        return self.__certificacion_requerida

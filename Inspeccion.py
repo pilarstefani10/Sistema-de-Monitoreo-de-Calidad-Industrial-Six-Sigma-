@@ -19,59 +19,59 @@ class Inspeccion:
         elif not isinstance(procedimiento, Procedimiento):
             raise ValueError("El procedimiento debe ser una instancia de la clase Procedimiento.")
 
-        elif not profesional.certificacion_vigente(procedimiento.certificacion_requerida, fecha):
+        elif not profesional.certificacion_vigente(procedimiento.getter_certificacion_requerida(), fecha):
             raise ValueError("El profesional no tiene la certificación requerida vigente para este procedimiento.")
 
         elif not (
             fecha - timedelta(days=182)
-            <= equipo.ultima_calibracion
+            <= equipo.getter_ultima_calibracion()
             <= fecha
-            and equipo.categoria == procedimiento.categoria_equipo_requerida
+            and equipo.getter_categoria() == procedimiento.getter_categoria_equipo()
         ):
             raise ValueError("El equipo no es apto para realizar la inspección según el procedimiento y la fecha de calibración.")
 
         else:
             self.ID =  str(ID) + "I"
-            self.fecha = fecha
-            self.profesional = profesional
-            self.equipo = equipo
-            self.procedimiento = procedimiento
-            self.muestra = muestra
+            self.__fecha = fecha
+            self.__profesional = profesional
+            self.__equipo = equipo
+            self.__procedimiento = procedimiento
+            self.__muestra = muestra
 
     def equipo_apto(self):
 
-        fecha_limite = self.fecha - timedelta(days=182)
+        fecha_limite = self.__fecha - timedelta(days=182)
 
-        calibracion_ok = (fecha_limite <= self.equipo.ultima_calibracion <= self.fecha)
+        calibracion_ok = (fecha_limite <= self.__equipo.getter_ultima_calibracion() <= self.__fecha)
         categoria_ok = (
-            self.equipo.categoria
-            == self.procedimiento.categoria_equipo_requerida
+            self.__equipo.getter_categoria()
+            == self.__procedimiento.getter_categoria_equipo()
         )
 
         return calibracion_ok and categoria_ok
 
     def __str__(self):
-        return f"Inspección {self.ID} - Fecha: {self.fecha} - Profesional: {self.profesional.name} - Equipo: {self.equipo.ID} - Procedimiento: {self.procedimiento.nombre} - Muestra: {self.muestra.ID}"
+        return f"Inspección {self.ID} - Fecha: {self.__fecha} - Profesional: {self.__profesional.name} - Equipo: {self.__equipo.ID} - Procedimiento: {self.__procedimiento.getter_nombre()} - Muestra: {self.__muestra.ID}"
     
 
     def ejecutar(self):
 
         defectos = []
         
-        for i in range(self.muestra.getter_unidadesrepresentadas()):
+        for i in range(self.__muestra.getter_unidadesrepresentadas()):
 
-            defecto = self.procedimiento.evaluar_unidad()
+            defecto = self.__procedimiento.evaluar_unidad()
 
             if defecto is not None:
                 defectos.append(defecto)
 
-        self.muestra.registrar_defectos(defectos)
+        self.__muestra.registrar_defectos(defectos)
 
-        self.muestra.cerrar()
+        self.__muestra.cerrar()
         return
 
     def conformidad(self):
-        defectos = self.muestra.getter_defectos()
+        defectos = self.__muestra.getter_defectos()
         
         gravedad_total = 0
         hay_defecto_critico = False
@@ -82,8 +82,23 @@ class Inspeccion:
         hay_defecto_critico = any(
             map(lambda defecto: defecto.es_critico(), defectos))
 
-        if hay_defecto_critico or gravedad_total > self.procedimiento.getter_limitegravedad():
+        if hay_defecto_critico or gravedad_total > self.__procedimiento.getter_limitegravedad():
             return False
         else:
             return True
+
+    def getter_fecha(self):
+        return self.__fecha
+
+    def getter_profesional(self):
+        return self.__profesional
+
+    def getter_equipo(self):
+        return self.__equipo
+
+    def getter_procedimiento(self):
+        return self.__procedimiento
+
+    def getter_muestra(self):
+        return self.__muestra
 

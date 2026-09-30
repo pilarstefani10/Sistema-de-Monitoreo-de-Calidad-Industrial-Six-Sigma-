@@ -170,12 +170,12 @@ else:
  
                 for inspeccion in inspecciones:
                     print("Inspección:", inspeccion.ID)
-                    print("Muestra:", inspeccion.muestra.ID)
-                    print("Procedimiento:", inspeccion.procedimiento.nombre)
-                    print("Estado:", inspeccion.muestra.getter_estado())
+                    print("Muestra:", inspeccion.getter_muestra().ID)
+                    print("Procedimiento:", inspeccion.getter_procedimiento().getter_nombre())
+                    print("Estado:", inspeccion.getter_muestra().getter_estado())
                     print()
  
-                    if inspeccion.muestra.getter_estado() == "EN_INSPECCION":
+                    if inspeccion.getter_muestra().getter_estado() == "EN_INSPECCION":
                         pendientes.append(inspeccion)
  
                 if len(pendientes) == 0:
@@ -200,7 +200,7 @@ else:
                         else:
                             try:
                                 elegida.ejecutar()
-                                muestra = elegida.muestra
+                                muestra = elegida.getter_muestra()
  
                                 print("\nResultado de la muestra", muestra.ID + ":", muestra.getter_estado())
  

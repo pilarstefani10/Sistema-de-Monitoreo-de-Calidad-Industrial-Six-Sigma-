@@ -88,11 +88,11 @@ def test_crear_inspeccion_correctamente():
 
     assert isinstance(inspeccion, Inspeccion)
 
-    assert inspeccion.fecha == fecha
-    assert inspeccion.profesional is profesional
-    assert inspeccion.equipo is equipo
-    assert inspeccion.procedimiento is procedimiento
-    assert inspeccion.muestra is muestra
+    assert inspeccion.getter_fecha() == fecha
+    assert inspeccion.getter_profesional() is profesional
+    assert inspeccion.getter_equipo() is equipo
+    assert inspeccion.getter_procedimiento() is procedimiento
+    assert inspeccion.getter_muestra() is muestra
 
     assert muestra.getter_estado() == "EN_INSPECCION"
 
