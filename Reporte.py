@@ -38,9 +38,9 @@ class Reporte:
             defecto = self.causas[i]
 
             Resumen += str(i + 1) + ". "
-            Resumen += "Tipo: " + defecto.tipo
+            Resumen += "Tipo: " + defecto.getter_tipo()
             Resumen += " | Descripción: " + defecto.getter_descripcion()
-            Resumen += " | Gravedad: " + str(defecto.gravedad)
+            Resumen += " | Gravedad: " + str(defecto.getter_gravedad())
             Resumen += "\n"
 
         return Resumen   

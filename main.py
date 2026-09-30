@@ -156,7 +156,7 @@ else:
         if opcion == "1":
  
             inspecciones = profesional_actual.obtener_inspecciones(
-                lote.muestras
+                lote.getter_muestras()
             )
  
             print("\n\n---------- MIS INSPECCIONES ----------\n")

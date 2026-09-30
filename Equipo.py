@@ -12,19 +12,24 @@ class Equipo:
             raise ValueError("La categoria del equipo no puede estar vacía.")
 
         else: 
-            self.ultima_calibracion = ultima_calibracion
+            self.__ultima_calibracion = ultima_calibracion
             self.ID = "E" + str(Equipo.nextid)
             Equipo.nextid += 1
-            self.categoria = categoria.lower() 
+            self.__categoria = categoria.lower() 
 
     def calibrar(self, fecha_calibracion):
         if not isinstance(fecha_calibracion, date):
             raise ValueError("La fecha de calibración debe ser un objeto de tipo date.")
-        elif fecha_calibracion < self.ultima_calibracion:
+        elif fecha_calibracion < self.__ultima_calibracion:
             raise ValueError("La nueva fecha de calibración no puede ser anterior a la última calibración.")
         else:
-            self.ultima_calibracion = fecha_calibracion
+            self.__ultima_calibracion = fecha_calibracion
 
+    def getter_ultima_calibracion(self):
+        return self.__ultima_calibracion
+
+    def getter_categoria(self):
+        return self.__categoria
 
         
 
