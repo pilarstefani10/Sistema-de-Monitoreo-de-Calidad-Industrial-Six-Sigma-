@@ -8,10 +8,10 @@ def test_crear_muestra_correctamente():
     muestra = Muestra("M1", 10, "L1")
 
     assert muestra.ID == "M1"
-    assert muestra.unidades_representadas == 10
+    assert muestra.getter_unidadesrepresentadas() == 10
     assert muestra.lote == "L1"
-    assert muestra.estado == "PENDIENTE"
-    assert muestra.defectos == []
+    assert muestra.getter_estado() == "PENDIENTE"
+    assert muestra.getter_defectos() == []
     assert muestra.inspeccion is None
 
 
@@ -44,9 +44,9 @@ def test_registrar_lista_de_defectos():
 
     muestra.registrar_defectos(defectos)
 
-    assert len(muestra.defectos) == 2
-    assert defecto1 in muestra.defectos
-    assert defecto2 in muestra.defectos
+    assert len(muestra.getter_defectos()) == 2
+    assert defecto1 in muestra.getter_defectos()
+    assert defecto2 in muestra.getter_defectos()
 
 
 def test_registrar_algo_que_no_sea_lista():
@@ -62,7 +62,7 @@ def test_registrar_algo_que_no_sea_lista():
     with pytest.raises(ValueError):
         muestra.registrar_defectos(defecto)
 
-    assert muestra.defectos == []
+    assert muestra.getter_defectos() == []
 
 
 def test_lista_con_elemento_que_no_es_defecto():
@@ -83,22 +83,90 @@ def test_lista_con_elemento_que_no_es_defecto():
     with pytest.raises(ValueError):
         muestra.registrar_defectos(defectos)
 
-    assert muestra.defectos == []
+    assert muestra.getter_defectos() == []
 
-
-def test_no_agregar_defectos_a_muestra_cerrada():
+def test_registrar_lista_vacia():
 
     muestra = Muestra("M1", 10, "L1")
 
-    muestra.estado = "CONFORME"
+    muestra.registrar_defectos([])
+
+    assert muestra.getter_defectos() == []
+
+def test_lista_invalida_no_agrega_defectos_parcialmente():
+
+    muestra = Muestra("M1", 10, "L1")
 
     defecto = Defecto(
+        "Anomalia visual",
+        3,
+        "Envase rayado"
+    )
+
+    defectos = [
+        defecto,
+        "elemento invalido"
+    ]
+
+    with pytest.raises(ValueError):
+        muestra.registrar_defectos(defectos)
+
+    assert muestra.getter_defectos() == []
+
+def test_getter_defectos_devuelve_copia():
+
+    muestra = Muestra("M1", 10, "L1")
+
+    defecto1 = Defecto(
+        "Anomalia visual",
+        2,
+        "Envase rayado"
+    )
+
+    muestra.registrar_defectos([defecto1])
+
+    lista_obtenida = muestra.getter_defectos()
+
+    defecto2 = Defecto(
         "Anomalia visual",
         5,
         "Envase roto"
     )
 
-    with pytest.raises(ValueError):
-        muestra.registrar_defectos([defecto])
+    lista_obtenida.append(defecto2)
 
-    assert muestra.defectos == []
+    assert len(lista_obtenida) == 2
+    assert len(muestra.getter_defectos()) == 1
+    assert defecto2 not in muestra.getter_defectos()
+
+def test_no_cerrar_muestra_pendiente():
+
+    muestra = Muestra("M1", 10, "L1")
+
+    with pytest.raises(ValueError):
+        muestra.cerrar()
+
+    assert muestra.getter_estado() == "PENDIENTE"
+
+def test_error_al_registrar_no_borra_defectos_anteriores():
+
+    muestra = Muestra("M1", 10, "L1")
+
+    defecto = Defecto(
+        "Anomalia visual",
+        2,
+        "Envase rayado"
+    )
+
+    muestra.registrar_defectos([defecto])
+
+    with pytest.raises(ValueError):
+        muestra.registrar_defectos(["esto no es un defecto"])
+
+    assert len(muestra.getter_defectos()) == 1
+    assert defecto in muestra.getter_defectos()
+
+def test_muestra_no_acepta_unidades_decimales():
+
+    with pytest.raises(ValueError):
+        Muestra("M1", 2.5, "L1")
