@@ -12,7 +12,7 @@ class Procedimiento:
             raise ValueError("La certificación requerida no puede estar vacía.")
 
         else:
-            self.ID = "PR" + str(Procedimiento.nextid)
+            self.__ID = "PR" + str(Procedimiento.nextid)
             Procedimiento.nextid += 1
             self.__nombre = nombre 
             self.__categoria_equipo_requerida = categoria_equipo_requerida.lower() 
@@ -34,3 +34,6 @@ class Procedimiento:
 
     def getter_certificacion_requerida(self):
         return self.__certificacion_requerida
+
+    def getter_id(self):
+        return self.__ID

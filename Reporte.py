@@ -22,7 +22,7 @@ class Reporte:
             raise ValueError("El lote debe ser una instancia de la clase Lote.")
         
 
-        self.ID = ID
+        self.__ID = ID
         self.__fecha = fecha
         self.__muestra = muestra
         self.__lote = lote
@@ -30,10 +30,10 @@ class Reporte:
         self.__causas = muestra.getter_defectos()
 
     def crear_resumen(self):
-        Resumen="\nReporte"+ str(self.ID)+'\n'
+        Resumen="\nReporte"+ str(self.__ID)+'\n'
         Resumen+="Fecha:"+str(self.__fecha)+'\n'
-        Resumen+="Muestra:"+str(self.__muestra.ID)+'\n'
-        Resumen+="Responsable:"+str(self.__responsables.name)+'\n'
+        Resumen+="Muestra:"+str(self.__muestra.getter_id())+'\n'
+        Resumen+="Responsable:"+str(self.__responsables.getter_nombre())+'\n'
         for i in range(len(self.__causas)):
             defecto = self.__causas[i]
 
@@ -45,3 +45,5 @@ class Reporte:
 
         return Resumen   
 
+    def getter_id(self):
+        return self.__ID

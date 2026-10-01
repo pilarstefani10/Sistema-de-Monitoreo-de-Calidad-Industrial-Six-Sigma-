@@ -13,7 +13,7 @@ class Muestra:
                 "Las unidades representadas deben ser enteros mayores a cero"
             )
 
-        self.ID = ID
+        self.__ID = ID
         self.__unidades_representadas = unidades_representadas
         self.__inspeccion=None
         self.__estado = "PENDIENTE"
@@ -56,7 +56,7 @@ class Muestra:
         else:
             self.__estado= "EN_INSPECCION"
             self.__inspeccion = Inspeccion(
-                self.ID,
+                self.__ID,
                 fecha,
                 profesional,
                 equipo,
@@ -111,4 +111,6 @@ class Muestra:
 
     def getter_lote(self):
         return self.__lote
-    
+
+    def getter_id(self):
+        return self.__ID

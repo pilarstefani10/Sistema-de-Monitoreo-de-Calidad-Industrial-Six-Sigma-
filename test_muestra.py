@@ -7,7 +7,7 @@ def test_crear_muestra_correctamente():
 
     muestra = Muestra("M1", 10, "L1")
 
-    assert muestra.ID == "M1"
+    assert muestra.getter_id() == "M1"
     assert muestra.getter_unidadesrepresentadas() == 10
     assert muestra.getter_lote() == "L1"
     assert muestra.getter_estado() == "PENDIENTE"

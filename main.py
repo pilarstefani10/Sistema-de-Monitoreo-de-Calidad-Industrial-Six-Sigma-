@@ -139,7 +139,7 @@ if profesional_actual is None:
  
 else:
  
-    print("\nBienvenido/a", profesional_actual.name)
+    print("\nBienvenido/a", profesional_actual.getter_nombre())
     opcion = ""
  
     while opcion != "0":
@@ -169,8 +169,8 @@ else:
                 pendientes = []
  
                 for inspeccion in inspecciones:
-                    print("Inspección:", inspeccion.ID)
-                    print("Muestra:", inspeccion.getter_muestra().ID)
+                    print("Inspección:", inspeccion.getter_id())
+                    print("Muestra:", inspeccion.getter_muestra().getter_id())
                     print("Procedimiento:", inspeccion.getter_procedimiento().getter_nombre())
                     print("Estado:", inspeccion.getter_muestra().getter_estado())
                     print()
@@ -191,7 +191,7 @@ else:
  
                         elegida = None
                         for inspeccion in pendientes:
-                            if inspeccion.ID == id_elegido:
+                            if inspeccion.getter_id() == id_elegido:
                                 elegida = inspeccion
  
                         if elegida is None:
@@ -202,7 +202,7 @@ else:
                                 elegida.ejecutar()
                                 muestra = elegida.getter_muestra()
  
-                                print("\nResultado de la muestra", muestra.ID + ":", muestra.getter_estado())
+                                print("\nResultado de la muestra", muestra.getter_id() + ":", muestra.getter_estado())
  
                                 defectos = muestra.getter_defectos()
                                 if len(defectos) == 0:

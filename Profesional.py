@@ -11,8 +11,8 @@ class Profesional:
         if not self.validar_nombre(name):
             raise ValueError("El nombre del profesional no puede estar vacío.")
         else:
-            self.name = name
-            self.ID = "P" + str(Profesional.nextid)
+            self.__name = name
+            self.__ID = "P" + str(Profesional.nextid)
             Profesional.profesionales.append(self)
             Profesional.nextid += 1
             self.__certificaciones = []
@@ -37,7 +37,7 @@ class Profesional:
 
         for profesional in cls.profesionales:
 
-            if profesional.name == nombre and profesional.ID == ID:
+            if profesional.getter_nombre() == nombre and profesional.getter_id() == ID:
                 return profesional
 
         return None
@@ -46,7 +46,7 @@ class Profesional:
 
     
     def __str__(self):
-        return f"Profesional: {self.name}, ID: {self.ID}, Certificaciones: {[cert.getter_nombre() for cert in self.__certificaciones]}"  
+        return f"Profesional: {self.__name}, ID: {self.__ID}, Certificaciones: {[cert.getter_nombre() for cert in self.__certificaciones]}"  
     
     def obtener_inspecciones(self, muestras):
         muestras_del_profesional = filter(
@@ -61,3 +61,9 @@ class Profesional:
                 muestras_del_profesional
             )
         )
+
+    def getter_id(self):
+        return self.__ID
+
+    def getter_nombre(self):
+        return self.__name

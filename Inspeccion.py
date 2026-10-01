@@ -31,7 +31,7 @@ class Inspeccion:
             raise ValueError("El equipo no es apto para realizar la inspección según el procedimiento y la fecha de calibración.")
 
         else:
-            self.ID =  str(ID) + "I"
+            self.__ID =  str(ID) + "I"
             self.__fecha = fecha
             self.__profesional = profesional
             self.__equipo = equipo
@@ -51,8 +51,8 @@ class Inspeccion:
         return calibracion_ok and categoria_ok
 
     def __str__(self):
-        return f"Inspección {self.ID} - Fecha: {self.__fecha} - Profesional: {self.__profesional.name} - Equipo: {self.__equipo.ID} - Procedimiento: {self.__procedimiento.getter_nombre()} - Muestra: {self.__muestra.ID}"
-    
+        return f"Inspección {self.__ID} - Fecha: {self.__fecha} - Profesional: {self.__profesional.getter_nombre()} - Equipo: {self.__equipo.getter_id()} - Procedimiento: {self.__procedimiento.getter_nombre()} - Muestra: {self.__muestra.getter_id()}"
+
 
     def ejecutar(self):
 
@@ -102,3 +102,5 @@ class Inspeccion:
     def getter_muestra(self):
         return self.__muestra
 
+    def getter_id(self):
+        return self.__ID

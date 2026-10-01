@@ -9,7 +9,7 @@ class Lote:
         if not isinstance (cantidad_fabricada, int) or cantidad_fabricada <= 0:
             raise ValueError("La cantidad fabricada debe ser mayor a cero")
             
-        self.ID = "L" + str(Lote.nextid)
+        self.__ID = "L" + str(Lote.nextid)
         Lote.nextid += 1
         
         self.__cantidad_fabricada = cantidad_fabricada
@@ -23,7 +23,7 @@ class Lote:
             raise ValueError("La muestra supera la cantidad disponible del lote.")
         
         muestra = Muestra(
-            str(self.ID) +"M" + str(len(self.__muestras) + 1),
+            str(self.__ID) +"M" + str(len(self.__muestras) + 1),
             cantidad_muestra,
             self)
 
@@ -46,3 +46,6 @@ class Lote:
 
     def getter_muestras(self):
         return self.__muestras.copy()
+
+    def getter_id(self):
+        return self.__ID

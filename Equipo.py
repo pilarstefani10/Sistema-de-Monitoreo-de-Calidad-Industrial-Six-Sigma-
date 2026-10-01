@@ -13,7 +13,7 @@ class Equipo:
 
         else: 
             self.__ultima_calibracion = ultima_calibracion
-            self.ID = "E" + str(Equipo.nextid)
+            self.__ID = "E" + str(Equipo.nextid)
             Equipo.nextid += 1
             self.__categoria = categoria.lower() 
 
@@ -30,6 +30,9 @@ class Equipo:
 
     def getter_categoria(self):
         return self.__categoria
+
+    def getter_id(self):
+        return self.__ID
 
         
 
