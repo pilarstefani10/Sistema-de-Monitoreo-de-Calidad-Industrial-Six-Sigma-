@@ -65,6 +65,7 @@ class Inspeccion:
             if defecto is not None:
                 defectos.append(defecto)
 
+        self.__muestra.iniciar_inspeccion()
         self.__muestra.registrar_defectos(defectos)
 
         self.__muestra.cerrar()

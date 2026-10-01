@@ -175,9 +175,9 @@ else:
                     print("Estado:", inspeccion.getter_muestra().getter_estado())
                     print()
  
-                    if inspeccion.getter_muestra().getter_estado() == "EN_INSPECCION":
+                    if inspeccion.getter_muestra().getter_estado() == "PENDIENTE":
                         pendientes.append(inspeccion)
- 
+    
                 if len(pendientes) == 0:
                     print("No tiene inspecciones pendientes para ejecutar.")
  

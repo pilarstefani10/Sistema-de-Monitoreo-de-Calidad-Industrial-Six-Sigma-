@@ -94,7 +94,7 @@ def test_crear_inspeccion_correctamente():
     assert inspeccion.getter_procedimiento() is procedimiento
     assert inspeccion.getter_muestra() is muestra
 
-    assert muestra.getter_estado() == "EN_INSPECCION"
+    assert muestra.getter_estado() == "PENDIENTE"
 
 
 def test_equipo_apto():

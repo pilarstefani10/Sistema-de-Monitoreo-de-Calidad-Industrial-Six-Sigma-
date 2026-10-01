@@ -54,7 +54,7 @@ class Muestra:
             )
 
         else:
-            self.__estado= "EN_INSPECCION"
+            
             self.__inspeccion = Inspeccion(
                 self.__ID,
                 fecha,
@@ -86,6 +86,14 @@ class Muestra:
                     )
 
             self.__defectos.extend(defectos)
+
+    def iniciar_inspeccion(self):
+        if self.__estado != "PENDIENTE":
+            raise ValueError("La muestra ya fue inspeccionada.")
+        elif self.__inspeccion is None:
+            raise ValueError("La muestra no tiene una inspección asignada.")
+        else:
+            self.__estado = "EN_INSPECCION"
 
     def cerrar(self):
         if self.__estado != "EN_INSPECCION":
