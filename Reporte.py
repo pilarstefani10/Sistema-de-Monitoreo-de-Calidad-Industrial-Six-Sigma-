@@ -2,7 +2,6 @@ from datetime import date
 from Profesional import Profesional
 from Muestra import Muestra
 from Lote import Lote
-from Inspeccion import Inspeccion
 
 class Reporte:
     def __init__(self, ID, fecha, muestra, lote, profesional):
@@ -27,10 +26,10 @@ class Reporte:
         self.__causas = muestra.getter_defectos()
 
     def crear_resumen(self):
-        Resumen="\nReporte"+ str(self.__ID)+'\n'
-        Resumen+="Fecha:"+str(self.__fecha)+'\n'
-        Resumen+="Muestra:"+str(self.__muestra.getter_id())+'\n'
-        Resumen+="Responsable:"+str(self.__responsable.getter_nombre())+'\n'
+        Resumen="\nReporte: "+ str(self.__ID)+'\n'
+        Resumen+="Fecha: "+str(self.__fecha)+'\n'
+        Resumen+="Muestra: "+str(self.__muestra.getter_id())+'\n'
+        Resumen+="Responsable: "+str(self.__responsable.getter_nombre())+'\n'
         for i in range(len(self.__causas)):
             defecto = self.__causas[i]
 

@@ -2,7 +2,7 @@ from datetime import date, timedelta
 from Profesional import Profesional 
 from Equipo import Equipo
 from Procedimiento import Procedimiento
-from Reporte import Reporte
+
 class Inspeccion:
 
     inspecciones = []
@@ -67,9 +67,14 @@ class Inspeccion:
         self.__muestra.registrar_defectos(defectos)
         self.__muestra.cerrar()
 
+        self.__muestra.cerrar()
+
         if not self.conformidad():
+            from Reporte import Reporte
             reporte = Reporte.crear_desde_inspeccion(self.__ID, self)
             return reporte
+
+       
 
     def conformidad(self):
         defectos = self.__muestra.getter_defectos()
