@@ -15,9 +15,6 @@ class Reporte:
         elif not isinstance(muestra, Muestra):
             raise ValueError("La muestra debe ser una instancia de la clase Muestra.")
         
-        elif not ID.isdigit():
-            raise ValueError("El ID de la inspección debe ser un número entero.")
-        
         elif not isinstance(lote,Lote):
             raise ValueError("El lote debe ser una instancia de la clase Lote.")
         
@@ -45,5 +42,18 @@ class Reporte:
 
         return Resumen   
 
+    @classmethod
+    def crear_desde_inspeccion(cls, ID, inspeccion):
+
+        muestra = inspeccion.getter_muestra()
+
+        return cls(
+            ID,
+            inspeccion.getter_fecha(),
+            muestra,
+            muestra.getter_lote(),
+            inspeccion.getter_profesional()
+        )
+        
     def getter_id(self):
         return self.__ID

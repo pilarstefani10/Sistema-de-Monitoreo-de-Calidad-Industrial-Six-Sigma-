@@ -37,6 +37,7 @@ class Inspeccion:
             self.__equipo = equipo
             self.__procedimiento = procedimiento
             self.__muestra = muestra
+            self.reporte=None
 
     def equipo_apto(self):
 
@@ -84,6 +85,7 @@ class Inspeccion:
             map(lambda defecto: defecto.es_critico(), defectos))
 
         if hay_defecto_critico or gravedad_total > self.__procedimiento.getter_limitegravedad():
+            self.
             return False
         else:
             return True
