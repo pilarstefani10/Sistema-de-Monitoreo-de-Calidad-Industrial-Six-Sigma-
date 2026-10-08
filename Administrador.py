@@ -26,10 +26,12 @@ class Administrador(Empleado):
         self.__empresa.registrar_procedimiento(procedimiento)
 
     def crear_muestra(self, lote, fecha, profesional, equipo, procedimiento):
-        profesional = empresa.obtener profesional(id profesional)
+        profesional = self.empresa.getter_profesional(id profesional)
         muestra= lote.crear muestra
         crear inspeccion
         return lote.crear_muestra(fecha, profesional, equipo, procedimiento)
 
     def getter_empresa(self):
         return self.__empresa
+
+    

@@ -27,7 +27,7 @@ class Lote:
             cantidad_muestra,
             self)
 
-        muestra.crear_inspeccion(fecha, profesional, equipo, procedimiento)
+        #muestra.crear_inspeccion(fecha, profesional, equipo, procedimiento)
         
         self.__muestras.append(muestra)
         return muestra
