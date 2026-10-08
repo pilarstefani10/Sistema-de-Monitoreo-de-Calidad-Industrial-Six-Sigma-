@@ -16,7 +16,7 @@ class Lote:
         self.__estado = "PENDIENTE"
         self.__muestras = []
 
-    def crear_muestra(self, fecha, profesional, equipo, procedimiento):
+    def crear_muestra(self):
         cantidad_muestra = round(self.__cantidad_fabricada * 0.05)
 
         if not self.puede_agregar_muestra(cantidad_muestra):
@@ -27,8 +27,6 @@ class Lote:
             cantidad_muestra,
             self)
 
-        #muestra.crear_inspeccion(fecha, profesional, equipo, procedimiento)
-        
         self.__muestras.append(muestra)
         return muestra
 

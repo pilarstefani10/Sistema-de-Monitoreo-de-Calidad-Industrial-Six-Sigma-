@@ -20,7 +20,7 @@ class Muestra:
         self.__lote = lote
         self.__defectos = []
 
-
+    """""
     def crear_inspeccion(self, fecha, profesional, equipo, procedimiento):
 
         if self.__estado != "PENDIENTE":
@@ -64,7 +64,7 @@ class Muestra:
                 self
             )
 
-            return self.__inspeccion
+            return self.__inspeccion"""
 
     def registrar_defectos(self, defectos):
 
@@ -119,3 +119,5 @@ class Muestra:
 
     def getter_id(self):
         return self.__ID
+
+    

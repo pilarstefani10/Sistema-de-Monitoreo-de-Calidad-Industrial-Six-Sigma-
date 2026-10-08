@@ -27,7 +27,7 @@ class Administrador(Empleado):
 
     def crear_muestra(self, lote, fecha, profesional, equipo, procedimiento):
         profesional = self.empresa.getter_profesional(id profesional)
-        muestra= lote.crear muestra
+        muestra= lote.crear_muestra()
         crear inspeccion
         return lote.crear_muestra(fecha, profesional, equipo, procedimiento)
 
