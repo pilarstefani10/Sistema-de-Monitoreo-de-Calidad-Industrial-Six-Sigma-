@@ -30,14 +30,17 @@ class ProcedimientoDimensional(Procedimiento):
         if not isinstance(rangos, dict):
             raise TypeError("rangos_gravedad debe ser un diccionario.")
 
-        faltantes = [k for k in claves if k not in rangos]
+        faltantes = list(filter(
+             lambda clave: clave not in rangos,claves))
+                
         if faltantes:
             raise ValueError(f"Faltan rangos de gravedad: {faltantes}")
 
-        for k in claves:
-            if not isinstance(rangos[k], (int, float)):
-                raise TypeError(f"El rango '{k}' debe ser numérico.")
-
+        if not all(map(
+            lambda clave: isinstance(rangos[clave], (int, float)), claves)):
+  
+                 raise TypeError("Todos los rangos deben ser numéricos.")
+    
         if not (rangos["leve"] < rangos["moderado"] < rangos["serio"] < rangos["severo"]):
             raise ValueError(
                 "Los rangos deben estar en orden creciente: leve < moderado < serio < severo."

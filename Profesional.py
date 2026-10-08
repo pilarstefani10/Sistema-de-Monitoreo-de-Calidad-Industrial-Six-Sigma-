@@ -33,14 +33,11 @@ class Profesional:
         return False
 
     @classmethod
+        
     def buscar_profesional(cls, nombre, ID):
+        encontrados = filter(lambda profesional: profesional.getter_nombre() == nombre and profesional.getter_id() == ID, cls.profesionales)
+        return next(encontrados, None)
 
-        for profesional in cls.profesionales:
-
-            if profesional.getter_nombre() == nombre and profesional.getter_id() == ID:
-                return profesional
-
-        return None
 
 
 

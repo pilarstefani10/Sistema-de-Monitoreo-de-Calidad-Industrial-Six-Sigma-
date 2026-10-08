@@ -2,6 +2,7 @@ from datetime import date, timedelta
 from Profesional import Profesional 
 from Equipo import Equipo
 from Procedimiento import Procedimiento
+from Reporte import Reporte
 class Inspeccion:
 
     inspecciones = []
@@ -70,7 +71,9 @@ class Inspeccion:
         self.__muestra.registrar_defectos(defectos)
 
         self.__muestra.cerrar()
-        return
+        if not self.conformidad():
+            reporte=Reporte.desde_inspeccion(self.__ID)
+            return reporte
 
     def conformidad(self):
         defectos = self.__muestra.getter_defectos()
@@ -85,7 +88,6 @@ class Inspeccion:
             map(lambda defecto: defecto.es_critico(), defectos))
 
         if hay_defecto_critico or gravedad_total > self.__procedimiento.getter_limitegravedad():
-            self.
             return False
         else:
             return True
