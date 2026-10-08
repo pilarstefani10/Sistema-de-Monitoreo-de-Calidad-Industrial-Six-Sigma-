@@ -23,14 +23,14 @@ class Reporte:
         self.__fecha = fecha
         self.__muestra = muestra
         self.__lote = lote
-        self.__responsables = profesional
+        self.__responsable = profesional
         self.__causas = muestra.getter_defectos()
 
     def crear_resumen(self):
         Resumen="\nReporte"+ str(self.__ID)+'\n'
         Resumen+="Fecha:"+str(self.__fecha)+'\n'
         Resumen+="Muestra:"+str(self.__muestra.getter_id())+'\n'
-        Resumen+="Responsable:"+str(self.__responsables.getter_nombre())+'\n'
+        Resumen+="Responsable:"+str(self.__responsable.getter_nombre())+'\n'
         for i in range(len(self.__causas)):
             defecto = self.__causas[i]
 

@@ -9,10 +9,10 @@ from Equipo import Equipo
 from Procedimiento import Procedimiento
 from Defecto import Defecto
 
-
 # Procedimiento especial solamente para testing.
 # Hereda de Procedimiento para que pase los isinstance del programa.
 class ProcedimientoPrueba(Procedimiento):
+#CAMBIAR POR MOCKS !!!!!!!!!!!!!!!!!
 
     def __init__(self, resultados, limite_gravedad=5):
 

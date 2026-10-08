@@ -57,22 +57,18 @@ class Inspeccion:
 
 
     def ejecutar(self):
+        cantidad = self.__muestra.getter_unidadesrepresentadas()
 
-        defectos = []
+        resultados = map(lambda _: self.__procedimiento.evaluar_unidad(),range(cantidad))
         
-        for i in range(self.__muestra.getter_unidadesrepresentadas()):
-
-            defecto = self.__procedimiento.evaluar_unidad()
-
-            if defecto is not None:
-                defectos.append(defecto)
-
+        defectos = list(filter(lambda defecto: defecto is not None,resultados))
+        
         self.__muestra.iniciar_inspeccion()
         self.__muestra.registrar_defectos(defectos)
-
         self.__muestra.cerrar()
+
         if not self.conformidad():
-            reporte=Reporte.desde_inspeccion(self.__ID)
+            reporte = Reporte.crear_desde_inspeccion(self.__ID, self)
             return reporte
 
     def conformidad(self):

@@ -26,12 +26,11 @@ class Profesional:
             raise ValueError("El objeto proporcionado no es una instancia de la clase Certificacion.")
         self.__certificaciones.append(certificacion)
 
-    def certificacion_vigente(self, nombre_certificacion, fecha):
-        for cert in self.__certificaciones:
-            if cert.getter_nombre() == nombre_certificacion and cert.esta_vigente(fecha):
-                return True
-        return False
 
+    def certificacion_vigente(self, nombre_certificacion, fecha):
+        return any(map(lambda cert: cert.getter_nombre() == nombre_certificacion and cert.esta_vigente(fecha),self.__certificaciones))
+        
+    
     @classmethod
         
     def buscar_profesional(cls, nombre, ID):

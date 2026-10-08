@@ -33,12 +33,7 @@ class Lote:
         return muestra
 
     def puede_agregar_muestra(self, cantidad_muestra):
-
-        total = 0
-
-        for muestra in self.__muestras:
-            total += muestra.getter_unidadesrepresentadas()
-
+        total = sum(map(lambda muestra: muestra.getter_unidadesrepresentadas(),self.__muestras))
         return total + cantidad_muestra <= self.__cantidad_fabricada
 
     def getter_estado(self):

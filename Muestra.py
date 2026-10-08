@@ -79,12 +79,9 @@ class Muestra:
             )
 
         else:
-            for defecto in defectos:
-                if not isinstance(defecto, Defecto):
-                    raise ValueError(
-                        "Todos los elementos de la lista deben ser objetos de tipo Defecto."
-                    )
-
+            if not all(map(lambda defecto: isinstance(defecto, Defecto), defectos)):
+                raise ValueError( "Todos los elementos de la lista deben ser objetos de tipo Defecto.")
+    
             self.__defectos.extend(defectos)
 
     def iniciar_inspeccion(self):
