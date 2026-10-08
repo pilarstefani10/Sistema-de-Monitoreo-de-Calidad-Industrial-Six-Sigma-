@@ -4,35 +4,42 @@ class Empresa:
         if not nombre:
             raise ValueError("El nombre no puede estar vacío")
 
-        self.nombre = nombre
+        self.__nombre = nombre
         self.__lotes = {}#Combiene más en diccionarios separados porque sino sería un diccionarios con listas
         self.__profesionales = {}#Y perdería sentido
         self.__equipos = {}
         self.__procedimientos = {}
+        self.__administradores = {}
 
     def registrar_lote(self, lote):
-        if lote.ID in self.__lotes:
+        if lote.getter_id() in self.__lotes:
             raise ValueError("ID de lote duplicado")
 
-        self.__lotes[lote.ID] = lote
+        self.__lotes[lote.getter_id()] = lote
 
     def registrar_profesional(self, profesional):
-        if profesional.ID in self.__profesionales:
+        if profesional.getter_id() in self.__profesionales:
             raise ValueError("ID de profesional duplicado")
 
-        self.__profesionales[profesional.ID] = profesional
+        self.__profesionales[profesional.getter_id()] = profesional
+
+    def registrar_administrador(self, administrador):
+        if administrador.getter_id() in self.__administradores:
+            raise ValueError("ID de administrador duplicado")
+
+        self.__administradores[administrador.getter_id()] = administrador
 
     def registrar_equipo(self, equipo):
-        if equipo.ID in self.__equipos:
+        if equipo.getter_id() in self.__equipos:
             raise ValueError("ID de equipo duplicado")
 
-        self.__equipos[equipo.ID] = equipo
+        self.__equipos[equipo.getter_id()] = equipo
 
     def registrar_procedimiento(self, procedimiento):
-        if procedimiento.ID in self.__procedimientos:
+        if procedimiento.getter_id() in self.__procedimientos:
             raise ValueError("ID de procedimiento duplicado")
 
-        self.__procedimientos[procedimiento.ID] = procedimiento
+        self.__procedimientos[procedimiento.getter_id()] = procedimiento
 
     def getter_lote(self, ID):
         return self.__lotes.get(ID)
