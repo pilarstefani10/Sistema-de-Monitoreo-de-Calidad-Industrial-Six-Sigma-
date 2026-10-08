@@ -4,55 +4,38 @@ from Muestra import Muestra
 from Lote import Lote
 
 class Reporte:
-    def __init__(self, ID, fecha, muestra, lote, profesional):
-        if not isinstance(fecha, date):
-            raise ValueError("La fecha debe ser un objeto de tipo date.")
-        
-        elif not isinstance(profesional, Profesional):
-            raise ValueError("El profesional debe ser una instancia de la clase Profesional.")
-        
-        elif not isinstance(muestra, Muestra):
-            raise ValueError("La muestra debe ser una instancia de la clase Muestra.")
-        
-        elif not isinstance(lote,Lote):
-            raise ValueError("El lote debe ser una instancia de la clase Lote.")
-        
 
-        self.__ID = ID
-        self.__fecha = fecha
-        self.__muestra = muestra
-        self.__lote = lote
-        self.__responsable = profesional
-        self.__causas = muestra.getter_defectos()
-
-    def crear_resumen(self):
-        Resumen="\nReporte: "+ str(self.__ID)+'\n'
-        Resumen+="Fecha: "+str(self.__fecha)+'\n'
-        Resumen+="Muestra: "+str(self.__muestra.getter_id())+'\n'
-        Resumen+="Responsable: "+str(self.__responsable.getter_nombre())+'\n'
-        for i in range(len(self.__causas)):
-            defecto = self.__causas[i]
-
-            Resumen += str(i + 1) + ". "
-            Resumen += "Tipo: " + defecto.getter_tipo()
-            Resumen += " | Descripción: " + defecto.getter_descripcion()
-            Resumen += " | Gravedad: " + str(defecto.getter_gravedad())
-            Resumen += "\n"
-
-        return Resumen   
-
-    @classmethod
-    def crear_desde_inspeccion(cls, ID, inspeccion):
-
+    def __init__(self, ID, inspeccion):
         muestra = inspeccion.getter_muestra()
 
-        return cls(
-            ID,
-            inspeccion.getter_fecha(),
-            muestra,
-            muestra.getter_lote(),
-            inspeccion.getter_profesional()
-        )
-        
+        if muestra.getter_estado() != "NO_CONFORME":
+            raise ValueError("Solo se generan reportes para muestras No Conformes.")
+
+        self.__ID = ID
+        self.__inspeccion = inspeccion
+        self.__defectos = muestra.getter_defectos()
+
+    def crear_resumen(self):
+        muestra = self.__inspeccion.getter_muestra()
+
+        resumen = "\nReporte: " + self.__ID + "\n"
+        resumen += "Fecha: " + str(self.__inspeccion.getter_fecha()) + "\n"
+        resumen += "Muestra: " + muestra.getter_id() + "\n"
+        resumen += "Lote: " + muestra.getter_lote().getter_id() + "\n"
+        resumen += "Responsable: " + self.__inspeccion.getter_profesional().getter_nombre() + "\n"
+
+        for numero, defecto in enumerate(self.__defectos, start=1):
+            resumen += str(numero) + ". Tipo: " + defecto.getter_tipo()
+            resumen += " | Descripción: " + defecto.getter_descripcion()
+            resumen += " | Gravedad: " + str(defecto.getter_gravedad()) + "\n"
+
+        return resumen
+
     def getter_id(self):
         return self.__ID
+
+    def getter_inspeccion(self):
+        return self.__inspeccion
+
+    def getter_defectos(self):
+        return self.__defectos.copy()

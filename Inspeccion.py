@@ -38,7 +38,7 @@ class Inspeccion:
             self.__equipo = equipo
             self.__procedimiento = procedimiento
             self.__muestra = muestra
-            self.reporte=None
+            self.__reporte=None
 
     def equipo_apto(self):
 
@@ -67,13 +67,9 @@ class Inspeccion:
         self.__muestra.registrar_defectos(defectos)
         self.__muestra.cerrar()
 
-        self.__muestra.cerrar()
-
-        if not self.conformidad():
+        if self.__muestra.getter_estado() == "NO_CONFORME":
             from Reporte import Reporte
-            reporte = Reporte.crear_desde_inspeccion(self.__ID, self)
-            return reporte
-
+            self.__reporte = Reporte(self.__ID + "R", self)
        
 
     def conformidad(self):
@@ -110,3 +106,6 @@ class Inspeccion:
 
     def getter_id(self):
         return self.__ID
+
+    def getter_reporte(self):
+        return self.__reporte
