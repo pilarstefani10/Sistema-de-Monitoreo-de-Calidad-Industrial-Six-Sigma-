@@ -20,52 +20,6 @@ class Muestra:
         self.__lote = lote
         self.__defectos = []
 
-    """""
-    def crear_inspeccion(self, fecha, profesional, equipo, procedimiento):
-
-        if self.__estado != "PENDIENTE":
-            raise ValueError(
-                "Solo se puede inspeccionar una muestra pendiente."
-            )
-
-        elif self.__inspeccion is not None:
-            raise ValueError(
-                "La muestra ya posee una inspección."
-            )
-
-        elif not isinstance(fecha, date):
-            raise ValueError(
-                "La fecha debe ser un objeto de tipo date."
-            )
-
-        elif not isinstance(profesional, Profesional):
-            raise ValueError(
-                "El profesional debe ser una instancia de la clase Profesional."
-            )
-
-        elif not isinstance(equipo, Equipo):
-            raise ValueError(
-                "El equipo debe ser una instancia de la clase Equipo."
-            )
-
-        elif not isinstance(procedimiento, Procedimiento):
-            raise ValueError(
-                "El procedimiento debe ser una instancia de la clase Procedimiento."
-            )
-
-        else:
-            
-            self.__inspeccion = Inspeccion(
-                self.__ID,
-                fecha,
-                profesional,
-                equipo,
-                procedimiento,
-                self
-            )
-
-            return self.__inspeccion"""
-
     def registrar_defectos(self, defectos):
 
         if not isinstance(defectos, list):
