@@ -28,11 +28,11 @@ class Administrador(Empleado):
     def registrar_procedimiento(self, procedimiento):
         self.__empresa.registrar_procedimiento(procedimiento)
 
-    def crear_muestra(self, lote, id_profesional, id_equipo, id_procedimiento):
+    def crear_muestra(self, lote, unidades ,id_profesional, id_equipo, id_procedimiento):
         profesional = self.__empresa.getter_profesional(id_profesional)
         equipo=self.__empresa.getter_equipo(id_equipo)
         procedimiento=self.__empresa.getter_procedimiento(id_procedimiento)
-        muestra= lote.crear_muestra()
+        muestra= lote.crear_muestra(unidades)
         fecha = date.today()
         
         inspeccion= self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
@@ -54,17 +54,17 @@ class Administrador(Empleado):
         else:
             raise ValueError("Tipo de procedimiento inválido")#############ERROR A PERSONALIZARRRR
 
-        if self.__empresa.getter_procedimiento(procedimiento.ID)!=None:
+        if self.__empresa.getter_procedimiento(procedimiento.getter_id())!=None:
             raise ValueError("Ya existe un procedimiento con ese ID")###############ERROR A PERSONALIZARRR
 
-        self.__procedimientos[procedimiento.ID] = procedimiento
+        self.__empresa.registrar_procedimiento(procedimiento)
 
         return procedimiento
 
     @staticmethod
     def crear_inspeccion(muestra, fecha, profesional, equipo, procedimiento):
             inspeccion = Inspeccion(
-                muestra.getter_ID(),
+                muestra.getter_id(),
                 fecha,
                 profesional,
                 equipo,

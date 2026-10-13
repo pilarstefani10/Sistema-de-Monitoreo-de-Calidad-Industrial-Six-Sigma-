@@ -19,8 +19,8 @@ class Lote:
 
     def crear_muestra(self,u):
        if self.getter_estado() == "PENDIENTE":
-        if not isinstance(u,int) and u>0 and u<=(self.__cantidad_fabricada - self.__cantidad_muestrada):
-                raise ValueError("No se puede crear una muestra con esa cantidad de unidades")
+        if not isinstance(u,int) or u<=0 or u>(self.__cantidad_fabricada - self.__cantidad_muestrada):
+                raise ValueError("No se puede crear una muestra con esa cantidad de unidades")#######ERROR A PERSONALIZARRRRR
         else:
                 cantidad_muestra = u
                 self.__cantidad_muestrada+=u
@@ -36,8 +36,15 @@ class Lote:
            return None
 
     def decidir_estado(self):
+        if self.__estado != "PENDIENTE":
+            raise ValueError("El lote ya fue decidido")
+        if not self.__muestras or not self.muestras_cerradas():
+            raise ValueError("El lote tiene muestras pendientes")
         if self.muestras_cerradas():
-            cantidad_no_conformes=sum(map(lambda muestra: 1 if muestra.getter_estado()=="RECHAZADA" else 0 ,self.__muestras))
+            cantidad_no_conformes=sum(map(lambda muestra: 
+                                          1 if muestra.getter_estado()=="NO_CONFORME" 
+                                          else 0 ,self.__muestras))
+            
             if cantidad_no_conformes/len(self.getter_muestras())>= 0.05:
                 self.setter_estado("RECHAZADO")
             else:
@@ -47,7 +54,7 @@ class Lote:
     
     
     def muestras_cerradas(self):
-        return all(map(lambda muestra: True if muestra.getter_estado() != "EN_INSPECCION" else False, self.__muestras))
+        return all(map(lambda muestra: True if muestra.getter_estado() in ("CONFORME", "NO_CONFORME") else False, self.__muestras))
 
     def setter_estado(self, e):
         self.__estado=e

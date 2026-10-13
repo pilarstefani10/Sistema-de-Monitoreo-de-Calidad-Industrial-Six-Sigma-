@@ -69,7 +69,19 @@ class Muestra:
         return self.__inspeccion
 
     def setter_inspeccion(self, inspeccion):
-        self.__inspeccion=inspeccion
+        if self.__estado != "PENDIENTE":
+            raise ValueError("La muestra ya inició su inspección")
+
+        if self.__inspeccion is not None:
+            raise ValueError("La muestra ya tiene una inspección asignada")
+
+        if not isinstance(inspeccion, Inspeccion):
+            raise ValueError("Debe asignarse una inspección válida")
+
+        if inspeccion.getter_muestra() is not self:
+            raise ValueError("La inspección pertenece a otra muestra")
+
+        self.__inspeccion = inspeccion
 
     def getter_lote(self):
         return self.__lote

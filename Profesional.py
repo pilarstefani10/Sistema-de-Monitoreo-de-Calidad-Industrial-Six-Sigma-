@@ -4,12 +4,9 @@ from Cola_Inspecciones import Cola
 
 class Profesional(Empleado):
     nextid = 1
-
-    profesionales = []  # Lista para almacenar todas las instancias de Profesional
     
     def __init__(self, name):
         super().__init__(name, "P" + str(Profesional.nextid))
-        Profesional.profesionales.append(self)
         Profesional.nextid += 1
         self.__certificaciones = []
         self.__cola_inspecciones=Cola()
@@ -46,12 +43,6 @@ class Profesional(Empleado):
         self.__cola_inspecciones.desencolar()
 
         return inspeccion
-
-    def ID(self):
-        return self.__ID
-
-    def nombre(self):
-        return self.__nombre
 
     def getter_certificaciones(self):
         return self.__certificaciones.copy()
