@@ -68,6 +68,9 @@ class Muestra:
     def getter_inspeccion(self):
         return self.__inspeccion
 
+    def setter_inspeccion(self, inspeccion):
+        self.__inspeccion=inspeccion
+
     def getter_lote(self):
         return self.__lote
 

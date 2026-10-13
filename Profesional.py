@@ -1,7 +1,6 @@
 from Certificacion import Certificacion
-from random import random
 from Empleado import Empleado
-
+from Cola_Inspecciones import Cola
 
 class Profesional(Empleado):
     nextid = 1
@@ -13,6 +12,7 @@ class Profesional(Empleado):
         Profesional.profesionales.append(self)
         Profesional.nextid += 1
         self.__certificaciones = []
+        self.__cola_inspecciones=Cola()
 
     def agregar_certificacion(self, certificacion):
         if not isinstance(certificacion, Certificacion):
@@ -27,18 +27,40 @@ class Profesional(Empleado):
     def __str__(self):
         return f"Profesional: {self.getter_nombre()}, ID: {self.getter_id()}, Certificaciones: {[cert.getter_nombre() for cert in self.__certificaciones]}"  
     
-    def obtener_inspecciones(self, muestras):
-        muestras_del_profesional = filter(
-            lambda muestra: muestra.getter_inspeccion() is not None
-            and muestra.getter_inspeccion().getter_profesional() == self,
-            muestras
-        )
 
-        return list(
-            map(
-                lambda muestra: muestra.getter_inspeccion(),
-                muestras_del_profesional
-            )
-        )
+    def asignar_inspeccion(self, inspeccion):
+        self.__cola_inspecciones.encolar(inspeccion)
 
-    
+    def siguiente_inspeccion(self):
+        return self.__cola_inspecciones.frente()
+
+    def ejecutar_siguiente_inspeccion(self):
+
+        inspeccion = self.__cola_inspecciones.frente()
+
+        if inspeccion is None:
+            raise ValueError("No hay inspecciones pendientes")############ERROR A PERSONALIZARRRRRR
+
+        inspeccion.ejecutar()
+
+        self.__cola_inspecciones.desencolar()
+
+        return inspeccion
+
+    def ID(self):
+        return self.__ID
+
+    def nombre(self):
+        return self.__nombre
+
+    def getter_certificaciones(self):
+        return self.__certificaciones.copy()
+
+    def getter_inspeccion_pendiente(self):
+        return self.__cola_inspecciones.frente()
+
+    def getter_inspecciones_pendientes(self):
+        return self.__cola_inspecciones.consultar_elementos()
+
+    def getter_cola_vacia(self):
+        return self.__cola_inspecciones.esta_vacia()

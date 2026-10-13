@@ -34,11 +34,17 @@ class Administrador(Empleado):
         procedimiento=self.__empresa.getter_procedimiento(id_procedimiento)
         muestra= lote.crear_muestra()
         fecha = date.today()
-        inspeccion= muestra.crear_inspeccion(fecha,profesional,equipo,procedimiento)
-        return muestra, inspeccion
+        
+        inspeccion= self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
+        
+        muestra.setter_inspeccion(inspeccion)
+        
+        profesional.asignar_inspeccion(inspeccion)
+        
+        return muestra
 
     def crear_procedimiento(self,tipo,*args,**kwargs):
-
+        tipo=tipo.upper()
         if tipo == "DIMENSIONAL":
             procedimiento = ProcedimientoDimensional(*args, **kwargs)
 
@@ -46,27 +52,27 @@ class Administrador(Empleado):
             procedimiento = ProcedimientoVisual(*args, **kwargs)
 
         else:
-            raise ValueError("Tipo de procedimiento inválido")
+            raise ValueError("Tipo de procedimiento inválido")#############ERROR A PERSONALIZARRRR
 
         if self.__empresa.getter_procedimiento(procedimiento.ID)!=None:
-            raise ValueError("Ya existe un procedimiento con ese ID")
+            raise ValueError("Ya existe un procedimiento con ese ID")###############ERROR A PERSONALIZARRR
 
         self.__procedimientos[procedimiento.ID] = procedimiento
 
         return procedimiento
 
-
-    def crear_inspeccion(self, fecha, profesional, equipo, procedimiento):
-            self.__inspeccion = Inspeccion(
-                self.__ID,
+    @staticmethod
+    def crear_inspeccion(muestra, fecha, profesional, equipo, procedimiento):
+            inspeccion = Inspeccion(
+                muestra.getter_ID(),
                 fecha,
                 profesional,
                 equipo,
                 procedimiento,
-                self
+                muestra
             )
 
-            return self.__inspeccion
+            return inspeccion
 
     def getter_empresa(self):
         return self.__empresa
