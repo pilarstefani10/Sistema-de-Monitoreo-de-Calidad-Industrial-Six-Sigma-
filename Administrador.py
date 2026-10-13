@@ -4,6 +4,10 @@ from datetime import date
 from Inspeccion import Inspeccion
 from ProcedimientoDimensional import ProcedimientoDimensional
 from ProcedimientoVisual import ProcedimientoVisual
+from Profesional import Profesional
+from Equipo import Equipo
+from Procedimiento import Procedimiento
+from datetime import date, timedelta
 
 class Administrador(Empleado):
     nextid = 1
@@ -34,6 +38,11 @@ class Administrador(Empleado):
         procedimiento=self.__empresa.getter_procedimiento(id_procedimiento)
         muestra= lote.crear_muestra(unidades)
         fecha = date.today()
+        self.validar_inspeccion(
+            fecha,
+            profesional,
+            equipo,
+            procedimiento)
         
         inspeccion= self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
         
@@ -73,6 +82,42 @@ class Administrador(Empleado):
             )
 
             return inspeccion
+
+    @staticmethod
+    def validar_inspeccion(fecha, profesional, equipo, procedimiento):
+
+        if not isinstance(fecha, date):
+            raise ValueError("La fecha debe ser de tipo date")
+
+        if not isinstance(profesional, Profesional):
+            raise ValueError("El profesional no es válido")
+
+        if not isinstance(equipo, Equipo):
+            raise ValueError("El equipo no es válido")
+
+        if not isinstance(procedimiento, Procedimiento):
+            raise ValueError("El procedimiento no es válido")
+
+        if not profesional.certificacion_vigente(
+            procedimiento.getter_certificacion_requerida(), fecha
+        ):
+            raise ValueError(
+                "El profesional no tiene la certificación vigente"
+            )
+
+        if not (
+            fecha - timedelta(days=182)
+            <= equipo.getter_ultima_calibracion()
+            <= fecha
+        ):
+            raise ValueError(
+                "El equipo no tiene una calibración vigente"
+            )
+
+        if equipo.getter_categoria() != procedimiento.getter_categoria_equipo():
+            raise ValueError(
+                "La categoría del equipo no coincide con el procedimiento"
+            )
 
     def getter_empresa(self):
         return self.__empresa

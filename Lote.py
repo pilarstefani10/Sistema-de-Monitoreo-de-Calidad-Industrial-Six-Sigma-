@@ -45,7 +45,7 @@ class Lote:
                                           1 if muestra.getter_estado()=="NO_CONFORME" 
                                           else 0 ,self.__muestras))
             
-            if cantidad_no_conformes/len(self.getter_muestras())>= 0.05:
+            if cantidad_no_conformes/len(self.getter_muestras())> 0.05:
                 self.setter_estado("RECHAZADO")
             else:
                 self.setter_estado("APROBADO")

@@ -10,6 +10,8 @@ class Procedimiento:
 
         elif not isinstance(certificacion_requerida, str) or certificacion_requerida == "":
             raise ValueError("La certificación requerida no puede estar vacía.")
+        if type(limite_gravedad) is not int or limite_gravedad <= 0:
+            raise ValueError("El límite de gravedad debe ser un entero positivo")
 
         else:
             self.__ID = "PR" + str(Procedimiento.nextid)

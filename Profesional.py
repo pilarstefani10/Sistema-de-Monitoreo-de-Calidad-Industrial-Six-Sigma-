@@ -26,6 +26,21 @@ class Profesional(Empleado):
     
 
     def asignar_inspeccion(self, inspeccion):
+        if inspeccion.getter_profesional() is not self:
+            raise ValueError(
+                "La inspección pertenece a otro profesional"
+            )
+
+        if inspeccion in self.getter_inspecciones_pendientes():
+            raise ValueError(
+                "La inspección ya está asignada"
+            )
+
+        if inspeccion.getter_muestra().getter_estado() != "PENDIENTE":
+            raise ValueError(
+                "La muestra no está pendiente"
+            )
+
         self.__cola_inspecciones.encolar(inspeccion)
 
     def siguiente_inspeccion(self):
