@@ -59,6 +59,9 @@ class Profesional(Empleado):
 
         return inspeccion
 
+    def calibrar_equipo(self, equipo, fecha):
+        equipo.calibrar(fecha)
+
     def getter_certificaciones(self):
         return self.__certificaciones.copy()
 

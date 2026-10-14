@@ -54,18 +54,16 @@ class Administrador(Empleado):
         profesional = self.__empresa.getter_profesional(id_profesional)
         equipo=self.__empresa.getter_equipo(id_equipo)
         procedimiento=self.__empresa.getter_procedimiento(id_procedimiento)
-        muestra= lote.crear_muestra(unidades)
         fecha = date.today()
         
         Inspeccion.validar(fecha, profesional, equipo, procedimiento)
 
         muestra = lote.crear_muestra(unidades)
-        inspeccion= self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
+        self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
         
         return muestra
 
-    @staticmethod
-    def crear_inspeccion(muestra, fecha, profesional, equipo, procedimiento):
+    def crear_inspeccion(self, muestra, fecha, profesional, equipo, procedimiento):
             inspeccion = Inspeccion(
                 muestra.getter_id(),
                 fecha,
@@ -80,6 +78,12 @@ class Administrador(Empleado):
 
             return inspeccion
 
+    def evaluar_lote(self, id_lote):
+        lote = self.__empresa.getter_lote(id_lote)
+        if lote is None:
+            raise ValueError("No existe un lote con ese ID")
+        lote.decidir_estado()
+        return lote.getter_estado()
 
     def getter_empresa(self):
         return self.__empresa
