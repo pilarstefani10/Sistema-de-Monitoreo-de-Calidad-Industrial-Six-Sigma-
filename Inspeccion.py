@@ -5,8 +5,6 @@ from Procedimiento import Procedimiento
 
 class Inspeccion:
 
-    inspecciones = []
-
     def __init__(self, ID, fecha, profesional, equipo, procedimiento, muestra):
         
         Inspeccion.validar(fecha, profesional, equipo, procedimiento)

@@ -7,7 +7,6 @@ from ProcedimientoVisual import ProcedimientoVisual
 from Profesional import Profesional
 from Equipo import Equipo
 from Procedimiento import Procedimiento
-from datetime import date, timedelta
 
 class Administrador(Empleado):
     nextid = 1

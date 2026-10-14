@@ -33,7 +33,7 @@ class Lote:
                 self.__muestras.append(muestra)
                 return muestra
        else:
-           return None
+           raise ValueError("El lote " + self.__ID + " ya fue evaluado: no se le pueden agregar muestras.")
 
     def decidir_estado(self):
         if self.__estado != "PENDIENTE":
