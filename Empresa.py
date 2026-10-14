@@ -41,14 +41,23 @@ class Empresa:
 
         self.__procedimientos[procedimiento.getter_id()] = procedimiento
 
-    def getter_lote(self, ID):
-        return self.__lotes.get(ID)
+    @staticmethod
+    def buscar(diccionario, ID, tipo):
+        if ID not in diccionario:
+            raise ValueError("No existe un " + tipo + " con el ID " + str(ID) + ".")
+        return diccionario[ID]
 
-    def getter_profesional(self, ID):
-        return self.__profesionales.get(ID)
+    def buscar_lote(self, ID):
+        return Empresa.buscar(self.__lotes, ID, "lote")
 
-    def getter_equipo(self, ID):
-        return self.__equipos.get(ID)
+    def buscar_profesional(self, ID):
+        return Empresa.buscar(self.__profesionales, ID, "profesional")
 
-    def getter_procedimiento(self, ID):
-        return self.__procedimientos.get(ID)
+    def buscar_equipo(self, ID):
+        return Empresa.buscar(self.__equipos, ID, "equipo")
+
+    def buscar_procedimiento(self, ID):
+        return Empresa.buscar(self.__procedimientos, ID, "procedimiento")
+
+    def getter_equipos(self):
+        return list(self.__equipos.values())
