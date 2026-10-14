@@ -11,11 +11,10 @@ class Profesional(Empleado):
         self.__certificaciones = []
         self.__cola_inspecciones=Cola()
 
-    def agregar_certificacion(self, certificacion):
-        if not isinstance(certificacion, Certificacion):
-            raise ValueError("El objeto proporcionado no es una instancia de la clase Certificacion.")
+    def agregar_certificacion(self, nombre, fecha_inicio, fecha_vencimiento):
+        certificacion = Certificacion(nombre, fecha_inicio, fecha_vencimiento)
         self.__certificaciones.append(certificacion)
-
+        return certificacion
 
     def certificacion_vigente(self, nombre_certificacion, fecha):
         return any(map(lambda cert: cert.getter_nombre() == nombre_certificacion and cert.esta_vigente(fecha),self.__certificaciones))

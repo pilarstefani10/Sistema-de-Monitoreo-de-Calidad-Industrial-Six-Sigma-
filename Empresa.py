@@ -61,3 +61,25 @@ class Empresa:
 
     def getter_equipos(self):
         return list(self.__equipos.values())
+
+    def getter_lotes(self):
+        return list(self.__lotes.values())
+
+    def getter_profesionales(self):
+        return list(self.__profesionales.values())
+
+    def getter_procedimientos(self):
+        return list(self.__procedimientos.values())
+
+    def buscar_empleado(self, nombre, ID):
+        if ID in self.__profesionales:
+            empleado = self.__profesionales[ID]
+        elif ID in self.__administradores:
+            empleado = self.__administradores[ID]
+        else:
+            raise ValueError("No existe un empleado con el ID " + str(ID) + ".")
+
+        if empleado.getter_nombre() != nombre:
+            raise ValueError("El nombre no coincide con el ID ingresado.")
+
+        return empleado

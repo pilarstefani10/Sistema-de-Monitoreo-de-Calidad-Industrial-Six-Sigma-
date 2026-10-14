@@ -48,13 +48,7 @@ def crear_datos_base(resultados, limite_gravedad=5):
 
     profesional = Profesional("Ana Perez")
 
-    certificacion = Certificacion(
-        "Control de leche",
-        date(2026, 1, 1),
-        date(2027, 1, 1)
-    )
-
-    profesional.agregar_certificacion(certificacion)
+    profesional.agregar_certificacion("Control de leche", date(2026, 1, 1), date(2027, 1, 1))
 
     equipo = Equipo(
         "volumen",

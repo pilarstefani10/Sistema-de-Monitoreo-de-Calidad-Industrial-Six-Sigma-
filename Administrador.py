@@ -77,7 +77,7 @@ class Administrador(Empleado):
             return inspeccion
 
     def evaluar_lote(self, id_lote):
-        lote = self.__empresa.getter_lote(id_lote)
+        lote = self.__empresa.buscar_lote(id_lote)
         lote.decidir_estado()
         return lote.getter_estado()
 
