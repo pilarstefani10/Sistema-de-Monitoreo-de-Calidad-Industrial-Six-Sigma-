@@ -22,6 +22,7 @@ class Empresa:
             raise ValueError("ID de profesional duplicado")
 
         self.__profesionales[profesional.getter_id()] = profesional
+        
 
     def registrar_administrador(self, administrador):
         if administrador.getter_id() in self.__administradores:
