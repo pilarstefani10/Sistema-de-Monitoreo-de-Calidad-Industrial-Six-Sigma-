@@ -6,7 +6,6 @@ from ProcedimientoDimensional import ProcedimientoDimensional
 from ProcedimientoVisual import ProcedimientoVisual
 from Profesional import Profesional
 from Equipo import Equipo
-from Procedimiento import Procedimiento
 
 class Administrador(Empleado):
     nextid = 1
@@ -31,9 +30,6 @@ class Administrador(Empleado):
         equipo = Equipo(categoria, ultima_calibracion)
         self.__empresa.registrar_equipo(equipo)
         return equipo
-
-    def registrar_procedimiento(self, procedimiento):
-        self.__empresa.registrar_procedimiento(procedimiento)
 
     def crear_procedimiento(self,tipo,*args,**kwargs):
         tipo=tipo.upper()

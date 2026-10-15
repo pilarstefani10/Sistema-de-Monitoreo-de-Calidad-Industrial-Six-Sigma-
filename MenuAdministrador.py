@@ -1,3 +1,5 @@
+from datetime import date
+
 class MenuAdministrador:
 
     def __init__(self, empresa, administrador):
@@ -15,6 +17,8 @@ class MenuAdministrador:
             print("   2. Crear lote")
             print("   3. Crear muestra y asignar inspección")
             print("   4. Evaluar lote")
+            print("   5. Dar de alta un profesional")
+            print("   6. Dar de alta un equipo")
             print("   0. Salir\n")
 
             opcion = input("Opción: ")
@@ -28,6 +32,10 @@ class MenuAdministrador:
                     self.crear_muestra()
                 elif opcion == "4":
                     self.evaluar_lote()
+                elif opcion == "5":
+                    self.crear_profesional()
+                elif opcion == "6":
+                    self.crear_equipo()                
                 elif opcion == "0":
                     print("\nSesión finalizada.\n")
                 else:
@@ -83,6 +91,25 @@ class MenuAdministrador:
         estado = self.__administrador.evaluar_lote(id_lote)
         print("\nEl lote", id_lote, "quedó", estado)
 
+    def crear_profesional(self):
+        nombre = input("\nNombre del profesional: ")
+        profesional = self.__administrador.crear_profesional(nombre)
+        print("\nProfesional creado:", profesional.getter_nombre(), "- ID:", profesional.getter_id())
+
+    def crear_equipo(self):
+        categoria = input("\nCategoría del equipo: ")
+        ultima_calibracion = self.pedir_fecha("Fecha de la última calibración:")
+        equipo = self.__administrador.crear_equipo(categoria, ultima_calibracion)
+        print("\nEquipo creado:", equipo.getter_id(), "-", equipo.getter_categoria())
+
+    @staticmethod
+    def pedir_fecha(mensaje):
+        print(mensaje)
+        dia = int(input("  Día: "))
+        mes = int(input("  Mes: "))
+        anio = int(input("  Año: "))
+        return date(anio, mes, dia)
+    
     @staticmethod
     def pedir_entero(mensaje):
         texto = input(mensaje)
