@@ -22,11 +22,15 @@ class Administrador(Empleado):
         self.__empresa.registrar_lote(lote)
         return lote
 
-    def registrar_profesional(self, profesional):
+    def crear_profesional(self, nombre):
+        profesional = Profesional(nombre)
         self.__empresa.registrar_profesional(profesional)
+        return profesional
 
-    def registrar_equipo(self, equipo):
+    def crear_equipo(self, categoria, ultima_calibracion):
+        equipo = Equipo(categoria, ultima_calibracion)
         self.__empresa.registrar_equipo(equipo)
+        return equipo
 
     def registrar_procedimiento(self, procedimiento):
         self.__empresa.registrar_procedimiento(procedimiento)

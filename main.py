@@ -1,10 +1,9 @@
 from datetime import date
 from Empresa import Empresa
 from Administrador import Administrador
-from Profesional import Profesional
-from Equipo import Equipo
 from MenuAdministrador import MenuAdministrador
 from MenuProfesional import MenuProfesional
+
 
 
 # ---------- Datos iniciales ----------
@@ -12,16 +11,14 @@ from MenuProfesional import MenuProfesional
 empresa = Empresa("QuantumTech Precision")
 admin = Administrador("Carla Diaz", empresa)
 
-ana = Profesional("Ana Perez")
-luis = Profesional("Luis Gomez")
-admin.registrar_profesional(ana)
-admin.registrar_profesional(luis)
+ana = admin.crear_profesional("Ana Perez")
+luis = admin.crear_profesional("Luis Gomez")
 
 ana.agregar_certificacion("Control de leche", date(2026, 1, 1), date(2027, 1, 1))
 luis.agregar_certificacion("Control de leche", date(2026, 1, 1), date(2027, 1, 1))
 
-admin.registrar_equipo(Equipo("volumen", date(2026, 8, 1)))
-admin.registrar_equipo(Equipo("volumen", date(2025, 1, 1)))
+admin.crear_equipo("volumen", date(2026, 8, 1))
+admin.crear_equipo("volumen", date(2025, 1, 1))
 
 admin.crear_procedimiento(
     "dimensional",
