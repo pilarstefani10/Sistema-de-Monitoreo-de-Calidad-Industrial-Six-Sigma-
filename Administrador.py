@@ -6,6 +6,7 @@ from ProcedimientoDimensional import ProcedimientoDimensional
 from ProcedimientoVisual import ProcedimientoVisual
 from Profesional import Profesional
 from Equipo import Equipo
+from Muestra import Muestra
 
 class Administrador(Empleado):
     nextid = 1
@@ -55,7 +56,10 @@ class Administrador(Empleado):
         
         Inspeccion.validar(fecha, profesional, equipo, procedimiento)
 
-        muestra = lote.crear_muestra(unidades)
+        lote.validar_extraccion(unidades)
+        muestra = Muestra(lote.proximo_id_muestra(), unidades, lote)
+        lote.agregar_muestra(muestra)
+
         self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
         
         return muestra
@@ -77,8 +81,9 @@ class Administrador(Empleado):
 
     def evaluar_lote(self, id_lote):
         lote = self.__empresa.buscar_lote(id_lote)
-        lote.decidir_estado()
-        return lote.getter_estado()
+        resultado = lote.resultado_segun_criterio()
+        lote.registrar_resultado(resultado)
+        return resultado
 
     def getter_empresa(self):
         return self.__empresa

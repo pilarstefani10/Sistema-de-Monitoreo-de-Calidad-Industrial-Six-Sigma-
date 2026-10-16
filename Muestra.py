@@ -8,7 +8,7 @@ class Muestra:
 
     def __init__(self, ID, unidades_representadas, lote):
 
-        if unidades_representadas <= 0 or not isinstance(unidades_representadas, int):
+        if not isinstance(unidades_representadas, int) or unidades_representadas <= 0:
             raise ValueError(
                 "Las unidades representadas deben ser enteros mayores a cero"
             )

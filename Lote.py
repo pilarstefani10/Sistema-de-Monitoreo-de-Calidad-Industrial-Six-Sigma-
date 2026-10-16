@@ -17,42 +17,52 @@ class Lote:
         self.__muestras = []
         self.__cantidad_muestrada=0
 
-    def crear_muestra(self,u):
-       if self.getter_estado() == "PENDIENTE":
-        if not isinstance(u,int) or u<=0 or u>(self.__cantidad_fabricada - self.__cantidad_muestrada):
-                raise ValueError("No se puede crear una muestra con esa cantidad de unidades")#######ERROR A PERSONALIZARRRRR
-        else:
-                cantidad_muestra = u
-                self.__cantidad_muestrada+=u
-                
-                muestra = Muestra(
-                    str(self.__ID) +"M" + str(len(self.__muestras) + 1),
-                    cantidad_muestra,
-                    self)
+    def proximo_id_muestra(self):
+        return self.__ID + "M" + str(len(self.__muestras) + 1)
 
-                self.__muestras.append(muestra)
-                return muestra
-       else:
-           raise ValueError("El lote " + self.__ID + " ya fue evaluado: no se le pueden agregar muestras.")
+    def validar_extraccion(self, unidades):
+        disponibles = self.__cantidad_fabricada - self.__cantidad_muestrada
 
-    def decidir_estado(self):
         if self.__estado != "PENDIENTE":
-            raise ValueError("El lote ya fue decidido")
-        if not self.__muestras or not self.muestras_cerradas():
-            raise ValueError("El lote tiene muestras pendientes")
-        if self.muestras_cerradas():
-            cantidad_no_conformes=sum(map(lambda muestra: 
-                                          1 if muestra.getter_estado()=="NO_CONFORME" 
-                                          else 0 ,self.__muestras))
-            
-            if cantidad_no_conformes/len(self.getter_muestras())> 0.05:
-                self.setter_estado("RECHAZADO")
-            else:
-                self.setter_estado("APROBADO")
-        else:
-            raise ValueError("Las muestras no han sido cerradas por completo")##########ERROR A PERSONALIZARRRRR
-    
-    
+            raise ValueError("El lote " + self.__ID + " ya fue evaluado: no se le pueden extraer muestras.")
+        if not isinstance(unidades, int) or unidades <= 0:
+            raise ValueError("Las unidades de la muestra deben ser un entero mayor a cero.")
+        if unidades > disponibles:
+            raise ValueError("El lote " + self.__ID + " solo tiene " + str(disponibles) + " unidades disponibles.")
+
+    def agregar_muestra(self, muestra):
+        self.validar_extraccion(muestra.getter_unidadesrepresentadas())
+
+        if muestra.getter_lote() is not self:
+            raise ValueError("La muestra pertenece a otro lote.")
+        if muestra in self.__muestras:
+            raise ValueError("La muestra ya está en el lote.")
+
+        self.__cantidad_muestrada += muestra.getter_unidadesrepresentadas()
+        self.__muestras.append(muestra)
+
+
+    def resultado_segun_criterio(self):
+        if not self.__muestras:
+            raise ValueError("El lote " + self.__ID + " no tiene muestras.")
+        if not self.muestras_cerradas():
+            raise ValueError("El lote " + self.__ID + " tiene muestras sin inspeccionar.")
+
+        no_conformes = len(list(filter(lambda muestra: muestra.getter_estado() == "NO_CONFORME", self.__muestras)))
+
+        if no_conformes / len(self.__muestras) > 0.05:
+            return "RECHAZADO"
+        return "APROBADO"
+
+    def registrar_resultado(self, resultado):
+        if self.__estado != "PENDIENTE":
+            raise ValueError("El lote " + self.__ID + " ya fue evaluado.")
+        if resultado != self.resultado_segun_criterio():
+            raise ValueError("El resultado no coincide con el criterio de aceptación del lote.")
+
+        self.__estado = resultado
+
+
     def muestras_cerradas(self):
         return all(map(lambda muestra: True if muestra.getter_estado() in ("CONFORME", "NO_CONFORME") else False, self.__muestras))
 
