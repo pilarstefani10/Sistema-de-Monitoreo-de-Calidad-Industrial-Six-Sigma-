@@ -66,9 +66,6 @@ class Lote:
     def muestras_cerradas(self):
         return all(map(lambda muestra: True if muestra.getter_estado() in ("CONFORME", "NO_CONFORME") else False, self.__muestras))
 
-    def setter_estado(self, e):
-        self.__estado=e
-
     def getter_estado(self):
         return self.__estado
 
