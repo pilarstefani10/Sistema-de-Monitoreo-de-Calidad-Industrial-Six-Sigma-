@@ -1,7 +1,3 @@
-from datetime import date
-from Profesional import Profesional
-from Muestra import Muestra
-from Lote import Lote
 
 class Reporte:
 

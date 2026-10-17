@@ -46,22 +46,12 @@ class Inspeccion:
     def __str__(self):
         return f"Inspección {self.__ID} - Fecha: {self.__fecha} - Profesional: {self.__profesional.getter_nombre()} - Equipo: {self.__equipo.getter_id()} - Procedimiento: {self.__procedimiento.getter_nombre()} - Muestra: {self.__muestra.getter_id()}"
 
-
-    def ejecutar(self):
-        cantidad = self.__muestra.getter_unidadesrepresentadas()
-
-        resultados = map(lambda _: self.__procedimiento.evaluar_unidad(),range(cantidad))
-        
-        defectos = list(filter(lambda defecto: defecto is not None,resultados))
-        
-        self.__muestra.iniciar_inspeccion()
-        self.__muestra.registrar_defectos(defectos)
-        self.__muestra.cerrar()
-
-        if self.__muestra.getter_estado() == "NO_CONFORME":
-            from Reporte import Reporte
-            self.__reporte = Reporte(self.__ID + "R", self)
-       
+    def registrar_reporte(self, reporte):
+        if self.__muestra.getter_estado() != "NO_CONFORME":
+            raise ValueError("Solo se registran reportes de muestras No Conformes.")
+        if self.__reporte is not None:
+            raise ValueError("La inspección ya tiene un reporte.")
+        self.__reporte = reporte
 
     def conformidad(self):
         defectos = self.__muestra.getter_defectos()

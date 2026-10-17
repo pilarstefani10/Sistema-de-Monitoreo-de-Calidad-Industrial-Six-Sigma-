@@ -1,6 +1,7 @@
 from Certificacion import Certificacion
 from Empleado import Empleado
 from Cola_Inspecciones import Cola
+from Reporte import Reporte
 
 class Profesional(Empleado):
     nextid = 1
@@ -52,7 +53,18 @@ class Profesional(Empleado):
         if inspeccion is None:
             raise ValueError("No hay inspecciones pendientes")############ERROR A PERSONALIZARRRRRR
 
-        inspeccion.ejecutar()
+        muestra = inspeccion.getter_muestra()
+        procedimiento = inspeccion.getter_procedimiento()
+
+        resultados = map(lambda _: procedimiento.evaluar_unidad(), range(muestra.getter_unidadesrepresentadas()))
+        defectos = list(filter(lambda defecto: defecto is not None, resultados))
+
+        muestra.iniciar_inspeccion()
+        muestra.registrar_defectos(defectos)
+        muestra.cerrar()
+
+        if muestra.getter_estado() == "NO_CONFORME":
+            inspeccion.registrar_reporte(Reporte(inspeccion.getter_id() + "R", inspeccion))
 
         self.__cola_inspecciones.desencolar()
 
