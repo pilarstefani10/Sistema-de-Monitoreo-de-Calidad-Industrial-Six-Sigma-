@@ -24,7 +24,7 @@ admin.crear_procedimiento(
     "dimensional",
     nombre="Control de volumen",
     categoria_equipo_requerida="volumen",
-    certificacion_requerida="Control de leche",
+    certificaciones_requeridas={"Control de leche"},
     limite_gravedad=3,
     valor_esperado=1000.0,
     tolerancia=5.0,
@@ -36,7 +36,7 @@ admin.crear_procedimiento(
     "visual",
     nombre="Control de envase",
     categoria_equipo_requerida="volumen",
-    certificacion_requerida="Control de leche",
+    certificaciones_requeridas={"Control de leche"},
     probabilidad=0.1,
     zonas_posibles=["tapa", "base", "etiqueta"],
     descripciones=["Fisura", "Abolladura", "Mancha"]

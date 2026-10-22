@@ -15,7 +15,7 @@ class ProcedimientoDimensional(Procedimiento):
             
             super().__init__(kwargs_config_proc["nombre"],
                 kwargs_config_proc["categoria_equipo_requerida"],
-                kwargs_config_proc["certificacion_requerida"],
+                kwargs_config_proc["certificaciones_requeridas"],
                 kwargs_config_proc["limite_gravedad"])
 
             self.__valor_esperado = kwargs_config_proc["valor_esperado"]
@@ -66,7 +66,7 @@ class ProcedimientoDimensional(Procedimiento):
         if diferencia > self.__tolerancia:
             gravedad = self.calcular_gravedad(diferencia)
             defecto = Defecto(
-                    tipo="Desviación Dimensional",
+                    tipo="Desviación " + ("leve", "moderada", "seria", "severa", "crítica")[gravedad - 1],
                     descripcion=f"Medida {observacion:.4f} excedió la tolerancia por {diferencia:.4f}",
                     gravedad=gravedad
                 )

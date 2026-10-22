@@ -1,9 +1,9 @@
 from datetime import date
-
+from Lista_Enlazada_Fechas_Calibracion import Lista_Calibraciones
 class Equipo:
     nextid = 1
 
-    def __init__(self, categoria, ultima_calibracion):
+    def __init__(self, categoria, ultima_calibracion=None):
 
         if not isinstance(ultima_calibracion, date):
             raise ValueError("La ultima calibración debe ser un objeto de tipo date.")
@@ -12,7 +12,10 @@ class Equipo:
             raise ValueError("La categoria del equipo no puede estar vacía.")
 
         else: 
-            self.__ultima_calibracion = ultima_calibracion
+            self.__historial_calibraciones= Lista_Calibraciones()
+            if ultima_calibracion is not None:
+                self.__historial_calibraciones.agregar_ordenado(ultima_calibracion)
+
             self.__ID = "E" + str(Equipo.nextid)
             Equipo.nextid += 1
             self.__categoria = categoria.lower() 
@@ -25,8 +28,21 @@ class Equipo:
         else:
             self.__ultima_calibracion = fecha_calibracion
 
-    def getter_ultima_calibracion(self):
-        return self.__ultima_calibracion
+        
+    def registrar_calibracion(self, fecha):
+        if not isinstance(fecha, date):
+            raise ValueError("La fecha de calibración debe ser válida")
+
+        if self.__historial_calibraciones.buscar(fecha):
+            raise ValueError("La calibración ya está registrada")
+
+        self.__historial_calibraciones.agregar_ordenado(fecha)
+
+    def eliminar_calibracion(self, fecha):
+        return self.__historial_calibraciones.eliminar_buscando(fecha)
+
+    def getter_ultimacalibracion(self):
+        return self.__historial_calibraciones.obtener_ultimo()
 
     def getter_categoria(self):
         return self.__categoria

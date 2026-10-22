@@ -8,7 +8,7 @@ class ProcedimientoVisual(Procedimiento):
             raise ValueError ("La probabilidad de ocurrencia de un Defecto Visual debe ser un numero entre 0 y 1")########ERROR A PERSONALIZAR
         super().__init__(kwargs_config_proc["nombre"]
                         , kwargs_config_proc["categoria_equipo_requerida"]
-                        , kwargs_config_proc["certificacion_requerida"]
+                        , kwargs_config_proc["certificaciones_requeridas"]
                         , kwargs_config_proc.get("limite_gravedad", 5))#Como para visual no hace falta el límite de gravedad
         
         self.__descripciones= kwargs_config_proc["descripciones"]
