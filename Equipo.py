@@ -54,6 +54,9 @@ class Equipo:
     def getter_id(self):
         return self.__ID
 
+    def getter_ultima_calibracion(self):
+        return self.getter_ultimacalibracion()
+
         
 
     

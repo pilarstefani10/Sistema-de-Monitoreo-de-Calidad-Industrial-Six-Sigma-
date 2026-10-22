@@ -36,7 +36,8 @@ class Inspeccion:
         if faltantes:
             raise ValueError("Al profesional " + profesional.getter_nombre() + " le faltan las certificaciones: " + ", ".join(sorted(faltantes)))
 
-        if not (fecha - timedelta(days=182) <= equipo.getter_ultima_calibracion() <= fecha):
+
+        if not equipo.calibracion_vigente(fecha):
             raise ValueError("El equipo no tiene una calibración vigente")
 
         if equipo.getter_categoria() != procedimiento.getter_categoria_equipo():

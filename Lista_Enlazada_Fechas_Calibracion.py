@@ -15,19 +15,26 @@ class Lista_Calibraciones(Lista):
             self.cabeza = nuevo_nodo
             self.ultimo = nuevo_nodo
 
-        elif dato < self.cabeza.dato:
-            nuevo_nodo.siguiente = self.cabeza
+
+        elif dato < self.cabeza.getter_dato():
+            nuevo_nodo.setter_siguiente(self.cabeza)
             self.cabeza = nuevo_nodo
 
         else:
             actual = self.cabeza
 
-            while (actual.siguiente is not None
-                   and actual.siguiente.dato <= dato):
-                actual = actual.siguiente
 
-            nuevo_nodo.siguiente = actual.siguiente
-            actual.siguiente = nuevo_nodo
+            while (actual.getter_siguiente() is not None
+                    and actual.getter_siguiente().getter_dato() <= dato):
+                actual = actual.getter_siguiente()
+
+            nuevo_nodo.setter_siguiente(actual.getter_siguiente())
+            actual.setter_siguiente(nuevo_nodo)
+
+
+
+
+
 
             if nuevo_nodo.siguiente is None:
                 self.ultimo = nuevo_nodo
