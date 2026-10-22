@@ -42,7 +42,8 @@ def crear_inspeccion():
         equipo.getter_categoria.return_value = "dimensional"
 
         procedimiento = Mock(spec=Procedimiento)
-        procedimiento.getter_certificaciones_requeridas.return_value = {"Metrologia"}        procedimiento.getter_categoria_equipo.return_value = "dimensional"
+        procedimiento.getter_certificaciones_requeridas.return_value = {"Metrologia"}        
+        procedimiento.getter_categoria_equipo.return_value = "dimensional"
         procedimiento.getter_limitegravedad.return_value = limite
 
         if resultados is None:

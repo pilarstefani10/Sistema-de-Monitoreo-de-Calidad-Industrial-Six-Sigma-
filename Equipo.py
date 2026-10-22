@@ -5,7 +5,7 @@ class Equipo:
 
     def __init__(self, categoria, ultima_calibracion=None):
 
-        if not isinstance(ultima_calibracion, date):
+        if ultima_calibracion is not None and not isinstance(ultima_calibracion, date):
             raise ValueError("La ultima calibración debe ser un objeto de tipo date.")
 
         elif not isinstance(categoria, str) or categoria == "":
@@ -20,16 +20,7 @@ class Equipo:
             Equipo.nextid += 1
             self.__categoria = categoria.lower() 
 
-    def calibrar(self, fecha_calibracion):
-        if not isinstance(fecha_calibracion, date):
-            raise ValueError("La fecha de calibración debe ser un objeto de tipo date.")
-        elif fecha_calibracion < self.__ultima_calibracion:
-            raise ValueError("La nueva fecha de calibración no puede ser anterior a la última calibración.")
-        else:
-            self.__ultima_calibracion = fecha_calibracion
-
-        
-    def registrar_calibracion(self, fecha):
+    def calibrar(self, fecha):
         if not isinstance(fecha, date):
             raise ValueError("La fecha de calibración debe ser válida")
 
@@ -40,7 +31,7 @@ class Equipo:
 
     
     def calibracion_vigente(self, fecha_inspeccion):
-        ultima = self.getter_ultima_calibracion()
+        ultima = self.getter_ultimacalibracion()
 
         if ultima is None:
             return False

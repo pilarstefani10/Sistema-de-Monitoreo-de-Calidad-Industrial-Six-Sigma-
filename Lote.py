@@ -1,5 +1,6 @@
  
 from Muestra import Muestra
+from ProcedimientoDimensional import ProcedimientoDimensional
 
 class Lote:
     nextid = 1
@@ -66,6 +67,14 @@ class Lote:
     def muestras_cerradas(self):
         return all(map(lambda muestra: True if muestra.getter_estado() in ("CONFORME", "NO_CONFORME") else False, self.__muestras))
 
+    def tipos_defectos_dimensionales(self):
+        tipos = set()
+        for muestra in self.__muestras:
+            inspeccion = muestra.getter_inspeccion()
+            if inspeccion is not None and isinstance(inspeccion.getter_procedimiento(), ProcedimientoDimensional):
+                tipos.update(map(lambda defecto: defecto.getter_tipo(), muestra.getter_defectos()))
+        return tipos
+
     def getter_estado(self):
         return self.__estado
 
@@ -74,3 +83,4 @@ class Lote:
 
     def getter_id(self):
         return self.__ID
+    

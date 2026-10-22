@@ -19,6 +19,7 @@ class MenuAdministrador:
             print("   4. Evaluar lote")
             print("   5. Dar de alta un profesional")
             print("   6. Dar de alta un equipo")
+            print("   7. Comparar defectos dimensionales de dos lotes")
             print("   0. Salir\n")
 
             opcion = input("Opción: ")
@@ -35,7 +36,9 @@ class MenuAdministrador:
                 elif opcion == "5":
                     self.crear_profesional()
                 elif opcion == "6":
-                    self.crear_equipo()                
+                    self.crear_equipo()   
+                elif opcion == "7":
+                      self.comparar_lotes()             
                 elif opcion == "0":
                     print("\nSesión finalizada.\n")
                 else:
@@ -101,6 +104,15 @@ class MenuAdministrador:
         ultima_calibracion = self.pedir_fecha("Fecha de la última calibración:")
         equipo = self.__administrador.crear_equipo(categoria, ultima_calibracion)
         print("\nEquipo creado:", equipo.getter_id(), "-", equipo.getter_categoria())
+
+    def comparar_lotes(self):
+        self.ver_lotes()
+        id_lote1 = input("\nID del primer lote: ")
+        id_lote2 = input("ID del segundo lote: ")
+        ambos, solo1, solo2 = self.__administrador.comparar_lotes(id_lote1, id_lote2)
+        print("\nEn ambos:", ambos)
+        print("Solo en", id_lote1, ":", solo1)
+        print("Solo en", id_lote2, ":", solo2)   
 
     @staticmethod
     def pedir_fecha(mensaje):

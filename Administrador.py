@@ -85,6 +85,13 @@ class Administrador(Empleado):
         lote.registrar_resultado(resultado)
         return resultado
 
+    def comparar_lotes(self, id_lote1, id_lote2):
+        if id_lote1 == id_lote2:
+            raise ValueError("Debe elegir dos lotes distintos.")
+        tipos1 = self.__empresa.buscar_lote(id_lote1).tipos_defectos_dimensionales()
+        tipos2 = self.__empresa.buscar_lote(id_lote2).tipos_defectos_dimensionales()
+        return tipos1 & tipos2, tipos1 - tipos2, tipos2 - tipos1
+
     def getter_empresa(self):
         return self.__empresa
 
