@@ -5,6 +5,9 @@ class Lista_Calibraciones(Lista):
         super().__init__()
         self.ultimo=None
 
+    def es_vacia(self):
+        return super().es_vacia()  and self.ultimo==None
+    
     def agregar_ordenado(self, dato):
         nuevo_nodo = Nodo(dato)
 

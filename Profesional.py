@@ -17,9 +17,9 @@ class Profesional(Empleado):
         self.__certificaciones.append(certificacion)
         return certificacion
 
-    def certificacion_vigente(self, nombre_certificacion, fecha):
-        return any(map(lambda cert: cert.getter_nombre() == nombre_certificacion and cert.esta_vigente(fecha),self.__certificaciones))
-        
+    def certificaciones_faltantes(self, requeridas, fecha):
+        vigentes = set(map(lambda cert: cert.getter_nombre(), filter(lambda cert: cert.esta_vigente(fecha), self.__certificaciones)))
+        return requeridas - vigentes        
 
     def __str__(self):
         return f"Profesional: {self.getter_nombre()}, ID: {self.getter_id()}, Certificaciones: {[cert.getter_nombre() for cert in self.__certificaciones]}"  

@@ -32,10 +32,9 @@ class Inspeccion:
         if not isinstance(procedimiento, Procedimiento):
             raise ValueError("El procedimiento no es válido")
 
-        if not profesional.certificacion_vigente(
-            procedimiento.getter_certificacion_requerida(), fecha
-        ):
-            raise ValueError("El profesional no tiene la certificación vigente")
+        faltantes = profesional.certificaciones_faltantes(procedimiento.getter_certificaciones_requeridas(), fecha)
+        if faltantes:
+            raise ValueError("Al profesional " + profesional.getter_nombre() + " le faltan las certificaciones: " + ", ".join(sorted(faltantes)))
 
         if not (fecha - timedelta(days=182) <= equipo.getter_ultima_calibracion() <= fecha):
             raise ValueError("El equipo no tiene una calibración vigente")

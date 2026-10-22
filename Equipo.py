@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date,timedelta
 from Lista_Enlazada_Fechas_Calibracion import Lista_Calibraciones
 class Equipo:
     nextid = 1
@@ -37,6 +37,19 @@ class Equipo:
             raise ValueError("La calibración ya está registrada")
 
         self.__historial_calibraciones.agregar_ordenado(fecha)
+
+    
+    def calibracion_vigente(self, fecha_inspeccion):
+        ultima = self.getter_ultima_calibracion()
+
+        if ultima is None:
+            return False
+
+        return (
+            fecha_inspeccion - timedelta(days=182)
+            <= ultima <= fecha_inspeccion
+        )
+
 
     def eliminar_calibracion(self, fecha):
         return self.__historial_calibraciones.eliminar_buscando(fecha)
