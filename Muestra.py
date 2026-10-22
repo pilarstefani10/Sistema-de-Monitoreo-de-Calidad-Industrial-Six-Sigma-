@@ -1,9 +1,5 @@
 from Defecto import Defecto
 from Inspeccion import Inspeccion
-from Profesional import Profesional
-from Equipo import Equipo
-from Procedimiento import Procedimiento
-from datetime import date
 class Muestra:
 
     def __init__(self, ID, unidades_representadas, lote):

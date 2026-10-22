@@ -54,12 +54,12 @@ class Profesional(Empleado):
             raise ValueError("No hay inspecciones pendientes")############ERROR A PERSONALIZARRRRRR
 
         muestra = inspeccion.getter_muestra()
+        muestra.iniciar_inspeccion()
         procedimiento = inspeccion.getter_procedimiento()
 
         resultados = map(lambda _: procedimiento.evaluar_unidad(), range(muestra.getter_unidadesrepresentadas()))
         defectos = list(filter(lambda defecto: defecto is not None, resultados))
 
-        muestra.iniciar_inspeccion()
         muestra.registrar_defectos(defectos)
         muestra.cerrar()
 
