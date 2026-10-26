@@ -1,8 +1,9 @@
+from Excepciones import DatosInvalidosError
 class Empresa:
 #La idea es que haya una única empresa o instancia que funcionará como un repertorio universal donde se añaden todos los profesionales, lotes, procedimientos, equipos y certificaciones
     def __init__(self, nombre):
         if not nombre:
-            raise ValueError("El nombre no puede estar vacío")
+            raise DatosInvalidosError("El nombre no puede estar vacío")
 
         self.__nombre = nombre
         self.__lotes = {}#Combiene más en diccionarios separados porque sino sería un diccionarios con listas
@@ -13,39 +14,39 @@ class Empresa:
 
     def registrar_lote(self, lote):
         if lote.getter_id() in self.__lotes:
-            raise ValueError("ID de lote duplicado")
+            raise DatosInvalidosError("ID de lote duplicado")
 
         self.__lotes[lote.getter_id()] = lote
 
     def registrar_profesional(self, profesional):
         if profesional.getter_id() in self.__profesionales:
-            raise ValueError("ID de profesional duplicado")
+            raise DatosInvalidosError("ID de profesional duplicado")
 
         self.__profesionales[profesional.getter_id()] = profesional
         
 
     def registrar_administrador(self, administrador):
         if administrador.getter_id() in self.__administradores:
-            raise ValueError("ID de administrador duplicado")
+            raise DatosInvalidosError("ID de administrador duplicado")
 
         self.__administradores[administrador.getter_id()] = administrador
 
     def registrar_equipo(self, equipo):
         if equipo.getter_id() in self.__equipos:
-            raise ValueError("ID de equipo duplicado")
+            raise DatosInvalidosError("ID de equipo duplicado")
 
         self.__equipos[equipo.getter_id()] = equipo
 
     def registrar_procedimiento(self, procedimiento):
         if procedimiento.getter_id() in self.__procedimientos:
-            raise ValueError("ID de procedimiento duplicado")
+            raise DatosInvalidosError("ID de procedimiento duplicado")
 
         self.__procedimientos[procedimiento.getter_id()] = procedimiento
 
     @staticmethod
     def buscar(diccionario, ID, tipo):
         if ID not in diccionario:
-            raise ValueError("No existe un " + tipo + " con el ID " + str(ID) + ".")
+            raise DatosInvalidosError("No existe un " + tipo + " con el ID " + str(ID) + ".")
         return diccionario[ID]
 
     def buscar_lote(self, ID):
@@ -78,9 +79,9 @@ class Empresa:
         elif ID in self.__administradores:
             empleado = self.__administradores[ID]
         else:
-            raise ValueError("No existe un empleado con el ID " + str(ID) + ".")
+            raise DatosInvalidosError("No existe un empleado con el ID " + str(ID) + ".")
 
         if empleado.getter_nombre() != nombre:
-            raise ValueError("El nombre no coincide con el ID ingresado.")
+            raise DatosInvalidosError("El nombre no coincide con el ID ingresado.")
 
         return empleado

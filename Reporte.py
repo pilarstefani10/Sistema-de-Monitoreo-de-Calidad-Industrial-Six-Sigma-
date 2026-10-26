@@ -1,11 +1,12 @@
 
+from Excepciones import TransicionInvalidaError
 class Reporte:
 
     def __init__(self, ID, inspeccion):
         muestra = inspeccion.getter_muestra()
 
         if muestra.getter_estado() != "NO_CONFORME":
-            raise ValueError("Solo se generan reportes para muestras No Conformes.")
+            raise TransicionInvalidaError("Solo se generan reportes para muestras No Conformes.")
 
         self.__ID = ID
         self.__inspeccion = inspeccion

@@ -1,19 +1,20 @@
 
+from Excepciones import DatosInvalidosError
 class Procedimiento:
     nextid = 1
     def __init__(self, nombre, categoria_equipo_requerida, certificaciones_requeridas, limite_gravedad):
         if not isinstance(nombre, str) or nombre == "":
-            raise ValueError("El nombre del procedimiento no puede estar vacío.")
+            raise DatosInvalidosError("El nombre del procedimiento no puede estar vacío.")
 
         elif not isinstance(categoria_equipo_requerida, str) or categoria_equipo_requerida == "":
-            raise ValueError("La categoría de equipo requerida no puede estar vacía.")
+            raise DatosInvalidosError("La categoría de equipo requerida no puede estar vacía.")
 
         elif not isinstance(certificaciones_requeridas, set) or not certificaciones_requeridas:
-            raise ValueError("Las certificaciones requeridas deben ser un conjunto no vacío.")
+            raise DatosInvalidosError("Las certificaciones requeridas deben ser un conjunto no vacío.")
         elif not all(map(lambda cert: isinstance(cert, str) and cert != "", certificaciones_requeridas)):
-            raise ValueError("Cada certificación requerida debe ser un texto no vacío.")
+            raise DatosInvalidosError("Cada certificación requerida debe ser un texto no vacío.")
         if type(limite_gravedad) is not int or limite_gravedad <= 0:
-            raise ValueError("El límite de gravedad debe ser un entero positivo")
+            raise DatosInvalidosError("El límite de gravedad debe ser un entero positivo")
 
         else:
             self.__ID = "PR" + str(Procedimiento.nextid)

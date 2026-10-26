@@ -2,7 +2,7 @@ from datetime import date, timedelta
 from Profesional import Profesional 
 from Equipo import Equipo
 from Procedimiento import Procedimiento
-
+from Excepciones import DatosInvalidosError,EquipoNoAptoError,CertificacionInvalidaError,TransicionInvalidaError
 class Inspeccion:
 
     def __init__(self, ID, fecha, profesional, equipo, procedimiento, muestra):
@@ -21,36 +21,36 @@ class Inspeccion:
     def validar(fecha, profesional, equipo, procedimiento):
 
         if not isinstance(fecha, date):
-            raise ValueError("La fecha debe ser de tipo date")
+            raise DatosInvalidosError("La fecha debe ser de tipo date")
 
         if not isinstance(profesional, Profesional):
-            raise ValueError("El profesional no es válido")
+            raise DatosInvalidosError("El profesional no es válido")
 
         if not isinstance(equipo, Equipo):
-            raise ValueError("El equipo no es válido")
+            raise DatosInvalidosError("El equipo no es válido")
 
         if not isinstance(procedimiento, Procedimiento):
-            raise ValueError("El procedimiento no es válido")
+            raise DatosInvalidosError("El procedimiento no es válido")
 
         faltantes = profesional.certificaciones_faltantes(procedimiento.getter_certificaciones_requeridas(), fecha)
         if faltantes:
-            raise ValueError("Al profesional " + profesional.getter_nombre() + " le faltan las certificaciones: " + ", ".join(sorted(faltantes)))
+            raise CertificacionInvalidaError("Al profesional " + profesional.getter_nombre() + " le faltan las certificaciones: " + ", ".join(sorted(faltantes)))
 
 
         if not equipo.calibracion_vigente(fecha):
-            raise ValueError("El equipo no tiene una calibración vigente")
+            raise EquipoNoAptoError("El equipo no tiene una calibración vigente")
 
         if equipo.getter_categoria() != procedimiento.getter_categoria_equipo():
-            raise ValueError("La categoría del equipo no coincide con el procedimiento")   
+            raise EquipoNoAptoError("La categoría del equipo no coincide con el procedimiento")   
 
     def __str__(self):
         return f"Inspección {self.__ID} - Fecha: {self.__fecha} - Profesional: {self.__profesional.getter_nombre()} - Equipo: {self.__equipo.getter_id()} - Procedimiento: {self.__procedimiento.getter_nombre()} - Muestra: {self.__muestra.getter_id()}"
 
     def registrar_reporte(self, reporte):
         if self.__muestra.getter_estado() != "NO_CONFORME":
-            raise ValueError("Solo se registran reportes de muestras No Conformes.")
+            raise TransicionInvalidaError("Solo se registran reportes de muestras No Conformes.")
         if self.__reporte is not None:
-            raise ValueError("La inspección ya tiene un reporte.")
+            raise TransicionInvalidaError("La inspección ya tiene un reporte.")
         self.__reporte = reporte
 
     def conformidad(self):

@@ -2,6 +2,7 @@ from Certificacion import Certificacion
 from Empleado import Empleado
 from Cola_Inspecciones import Cola
 from Reporte import Reporte
+from Excepciones import DatosInvalidosError,TransicionInvalidaError,InspeccionNoDisponibleError
 
 class Profesional(Empleado):
     nextid = 1
@@ -27,17 +28,17 @@ class Profesional(Empleado):
 
     def asignar_inspeccion(self, inspeccion):
         if inspeccion.getter_profesional() is not self:
-            raise ValueError(
+            raise DatosInvalidosError(
                 "La inspección pertenece a otro profesional"
             )
 
         if inspeccion in self.getter_inspecciones_pendientes():
-            raise ValueError(
+            raise TransicionInvalidaError(
                 "La inspección ya está asignada"
             )
 
         if inspeccion.getter_muestra().getter_estado() != "PENDIENTE":
-            raise ValueError(
+            raise TransicionInvalidaError(
                 "La muestra no está pendiente"
             )
 
@@ -51,7 +52,7 @@ class Profesional(Empleado):
         inspeccion = self.__cola_inspecciones.frente()
 
         if inspeccion is None:
-            raise ValueError("No hay inspecciones pendientes")############ERROR A PERSONALIZARRRRRR
+            raise InspeccionNoDisponibleError("No hay inspecciones pendientes")############ERROR A PERSONALIZARRRRRR
 
         muestra = inspeccion.getter_muestra()
         muestra.iniciar_inspeccion()

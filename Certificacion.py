@@ -1,10 +1,11 @@
 from datetime import date
+from Excepciones import DatosInvalidosError
 class Certificacion:
     def __init__(self, name, fecha_inicio, fecha_vencimiento):
         if not self.validar_nombre(name):
-            raise ValueError("El nombre de la certificación no puede estar vacío.")
+            raise DatosInvalidosError("El nombre de la certificación no puede estar vacío.")
         elif not self.validar_fechas(fecha_inicio, fecha_vencimiento):
-            raise ValueError("Las fechas de inicio y vencimiento no son válidas.")
+            raise DatosInvalidosError("Las fechas de inicio y vencimiento no son válidas.")
         else:
             self.__name = name
             self.__fecha_inicio = fecha_inicio

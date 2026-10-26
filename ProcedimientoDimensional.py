@@ -1,17 +1,18 @@
 from Procedimiento import Procedimiento
 from Defecto import Defecto
 import random
+from Excepciones import DatosInvalidosError
 class ProcedimientoDimensional(Procedimiento):
     def __init__(self, **kwargs_config_proc):
             self.validar_rangos_gravedad(kwargs_config_proc["rangos_gravedad"])
             if not isinstance(kwargs_config_proc["limite_gravedad"], int) or kwargs_config_proc["limite_gravedad"] < 1:
-                raise ValueError("El límite de gravedad debe ser un número entero mayor a 1.")
+                raise DatosInvalidosError("El límite de gravedad debe ser un número entero mayor a 1.")
             elif not isinstance(kwargs_config_proc["valor_esperado"], float):
-                raise ValueError("Los datos de creación del Procedimiento están incompletos o erróneos")
-            elif not isinstance(kwargs_config_proc["tolerancia"], float):
-                raise ValueError("")
-            elif not isinstance(kwargs_config_proc["desvio"],float):
-                raise ValueError("")
+                raise DatosInvalidosError("Los datos de creación del Procedimiento están incompletos o erróneos")
+            elif not isinstance(kwargs_config_proc["tolerancia"], float) or kwargs_config_proc["tolerancia"]<0:
+                raise DatosInvalidosError("La tolerancia debe ser un decimal válido")
+            elif not isinstance(kwargs_config_proc["desvio"],float) or kwargs_config_proc["desvio"]<0:
+                raise DatosInvalidosError("El desvio debe ser un decimal valido")
             
             super().__init__(kwargs_config_proc["nombre"],
                 kwargs_config_proc["categoria_equipo_requerida"],
@@ -34,7 +35,7 @@ class ProcedimientoDimensional(Procedimiento):
              lambda clave: clave not in rangos,claves))
                 
         if faltantes:
-            raise ValueError(f"Faltan rangos de gravedad: {faltantes}")
+            raise DatosInvalidosError(f"Faltan rangos de gravedad: {faltantes}")
 
         if not all(map(
             lambda clave: isinstance(rangos[clave], (int, float)), claves)):
@@ -42,7 +43,7 @@ class ProcedimientoDimensional(Procedimiento):
                  raise TypeError("Todos los rangos deben ser numéricos.")
     
         if not (rangos["leve"] < rangos["moderado"] < rangos["serio"] < rangos["severo"]):
-            raise ValueError(
+            raise DatosInvalidosError(
                 "Los rangos deben estar en orden creciente: leve < moderado < serio < severo."
             )
     

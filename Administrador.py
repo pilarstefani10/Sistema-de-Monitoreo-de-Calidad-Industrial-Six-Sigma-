@@ -7,6 +7,7 @@ from ProcedimientoVisual import ProcedimientoVisual
 from Profesional import Profesional
 from Equipo import Equipo
 from Muestra import Muestra
+from Excepciones import DatosInvalidosError
 
 class Administrador(Empleado):
     nextid = 1
@@ -41,7 +42,7 @@ class Administrador(Empleado):
             procedimiento = ProcedimientoVisual(*args, **kwargs)
 
         else:
-            raise ValueError("Tipo de procedimiento inválido")#############ERROR A PERSONALIZARRRR
+            raise DatosInvalidosError("Tipo de procedimiento inválido")
 
         self.__empresa.registrar_procedimiento(procedimiento)
 

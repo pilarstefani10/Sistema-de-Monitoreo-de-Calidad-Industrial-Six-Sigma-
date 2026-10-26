@@ -1,15 +1,16 @@
 from datetime import date,timedelta
 from Lista_Enlazada_Fechas_Calibracion import Lista_Calibraciones
+from Excepciones import DatosInvalidosError
 class Equipo:
     nextid = 1
 
     def __init__(self, categoria, ultima_calibracion=None):
 
         if ultima_calibracion is not None and not isinstance(ultima_calibracion, date):
-            raise ValueError("La ultima calibración debe ser un objeto de tipo date.")
+            raise DatosInvalidosError("La ultima calibración debe ser un objeto de tipo date.")
 
         elif not isinstance(categoria, str) or categoria == "":
-            raise ValueError("La categoria del equipo no puede estar vacía.")
+            raise DatosInvalidosError("La categoria del equipo no puede estar vacía.")
 
         else: 
             self.__historial_calibraciones= Lista_Calibraciones()
@@ -22,10 +23,10 @@ class Equipo:
 
     def calibrar(self, fecha):
         if not isinstance(fecha, date):
-            raise ValueError("La fecha de calibración debe ser válida")
+            raise DatosInvalidosError("La fecha de calibración debe ser válida")
 
         if self.__historial_calibraciones.buscar(fecha):
-            raise ValueError("La calibración ya está registrada")
+            raise DatosInvalidosError("La calibración ya está registrada")
 
         self.__historial_calibraciones.agregar_ordenado(fecha)
 
