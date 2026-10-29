@@ -3,7 +3,7 @@ from Empresa import Empresa
 from Administrador import Administrador
 from MenuAdministrador import MenuAdministrador
 from MenuProfesional import MenuProfesional
-
+from Excepciones import QuantumTechError
 
 
 # ---------- Datos iniciales ----------
@@ -71,7 +71,7 @@ while True:
         else:
             MenuProfesional(empresa, empleado).iniciar()
 
-    except ValueError as error:
+    except (QuantumTechError, ValueError) as error:
         print("\nError:", error)
 
 print("\nSistema cerrado.\n")

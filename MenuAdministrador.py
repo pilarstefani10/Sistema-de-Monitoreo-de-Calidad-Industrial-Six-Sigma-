@@ -46,7 +46,7 @@ class MenuAdministrador:
                 else:
                     print("\nOpción incorrecta.")
 
-            except ValueError as error:
+            except (QuantumTechError, ValueError) as error:
                 print("\nError:", error)
 
             if opcion != "0":
