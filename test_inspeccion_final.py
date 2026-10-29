@@ -35,14 +35,14 @@ def crear_inspeccion():
         fecha = date(2026, 9, 30)
 
         profesional = Mock(spec=Profesional)
-        profesional.certificacion_vigente.return_value = True
+        profesional.certificaciones_faltantes.return_value = set()
 
         equipo = Mock(spec=Equipo)
         equipo.getter_ultima_calibracion.return_value = fecha
         equipo.getter_categoria.return_value = "dimensional"
 
         procedimiento = Mock(spec=Procedimiento)
-        procedimiento.getter_certificacion_requerida.return_value = "Metrologia"
+        procedimiento.getter_certificaciones_requeridas.return_value = {"Metrologia"}        
         procedimiento.getter_categoria_equipo.return_value = "dimensional"
         procedimiento.getter_limitegravedad.return_value = limite
 

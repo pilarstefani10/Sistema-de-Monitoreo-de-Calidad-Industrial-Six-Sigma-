@@ -1,11 +1,12 @@
 from Defecto import Defecto
 from Inspeccion import Inspeccion
+from Excepciones import DatosInvalidosError,TransicionInvalidaError
 class Muestra:
 
     def __init__(self, ID, unidades_representadas, lote):
 
         if not isinstance(unidades_representadas, int) or unidades_representadas <= 0:
-            raise ValueError(
+            raise DatosInvalidosError(
                 "Las unidades representadas deben ser enteros mayores a cero"
             )
 
@@ -19,32 +20,32 @@ class Muestra:
     def registrar_defectos(self, defectos):
 
         if not isinstance(defectos, list):
-            raise ValueError(
+            raise DatosInvalidosError(
                 "Los defectos deben ingresarse en una lista."
             )
 
         elif self.__estado in ["CONFORME", "NO_CONFORME"]:
-            raise ValueError(
+            raise TransicionInvalidaError(
                 "No se pueden agregar defectos a una muestra cerrada."
             )
 
         else:
             if not all(map(lambda defecto: isinstance(defecto, Defecto), defectos)):
-                raise ValueError( "Todos los elementos de la lista deben ser objetos de tipo Defecto.")
+                raise DatosInvalidosError( "Todos los elementos de la lista deben ser objetos de tipo Defecto.")
     
             self.__defectos.extend(defectos)
 
     def iniciar_inspeccion(self):
         if self.__estado != "PENDIENTE":
-            raise ValueError("La muestra ya fue inspeccionada.")
+            raise TransicionInvalidaError("La muestra ya fue inspeccionada.")
         elif self.__inspeccion is None:
-            raise ValueError("La muestra no tiene una inspección asignada.")
+            raise TransicionInvalidaError("La muestra no tiene una inspección asignada.")
         else:
             self.__estado = "EN_INSPECCION"
 
     def cerrar(self):
         if self.__estado != "EN_INSPECCION":
-            raise ValueError("La muestra no está en inspección.")
+            raise TransicionInvalidaError("La muestra no está en inspección.")
 
         if self.__inspeccion.conformidad():
             self.__estado="CONFORME"
@@ -66,16 +67,16 @@ class Muestra:
 
     def setter_inspeccion(self, inspeccion):
         if self.__estado != "PENDIENTE":
-            raise ValueError("La muestra ya inició su inspección")
+            raise TransicionInvalidaError("La muestra ya inició su inspección")
 
         if self.__inspeccion is not None:
-            raise ValueError("La muestra ya tiene una inspección asignada")
+            raise TransicionInvalidaError("La muestra ya tiene una inspección asignada")
 
         if not isinstance(inspeccion, Inspeccion):
-            raise ValueError("Debe asignarse una inspección válida")
+            raise DatosInvalidosError("Debe asignarse una inspección válida")
 
         if inspeccion.getter_muestra() is not self:
-            raise ValueError("La inspección pertenece a otra muestra")
+            raise DatosInvalidosError("La inspección pertenece a otra muestra")
 
         self.__inspeccion = inspeccion
 

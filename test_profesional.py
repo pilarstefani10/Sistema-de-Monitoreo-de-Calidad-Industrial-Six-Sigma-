@@ -1,6 +1,7 @@
 
 import pytest
 from unittest.mock import Mock, patch, call
+from datetime import date
 
 from Profesional import Profesional
 from Inspeccion import Inspeccion
@@ -335,3 +336,23 @@ def test_ejecutar_error_al_cerrar(
 
     muestra.registrar_defectos.assert_called_once()
     inspeccion.registrar_reporte.assert_not_called()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

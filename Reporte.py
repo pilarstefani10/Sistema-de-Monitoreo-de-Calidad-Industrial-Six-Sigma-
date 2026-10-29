@@ -1,15 +1,17 @@
 
+from Excepciones import TransicionInvalidaError
 class Reporte:
 
     def __init__(self, ID, inspeccion):
         muestra = inspeccion.getter_muestra()
 
         if muestra.getter_estado() != "NO_CONFORME":
-            raise ValueError("Solo se generan reportes para muestras No Conformes.")
+            raise TransicionInvalidaError("Solo se generan reportes para muestras No Conformes.")
 
         self.__ID = ID
         self.__inspeccion = inspeccion
-        self.__defectos = muestra.getter_defectos()
+        self.__defectos = tuple((defecto.getter_tipo(), defecto.getter_gravedad(),defecto.getter_descripcion()
+    )for defecto in muestra.getter_defectos())
 
     def crear_resumen(self):
         muestra = self.__inspeccion.getter_muestra()

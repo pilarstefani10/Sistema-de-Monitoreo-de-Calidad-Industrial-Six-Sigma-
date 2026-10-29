@@ -7,6 +7,7 @@ from ProcedimientoVisual import ProcedimientoVisual
 from Profesional import Profesional
 from Equipo import Equipo
 from Muestra import Muestra
+from Excepciones import DatosInvalidosError
 
 class Administrador(Empleado):
     nextid = 1
@@ -41,27 +42,24 @@ class Administrador(Empleado):
             procedimiento = ProcedimientoVisual(*args, **kwargs)
 
         else:
-            raise ValueError("Tipo de procedimiento inválido")#############ERROR A PERSONALIZARRRR
+            raise DatosInvalidosError("Tipo de procedimiento inválido")
 
         self.__empresa.registrar_procedimiento(procedimiento)
 
         return procedimiento
 
     def crear_muestra(self, id_lote, unidades, id_profesional, id_equipo, id_procedimiento):
+
         lote = self.__empresa.buscar_lote(id_lote)
         profesional = self.__empresa.buscar_profesional(id_profesional)
         equipo = self.__empresa.buscar_equipo(id_equipo)
         procedimiento = self.__empresa.buscar_procedimiento(id_procedimiento)
         fecha = date.today()
         
-        Inspeccion.validar(fecha, profesional, equipo, procedimiento)
-
         lote.validar_extraccion(unidades)
         muestra = Muestra(lote.proximo_id_muestra(), unidades, lote)
-        lote.agregar_muestra(muestra)
-
         self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
-        
+        lote.agregar_muestra(muestra)
         return muestra
 
     def crear_inspeccion(self, muestra, fecha, profesional, equipo, procedimiento):
@@ -84,6 +82,13 @@ class Administrador(Empleado):
         resultado = lote.resultado_segun_criterio()
         lote.registrar_resultado(resultado)
         return resultado
+
+    def comparar_lotes(self, id_lote1, id_lote2):
+        if id_lote1 == id_lote2:
+            raise ValueError("Debe elegir dos lotes distintos.")
+        tipos1 = self.__empresa.buscar_lote(id_lote1).tipos_defectos_dimensionales()
+        tipos2 = self.__empresa.buscar_lote(id_lote2).tipos_defectos_dimensionales()
+        return tipos1 & tipos2, tipos1 - tipos2, tipos2 - tipos1
 
     def getter_empresa(self):
         return self.__empresa
