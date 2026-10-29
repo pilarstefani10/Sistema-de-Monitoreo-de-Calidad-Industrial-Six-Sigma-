@@ -1,4 +1,6 @@
 from datetime import date
+from Excepciones import QuantumTechError
+
 
 class MenuAdministrador:
 
