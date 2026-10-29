@@ -42,4 +42,11 @@ class ProcedimientoVisual(Procedimiento):
             )
         return defecto
 
+    def getter_probabilidad(self):
+        return self.__probabilidad
 
+    def getter_zonas_posibles(self):
+        return self.__zonas_posibles.copy()
+
+    def getter_descripciones(self):
+        return self.__descripciones.copy()

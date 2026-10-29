@@ -75,6 +75,12 @@ class Lote:
             if inspeccion is not None and isinstance(inspeccion.getter_procedimiento(), ProcedimientoDimensional):
                 tipos.update(map(lambda defecto: defecto.getter_tipo(), muestra.getter_defectos()))
         return tipos
+    
+    def restaurar_estado(self, estado):
+        if estado not in ("PENDIENTE", "APROBADO", "RECHAZADO"):
+            raise ValueError("Estado de lote inválido")
+        self.__estado = estado
+
 
     def getter_estado(self):
         return self.__estado
@@ -84,4 +90,6 @@ class Lote:
 
     def getter_id(self):
         return self.__ID
-    
+    def getter_cantidad_fabricada(self):
+        return self.__cantidad_fabricada
+

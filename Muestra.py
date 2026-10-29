@@ -80,6 +80,11 @@ class Muestra:
 
         self.__inspeccion = inspeccion
 
+    def restaurar_estado(self, estado):
+        if estado not in ("PENDIENTE", "CONFORME", "NO_CONFORME"):
+            raise ValueError("Estado de muestra inválido")
+        self.__estado = estado
+
     def getter_lote(self):
         return self.__lote
 

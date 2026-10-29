@@ -57,7 +57,9 @@ class Equipo:
 
     def getter_ultima_calibracion(self):
         return self.getter_ultimacalibracion()
-
+    
+    def getter_calibraciones(self):
+        return self.__historial_calibraciones.consultar_fechas()
         
 
     

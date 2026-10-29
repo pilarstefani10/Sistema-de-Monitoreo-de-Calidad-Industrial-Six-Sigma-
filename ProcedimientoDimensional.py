@@ -73,8 +73,16 @@ class ProcedimientoDimensional(Procedimiento):
                 )
         return defecto
 
+    def getter_valor_esperado(self):
+        return self.__valor_esperado
 
+    def getter_tolerancia(self):
+        return self.__tolerancia
 
-    
+    def getter_desvio(self):
+        return self.__desvio
+
+    def getter_rangos_gravedad(self):
+        return self.__rangos_gravedad.copy()
 
 

@@ -70,6 +70,20 @@ class Inspeccion:
         else:
             return True
 
+    @classmethod
+    def desde_archivo(cls, ID, fecha, profesional, equipo, procedimiento, muestra):
+        inspeccion = cls.__new__(cls)
+        inspeccion.__ID = ID
+        inspeccion.__fecha = fecha
+        inspeccion.__profesional = profesional
+        inspeccion.__equipo = equipo
+        inspeccion.__procedimiento = procedimiento
+        inspeccion.__muestra = muestra
+        inspeccion.__reporte = None
+
+        return inspeccion
+
+
     def getter_fecha(self):
         return self.__fecha
 
