@@ -1,11 +1,12 @@
 from Procedimiento import Procedimiento
 from Defecto import Defecto
+from Excepciones import DatosInvalidosError
 import random
 class ProcedimientoVisual(Procedimiento):
     def __init__(self, **kwargs_config_proc):
         #Uso corchetes y no get para que falle si no encuentra algo con esa key
         if not isinstance(kwargs_config_proc["probabilidad"], float) or not (0<kwargs_config_proc["probabilidad"]<1):
-            raise ValueError ("La probabilidad de ocurrencia de un Defecto Visual debe ser un numero entre 0 y 1")########ERROR A PERSONALIZAR
+            raise DatosInvalidosError ("La probabilidad de ocurrencia de un Defecto Visual debe ser un numero entre 0 y 1")########ERROR A PERSONALIZAR
         super().__init__(kwargs_config_proc["nombre"]
                         , kwargs_config_proc["categoria_equipo_requerida"]
                         , kwargs_config_proc["certificaciones_requeridas"]

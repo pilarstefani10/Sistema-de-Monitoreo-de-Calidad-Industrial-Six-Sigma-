@@ -10,7 +10,8 @@ class Reporte:
 
         self.__ID = ID
         self.__inspeccion = inspeccion
-        self.__defectos = muestra.getter_defectos()
+        self.__defectos = tuple((defecto.getter_tipo(), defecto.getter_gravedad(),defecto.getter_descripcion()
+    )for defecto in muestra.getter_defectos())
 
     def crear_resumen(self):
         muestra = self.__inspeccion.getter_muestra()

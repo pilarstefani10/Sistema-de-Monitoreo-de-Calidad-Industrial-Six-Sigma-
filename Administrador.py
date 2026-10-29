@@ -49,20 +49,17 @@ class Administrador(Empleado):
         return procedimiento
 
     def crear_muestra(self, id_lote, unidades, id_profesional, id_equipo, id_procedimiento):
+
         lote = self.__empresa.buscar_lote(id_lote)
         profesional = self.__empresa.buscar_profesional(id_profesional)
         equipo = self.__empresa.buscar_equipo(id_equipo)
         procedimiento = self.__empresa.buscar_procedimiento(id_procedimiento)
         fecha = date.today()
         
-        Inspeccion.validar(fecha, profesional, equipo, procedimiento)
-
         lote.validar_extraccion(unidades)
         muestra = Muestra(lote.proximo_id_muestra(), unidades, lote)
-        lote.agregar_muestra(muestra)
-
         self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
-        
+        lote.agregar_muestra(muestra)
         return muestra
 
     def crear_inspeccion(self, muestra, fecha, profesional, equipo, procedimiento):
