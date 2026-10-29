@@ -19,11 +19,12 @@ class Reporte:
         resumen += "Muestra: " + muestra.getter_id() + "\n"
         resumen += "Lote: " + muestra.getter_lote().getter_id() + "\n"
         resumen += "Responsable: " + self.__inspeccion.getter_profesional().getter_nombre() + "\n"
-
-        for numero, defecto in enumerate(self.__defectos, start=1):
-            resumen += str(numero) + ". Tipo: " + defecto.getter_tipo()
-            resumen += " | Descripción: " + defecto.getter_descripcion()
-            resumen += " | Gravedad: " + str(defecto.getter_gravedad()) + "\n"
+        for numero, (tipo, gravedad, descripcion) in enumerate(
+            self.__defectos, start=1
+            ):
+            resumen += f"{numero}. Tipo: {tipo}"
+            resumen += f" | Descripción: {descripcion}"
+            resumen += f" | Gravedad: {gravedad}\n"
 
         return resumen
 
@@ -34,4 +35,4 @@ class Reporte:
         return self.__inspeccion
 
     def getter_defectos(self):
-        return self.__defectos.copy()
+        return self.__defectos

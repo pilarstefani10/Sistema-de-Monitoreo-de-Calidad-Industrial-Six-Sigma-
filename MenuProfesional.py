@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from GestorArchivos import GestorArchivos
 
 class MenuProfesional:
 
@@ -65,9 +66,15 @@ class MenuProfesional:
             print("\nDefectos encontrados:\n")
             for defecto in defectos:
                 print("   -", defecto)
-
         if inspeccion.getter_reporte() is not None:
-            print(inspeccion.getter_reporte().crear_resumen())
+            reporte = inspeccion.getter_reporte()
+            contenido = reporte.crear_resumen()
+
+            ruta = GestorArchivos.guardar_reporte(
+            reporte.getter_id(),
+            contenido)
+            print(contenido)
+            print("Reporte guardado en:", ruta)
 
     def agregar_certificacion(self):
         nombre = input("\nNombre de la certificación: ")

@@ -1,4 +1,4 @@
-
+from pathlib import Path
 import csv
 
 
@@ -59,3 +59,24 @@ class GestorArchivos:
                 escritor.writeheader()
 
             escritor.writerows(filas)
+
+    
+    @staticmethod
+    def guardar_reporte(nombre, contenido):
+        carpeta = Path("datos/reportes")
+        carpeta.mkdir(parents=True, exist_ok=True)
+
+        ruta = carpeta / f"{nombre}.txt"
+
+        try:
+            with open(ruta, "x", encoding="utf-8") as archivo:
+                archivo.write(contenido)
+
+        except FileExistsError:
+            with open(ruta, "r", encoding="utf-8") as archivo:
+                if archivo.read() != contenido:
+                    raise ValueError(
+                        "Ya existe un reporte diferente con ese ID."
+                    )
+
+        return ruta
