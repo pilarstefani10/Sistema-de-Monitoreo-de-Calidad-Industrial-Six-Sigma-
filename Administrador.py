@@ -55,11 +55,12 @@ class Administrador(Empleado):
         equipo = self.__empresa.buscar_equipo(id_equipo)
         procedimiento = self.__empresa.buscar_procedimiento(id_procedimiento)
         fecha = date.today()
-        
+
+        Inspeccion.validar(fecha, profesional, equipo, procedimiento)
         lote.validar_extraccion(unidades)
         muestra = Muestra(lote.proximo_id_muestra(), unidades, lote)
-        self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
         lote.agregar_muestra(muestra)
+        self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
         return muestra
 
     def crear_inspeccion(self, muestra, fecha, profesional, equipo, procedimiento):
