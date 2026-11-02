@@ -119,23 +119,23 @@ class MenuAdministrador:
         print("Solo en", id_lote1, ":", solo1)
         print("Solo en", id_lote2, ":", solo2)   
 
-def buscar_lote_arbol(self):
-    ID = input("\nID del lote a buscar: ")
+    def buscar_lote_arbol(self):
+        ID = input("\nID del lote a buscar: ")
 
-    lote = self.__empresa.buscar_lote_arbol(ID)
+        lote = self.__empresa.buscar_lote_arbol(ID)
 
-    print("\n---------- LOTE ENCONTRADO ----------")
-    print("ID:", lote.getter_id())
-    print("Cantidad fabricada:", lote.getter_cantidad_fabricada())
-    print("Estado:", lote.getter_estado())
+        print("\n---------- LOTE ENCONTRADO ----------")
+        print("ID:", lote.getter_id())
+        print("Cantidad fabricada:", lote.getter_cantidad_fabricada())
+        print("Estado:", lote.getter_estado())
 
-    print("\n---------- CONSULTAS DEL LOTE ----------")
-    print("Cantidad de defectos críticos:", lote.contar_defectos_criticos())
-    print("Defectos por tipo:", lote.contar_defectos_por_tipo())
-    print("Porcentaje preliminar de muestras no conformes:",
-          lote.porcentaje_preliminar(), "%")
-    print("Tipos de defectos dimensionales:",
-          lote.tipos_defectos_dimensionales())
+        print("\n---------- CONSULTAS DEL LOTE ----------")
+        print("Cantidad de defectos críticos:", lote.contar_defectos_criticos())
+        print("Defectos por tipo:", lote.contar_defectos_por_tipo())
+        print("Porcentaje preliminar de muestras no conformes:",
+            lote.porcentaje_preliminar(), "%")
+        print("Tipos de defectos dimensionales:",
+            lote.tipos_defectos_dimensionales())
 
     @staticmethod
     def pedir_fecha(mensaje):

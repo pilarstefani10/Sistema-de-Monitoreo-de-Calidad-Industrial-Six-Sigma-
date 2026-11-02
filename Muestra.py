@@ -38,6 +38,25 @@ class Muestra:
     
             self.__defectos.extend(defectos)
 
+    def restaurar_defecto(self, defecto):
+
+        if self.__estado != "PENDIENTE":
+            raise TransicionInvalidaError(
+                "No se pueden restaurar defectos en una muestra iniciada o cerrada."
+            )
+
+        if self.__inspeccion is None:
+            raise TransicionInvalidaError(
+                "La muestra no tiene una inspección asignada."
+            )
+
+        if not isinstance(defecto, Defecto):
+            raise DatosInvalidosError(
+                "Debe restaurarse un objeto de tipo Defecto."
+            )
+
+        self.__defectos.append(defecto)    
+    
     def iniciar_inspeccion(self):
         if self.__estado != "PENDIENTE":
             raise TransicionInvalidaError("La muestra ya fue inspeccionada.")
