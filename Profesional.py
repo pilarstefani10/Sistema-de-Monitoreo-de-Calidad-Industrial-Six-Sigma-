@@ -55,15 +55,19 @@ class Profesional(Empleado):
 
         if inspeccion is None:
             raise InspeccionNoDisponibleError("No hay inspecciones pendientes")
-
+        
         muestra = inspeccion.getter_muestra()
         muestra.iniciar_inspeccion()
         procedimiento = inspeccion.getter_procedimiento()
 
-        resultados = map(lambda _: procedimiento.evaluar_unidad(), range(muestra.getter_unidadesrepresentadas()))
-        defectos = list(filter(lambda defecto: defecto is not None, resultados))
+        try:
+            resultados = map(lambda _: procedimiento.evaluar_unidad(), range(muestra.getter_unidadesrepresentadas()))
+            defectos = list(filter(lambda defecto: defecto is not None, resultados))
 
-        muestra.registrar_defectos(defectos)
+            muestra.registrar_defectos(defectos)
+        except Exception:
+            muestra.cancelar_inspeccion()
+            raise
         muestra.cerrar()
 
         if muestra.getter_estado() == "NO_CONFORME":
