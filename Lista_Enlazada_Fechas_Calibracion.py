@@ -32,11 +32,7 @@ class Lista_Calibraciones(Lista):
             actual.setter_siguiente(nuevo_nodo)
 
 
-
-
-
-
-            if nuevo_nodo.siguiente is None:
+            if nuevo_nodo.getter_siguiente() is None:
                 self.ultimo = nuevo_nodo
 
         self.tamanio += 1
@@ -45,7 +41,7 @@ class Lista_Calibraciones(Lista):
         if self.ultimo is None:
             return None
 
-        return self.ultimo.dato
+        return self.ultimo.getter_dato()
 
     def eliminar_buscando(self, dato):
         if self.es_vacia():
@@ -55,12 +51,12 @@ class Lista_Calibraciones(Lista):
         anterior = None
 
         while actual is not None:
-            if actual.dato == dato:
+            if actual.getter_dato() == dato:
 
                 if anterior is None:
-                    self.cabeza = actual.siguiente
+                    self.cabeza = actual.getter_siguiente()
                 else:
-                    anterior.siguiente = actual.siguiente
+                    anterior.setter_siguiente(actual.getter_siguiente())
 
                 if actual == self.ultimo:
                     self.ultimo = anterior
@@ -69,7 +65,7 @@ class Lista_Calibraciones(Lista):
                 return True
 
             anterior = actual
-            actual = actual.siguiente
+            actual = actual.getter_siguiente()
 
         return False
 
