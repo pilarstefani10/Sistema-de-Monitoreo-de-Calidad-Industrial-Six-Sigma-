@@ -129,7 +129,9 @@ class Empresa:
         if filas is None:
             raise FileNotFoundError(f"No existe {ruta}")
 
-        return filasicme    @staticmethod
+        return filas
+    
+    @staticmethod
     def _guardar(nombre_archivo, encabezados, filas):
         carpeta = GestorArchivos.CARPETA_DATOS
         carpeta.mkdir(parents=True, exist_ok=True)
@@ -138,7 +140,8 @@ class Empresa:
             carpeta / nombre_archivo,
             encabezados,
             filas)
-        ththod
+    
+    @staticmethod    
     def _crear_con_id(tipo, contador, ID, prefijo, *args, **kwargs):
         numero = ID[len(prefijo):]
 
@@ -493,11 +496,11 @@ class Empresa:
                         "muestra_id": muestra.getter_id(),
                         "tipo": defecto.getter_tipo(),
                         "gravedad": defecto.getter_gravedad(),
-                        "descripcion": defecto.getter_descripcion()
-             })       })
+                        "descripcion": defecto.getter_descripcion()})      
  
           
-                inspeccion = muestra.getter_inspeccion()     if insp        s not None:
+                inspeccion = muestra.getter_inspeccion()     
+                if inspeccion is not None:
                     if muestra.getter_estado() != "PENDIENTE":
                         inspecciones_terminadas.append(inspeccion)
 
