@@ -85,17 +85,27 @@ class MenuProfesional:
         self.__profesional.agregar_certificacion(nombre, inicio, vencimiento)
         print("\nCertificación agregada.")
 
-    def calibrar_equipo(self):
+    def ver_equipos(self):
         print("\n---------- EQUIPOS ----------\n")
-        for equipo in self.__empresa.getter_equipos():
-            print(equipo.getter_id(), "-", equipo.getter_categoria(),
-                  "- Última calibración:", equipo.getter_ultima_calibracion())
+        print("\n".join(map(lambda equipo: equipo.getter_id() + " - " + equipo.getter_categoria() + " - Última calibración: " + str(equipo.getter_ultima_calibracion()), self.__empresa.getter_equipos())))
 
-        id_equipo = input("\nID del equipo a calibrar: ")
-        equipo = self.__empresa.buscar_equipo(id_equipo)
+    def calibrar_equipo(self):
+        self.ver_equipos()
+        equipo = self.__empresa.buscar_equipo(input("\nID del equipo a calibrar: "))
 
-        self.__profesional.calibrar_equipo(equipo, date.today())
-        print("\nEquipo", id_equipo, "calibrado.")
+        print("\n   1. Calibrar ahora")
+        print("   2. Registrar una calibración anterior")
+        tipo = input("\nOpción: ")
+
+        if tipo == "1":
+            fecha = date.today()
+        elif tipo == "2":
+            fecha = self.pedir_fecha("Fecha de la calibración:")
+        else:
+            raise ValueError("Opción incorrecta.")
+
+        self.__profesional.calibrar_equipo(equipo, fecha)
+        print("\nEquipo", equipo.getter_id(), "calibrado el", fecha)
 
     def ver_ultima_inspeccion(self):
         inspeccion = self.__profesional.getter_ultima_inspeccion()

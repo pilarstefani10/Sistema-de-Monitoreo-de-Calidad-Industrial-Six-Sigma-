@@ -54,7 +54,7 @@ class Profesional(Empleado):
         inspeccion = self.__cola_inspecciones.frente()
 
         if inspeccion is None:
-            raise InspeccionNoDisponibleError("No hay inspecciones pendientes")############ERROR A PERSONALIZARRRRRR
+            raise InspeccionNoDisponibleError("No hay inspecciones pendientes")
 
         muestra = inspeccion.getter_muestra()
         muestra.iniciar_inspeccion()

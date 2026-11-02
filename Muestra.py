@@ -43,6 +43,15 @@ class Muestra:
         else:
             self.__estado = "EN_INSPECCION"
 
+    def cancelar_inspeccion(self):
+        if self.__estado != "EN_INSPECCION":
+            raise TransicionInvalidaError(
+                "La muestra no tiene una inspección en ejecución."
+            )
+
+        self.__estado = "PENDIENTE"
+
+    
     def cerrar(self):
         if self.__estado != "EN_INSPECCION":
             raise TransicionInvalidaError("La muestra no está en inspección.")
