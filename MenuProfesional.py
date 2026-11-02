@@ -15,13 +15,13 @@ class MenuProfesional:
             print("           MENÚ PROFESIONAL")
             print("==========================================\n")
             print("   1. Ver inspecciones pendientes")
-            print("   5. Ver última inspección realizada")
-            print("   2. Ejecutar siguiente inspección")
-            print("   6. Ver historial de inspecciones")
-            print("   3. Agregar certificación")
-            print("   4. Calibrar equipo")
-            print("   8. Dar de baja una calibración")
-            print("   7. Ver historial de calibraciones de un equipo")
+            print("   2. Ver última inspección realizada")
+            print("   3. Ejecutar siguiente inspección")
+            print("   4. Ver historial de inspecciones")
+            print("   5. Agregar certificación")
+            print("   6. Calibrar equipo")
+            print("   7. Dar de baja una calibración")
+            print("   8. Ver historial de calibraciones de un equipo")
             print("   0. Salir\n")
 
             opcion = input("Opción: ")
@@ -30,15 +30,19 @@ class MenuProfesional:
                 if opcion == "1":
                     self.ver_pendientes()
                 elif opcion == "2":
-                    self.ejecutar_siguiente()
-                elif opcion == "3":
-                    self.agregar_certificacion()
-                elif opcion == "4":
-                    self.calibrar_equipo()
-                elif opcion == "5":
                     self.ver_ultima_inspeccion()
-                elif opcion == "6":
+                elif opcion == "3":
+                    self.ejecutar_siguiente()
+                elif opcion == "4":
                     self.ver_historial()
+                elif opcion == "5":
+                    self.agregar_certificacion()
+                elif opcion == "6":
+                    self.calibrar_equipo()
+                elif opcion == "7":
+                    self.eliminar_calibracion()
+                elif opcion == "8":
+                    self.ver_calibraciones()
                 elif opcion == "0":
                     print("\nSesión finalizada.\n")
                 else:
@@ -132,6 +136,29 @@ class MenuProfesional:
 
         print("\n---------- HISTORIAL (de la más reciente a la más antigua) ----------\n")
         print("\n".join(map(lambda inspeccion: inspeccion.getter_id() + " - Muestra: " + inspeccion.getter_muestra().getter_id() + " - " + inspeccion.getter_muestra().getter_estado(), historial)))
+
+    def ver_calibraciones(self):
+        self.ver_equipos()
+        equipo = self.__empresa.buscar_equipo(input("\nID del equipo: "))
+        calibraciones = equipo.getter_calibraciones()
+
+        if len(calibraciones) == 0:
+            print("\nEl equipo no tiene calibraciones.")
+            return
+
+        print("\n---------- CALIBRACIONES DE", equipo.getter_id(), "(de la más antigua a la más reciente) ----------\n")
+        print("\n".join(map(str, calibraciones)))
+        print("\n¿Apto hoy?:", "Sí" if equipo.calibracion_vigente(date.today()) else "No")
+
+    def eliminar_calibracion(self):
+        self.ver_equipos()
+        equipo = self.__empresa.buscar_equipo(input("\nID del equipo: "))
+        print("\nCalibraciones:", ", ".join(map(str, equipo.getter_calibraciones())))
+        fecha = self.pedir_fecha("Fecha de la calibración a dar de baja:")
+
+        self.__profesional.eliminar_calibracion(equipo, fecha)
+        print("\nCalibración del", fecha, "dada de baja.")
+
     
     @staticmethod
     def pedir_fecha(mensaje):

@@ -119,16 +119,54 @@ class Empresa:
         return empleado
 
     
-
+    
     @staticmethod
     def _leer(nombre_archivo):
+
+        encabezados_csv = {
+            "administradores.csv": ["id", "nombre"],
+            "profesionales.csv": ["id", "nombre"],
+            "certificaciones.csv": [
+                "profesional_id", "nombre",
+                "fecha_inicio", "fecha_vencimiento"
+            ],
+            "equipos.csv": ["id", "categoria"],
+            "calibraciones.csv": ["equipo_id", "fecha"],
+            "procedimientos.csv": [
+                "id", "tipo", "nombre", "categoria_equipo",
+                "certificaciones_requeridas", "limite_gravedad",
+                "valor_esperado", "tolerancia", "desvio",
+                "rangos_gravedad", "probabilidad",
+                "zonas_posibles", "descripciones"
+            ],
+            "lotes.csv": [
+                "id", "cantidad_fabricada", "estado"
+            ],
+            "muestras.csv": [
+                "id", "lote_id", "unidades", "estado"
+            ],
+            "inspecciones.csv": [
+                "id", "muestra_id", "fecha",
+                "profesional_id", "equipo_id",
+                "procedimiento_id"
+            ],
+            "defectos.csv": [
+                "muestra_id", "tipo",
+                "gravedad", "descripcion"
+            ]
+        }
+
         ruta = GestorArchivos.CARPETA_DATOS / nombre_archivo
-        filas = GestorArchivos.leer_csv_dict(ruta)
+
+        filas = GestorArchivos.leer_csv_dict(
+            ruta, encabezados_csv[nombre_archivo]
+        )
 
         if filas is None:
             raise FileNotFoundError(f"No existe {ruta}")
 
         return filas
+
     
     @staticmethod
     def _guardar(nombre_archivo, encabezados, filas):
@@ -536,12 +574,16 @@ class Empresa:
             ["muestra_id", "tipo", "gravedad", "descripcion"],
             defectos
         )
-        
+
         # Guardar el historial del más antiguo al más reciente
         for profesional in self.getter_profesionales():
             historial = profesional.getter_historial()
 
             for inspeccion in reversed(historial):
+                inspecciones_terminadas.append(inspeccion)
+
+        for profesional in self.getter_profesionales():
+            for inspeccion in reversed(profesional.getter_historial()):
                 inspecciones_terminadas.append(inspeccion)
 
         # Inspecciones: las pendientes se guardan en orden FIFO
