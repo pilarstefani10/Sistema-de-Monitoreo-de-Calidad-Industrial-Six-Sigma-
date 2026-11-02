@@ -1,6 +1,7 @@
 from Certificacion import Certificacion
 from Empleado import Empleado
 from Cola_Inspecciones import Cola
+from Pila import Pila
 from Reporte import Reporte
 from Excepciones import DatosInvalidosError,TransicionInvalidaError,InspeccionNoDisponibleError
 
@@ -12,6 +13,7 @@ class Profesional(Empleado):
         Profesional.nextid += 1
         self.__certificaciones = []
         self.__cola_inspecciones=Cola()
+        self.__historial = Pila()
 
     def agregar_certificacion(self, nombre, fecha_inicio, fecha_vencimiento):
         certificacion = Certificacion(nombre, fecha_inicio, fecha_vencimiento)
@@ -68,6 +70,7 @@ class Profesional(Empleado):
             inspeccion.registrar_reporte(Reporte(inspeccion.getter_id() + "R", inspeccion))
 
         self.__cola_inspecciones.desencolar()
+        self.__historial.apilar(inspeccion)
 
         return inspeccion
 
@@ -82,6 +85,12 @@ class Profesional(Empleado):
 
     def getter_inspecciones_pendientes(self):
         return self.__cola_inspecciones.consultar_elementos()
+
+    def getter_ultima_inspeccion(self):
+        return self.__historial.tope()
+
+    def getter_historial(self):
+        return self.__historial.consultar_elementos()
 
     def getter_cola_vacia(self):
         return self.__cola_inspecciones.esta_vacia()

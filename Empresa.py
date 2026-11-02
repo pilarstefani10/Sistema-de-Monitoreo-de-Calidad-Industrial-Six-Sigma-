@@ -14,6 +14,7 @@ from Muestra import Muestra
 from Inspeccion import Inspeccion
 from Defecto import Defecto
 from Reporte import Reporte
+from Arbol import Arbol
 class Empresa:
 #La idea es que haya una única empresa o instancia que funcionará como un repertorio universal donde se añaden todos los profesionales, lotes, procedimientos, equipos y certificaciones
     def __init__(self, nombre):
@@ -26,11 +27,13 @@ class Empresa:
         self.__equipos = {}
         self.__procedimientos = {}
         self.__administradores = {}
+        self.__arbol_lotes=Arbol()
 
     def registrar_lote(self, lote):
         if lote.getter_id() in self.__lotes:
             raise DatosInvalidosError("ID de lote duplicado")
 
+        self.__arbol_lotes.insertar(lote)
         self.__lotes[lote.getter_id()] = lote
 
     def registrar_profesional(self, profesional):
@@ -66,6 +69,21 @@ class Empresa:
 
     def buscar_lote(self, ID):
         return Empresa.buscar(self.__lotes, ID, "lote")
+
+    def buscar_lote_arbol(self, ID):
+        if not isinstance(ID, str) or not ID.startswith("L") or not ID[1:].isdigit():
+            raise DatosInvalidosError("ID de lote inválido")
+
+        numero = int(ID[1:])
+        lote = self.__arbol_lotes.buscar(self.__arbol_lotes.raiz, numero)
+
+        if lote is None or lote.getter_id() != ID:
+            raise DatosInvalidosError("No existe un lote con ese ID")
+
+        return lote
+
+    def lotes_ordenados(self):
+        return self.__arbol_lotes.inorden(self.__arbol_lotes.raiz)
 
     def buscar_profesional(self, ID):
         return Empresa.buscar(self.__profesionales, ID, "profesional")
@@ -247,6 +265,8 @@ class Empresa:
             )
             self.registrar_lote(lote)
             estados_lotes[lote.getter_id()] = fila["estado"]
+
+        self.__arbol_lotes.construir_balanceado(self.__lotes.values())
 
         # 8. Muestras
         muestras = {}

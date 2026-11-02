@@ -39,11 +39,15 @@ class Arbol:
         else:
             raise ValueError("El lote ya existe en el árbol")
 
-    def buscar(self, nodo, dato):
+    def buscar(self, nodo, dato, pasos=0):
         if nodo is None:
+            print(f"Búsqueda terminada en {pasos} pasos")
             return None
 
+        pasos += 1
+
         if dato == nodo.dato:
+            print(f"Lote encontrado en {pasos} pasos")
             return nodo.lote
 
         if dato < nodo.dato:
@@ -83,3 +87,33 @@ class Arbol:
 
     def __str__(self):
         return str([lote.ID for lote in self.inorden(self.raiz)])
+
+
+    def _construir_balanceado(self, lotes, inicio, fin):
+        if inicio > fin:
+            return None
+
+        medio = (inicio + fin) // 2
+
+        nodo = NodoArbol(lotes[medio])
+
+        nodo.izquierda = self._construir_balanceado(
+            lotes, inicio, medio - 1
+        )
+
+        nodo.derecha = self._construir_balanceado(
+            lotes, medio + 1, fin
+        )
+
+        return nodo
+
+    def construir_balanceado(self, lotes):
+        lotes_ordenados = sorted(
+            lotes,
+            key=lambda lote: int(lote.getter_id()[1:])
+        )
+
+        self.raiz = self._construir_balanceado(
+            lotes_ordenados, 0, len(lotes_ordenados) - 1
+        )
+        self.tamanio = len(lotes_ordenados)

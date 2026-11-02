@@ -1,5 +1,4 @@
 from datetime import date, datetime
-from GestorArchivos import GestorArchivos
 from Excepciones import QuantumTechError
 
 class MenuProfesional:
@@ -69,13 +68,8 @@ class MenuProfesional:
                 print("   -", defecto)
         if inspeccion.getter_reporte() is not None:
             reporte = inspeccion.getter_reporte()
-            contenido = reporte.crear_resumen()
+            print(reporte.crear_resumen()) 
 
-            ruta = GestorArchivos.guardar_reporte(
-            reporte.getter_id(),
-            contenido)
-            print(contenido)
-            print("Reporte guardado en:", ruta)
 
     def agregar_certificacion(self):
         nombre = input("\nNombre de la certificación: ")

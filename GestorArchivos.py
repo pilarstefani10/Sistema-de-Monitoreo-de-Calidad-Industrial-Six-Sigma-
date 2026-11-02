@@ -33,33 +33,6 @@ class GestorArchivos:
             escritor.writeheader()
             escritor.writerows(filas)
 
-    @staticmethod
-    def agregar_csv(ruta, encabezados, filas):
-        # Abrimos en modo lectura para comprobar si
-        # ya existe y si tiene encabezados.
-        try:
-            with open(ruta, "r", newline="", encoding="utf-8-sig") as archivo:
-                lector = csv.reader(archivo)
-                primera_fila = next(lector, None)
-
-        except FileNotFoundError:
-            primera_fila = None
-
-        if primera_fila is not None:
-            if primera_fila != list(encabezados):
-                raise ValueError(f"Encabezados incorrectos: {ruta}")
-
-        with open(ruta, "a", newline="", encoding="utf-8") as archivo:
-            escritor = csv.DictWriter(
-                archivo,
-                fieldnames=encabezados
-            )
-
-            if primera_fila is None:
-                escritor.writeheader()
-
-            escritor.writerows(filas)
-
     
     @staticmethod
     def guardar_reporte(nombre, contenido):
