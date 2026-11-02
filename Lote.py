@@ -90,21 +90,23 @@ class Lote:
         return conteos
 
 
-    def porcentaje_preliminar(self):
-        cerradas = []
-        for muestra in self.__muestras:
-            if muestra.getter_estado() in ("CONFORME", "NO_CONFORME"):
-                cerradas.append(muestra)
+    def porcentaje_real_no_conformes(self):
+        if self.__estado == "PENDIENTE":
+            raise TransicionInvalidaError(
+                "El lote todavía no fue evaluado. No tiene porcentaje definitivo."
+            )
 
-        if len(cerradas) == 0:
+        total = len(self.__muestras)
+
+        if total == 0:
             return 0
 
         no_conformes = 0
-        for muestra in cerradas:
+        for muestra in self.__muestras:
             if muestra.getter_estado() == "NO_CONFORME":
                 no_conformes += 1
 
-        return (no_conformes / len(cerradas)) * 100
+        return (no_conformes / total) * 100
 
     def tipos_defectos_dimensionales(self):
         tipos = set()
