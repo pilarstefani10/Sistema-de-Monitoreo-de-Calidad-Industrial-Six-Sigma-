@@ -120,30 +120,25 @@ class Empresa:
         return empleado
 
     
+
     @staticmethod
     def _leer(nombre_archivo):
-        ruta = Path("datos")vo
+        ruta = GestorArchivos.CARPETA_DATOS / nombre_archivo
         filas = GestorArchivos.leer_csv_dict(ruta)
 
         if filas is None:
             raise FileNotFoundError(f"No existe {ruta}")
 
-        return filas
-
-
-    @staticmethod
+        return filasicme    @staticmethod
     def _guardar(nombre_archivo, encabezados, filas):
-        carpeta = Path("datos")
-Path("datos")ta.mkdir(parents=True, exist_ok=True)
+        carpeta = GestorArchivos.CARPETA_DATOS
+        carpeta.mkdir(parents=True, exist_ok=True)
 
         GestorArchivos.escribir_csv(
             carpeta / nombre_archivo,
             encabezados,
-            filas
-        )
-
-
-    @staticmethod
+            filas)
+        ththod
     def _crear_con_id(tipo, contador, ID, prefijo, *args, **kwargs):
         numero = ID[len(prefijo):]
 
@@ -499,9 +494,9 @@ Path("datos")ta.mkdir(parents=True, exist_ok=True)
                         "tipo": defecto.getter_tipo(),
                         "gravedad": defecto.getter_gravedad(),
                         "descripcion": defecto.getter_descripcion()
-                    })
+             })       })
  
-            
+          
                 inspeccion = muestra.getter_inspeccion()     if insp        s not None:
                     if muestra.getter_estado() != "PENDIENTE":
                         inspecciones_terminadas.append(inspeccion)

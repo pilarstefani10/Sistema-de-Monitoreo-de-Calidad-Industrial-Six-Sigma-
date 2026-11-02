@@ -119,6 +119,15 @@ class MenuAdministrador:
         print("Solo en", id_lote1, ":", solo1)
         print("Solo en", id_lote2, ":", solo2)   
 
+    def buscar_lote_arbol(self):
+        ID = input("\nID del lote a buscar: ")
+
+        lote = self.__empresa.buscar_lote_arbol(ID)
+
+        print("\nLote encontrado:", lote.getter_id())
+        print("Cantidad fabricada:", lote.getter_cantidad_fabricada())
+        print("Estado:", lote.getter_estado())
+
     @staticmethod
     def pedir_fecha(mensaje):
         print(mensaje)
@@ -133,3 +142,4 @@ class MenuAdministrador:
         if not texto.isdigit():
             raise ValueError("Debe ingresar un número entero positivo.")
         return int(texto)
+          

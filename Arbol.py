@@ -51,7 +51,7 @@ class Arbol:
             return nodo.lote
 
         if dato < nodo.dato:
-            return self.buscar(nodo.izquierda, dato)
+            return self.buscar(nodo.izquierda, dato,pasos)
 
         return self.buscar(nodo.derecha, dato,pasos)
 
