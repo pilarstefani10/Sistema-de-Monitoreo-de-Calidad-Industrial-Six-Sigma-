@@ -7,48 +7,10 @@ from Excepciones import QuantumTechError
 
 
 # ---------- Datos iniciales ----------
-
 empresa = Empresa("QuantumTech Precision")
-admin = Administrador("Carla Diaz", empresa)
+empresa.cargar_estado_total()
 
-ana = admin.crear_profesional("Ana Perez")
-luis = admin.crear_profesional("Luis Gomez")
-
-ana.agregar_certificacion("Control de leche", date(2026, 1, 1), date(2027, 1, 1))
-luis.agregar_certificacion("Control de leche", date(2026, 1, 1), date(2027, 1, 1))
-
-admin.crear_equipo("volumen", date(2026, 8, 1))
-admin.crear_equipo("volumen", date(2025, 1, 1))
-
-admin.crear_procedimiento(
-    "dimensional",
-    nombre="Control de volumen",
-    categoria_equipo_requerida="volumen",
-    certificaciones_requeridas={"Control de leche"},
-    limite_gravedad=3,
-    valor_esperado=1000.0,
-    tolerancia=5.0,
-    desvio=3.0,
-    rangos_gravedad={"leve": 7, "moderado": 9, "serio": 11, "severo": 13, "crítico": 15}
-)
-
-admin.crear_procedimiento(
-    "visual",
-    nombre="Control de envase",
-    categoria_equipo_requerida="volumen",
-    certificaciones_requeridas={"Control de leche"},
-    probabilidad=0.1,
-    zonas_posibles=["tapa", "base", "etiqueta"],
-    descripciones=["Fisura", "Abolladura", "Mancha"]
-)
-
-admin.crear_lote(100)
-admin.crear_muestra("L1", 5, "P1", "E1", "PR1")
-admin.crear_muestra("L1", 5, "P1", "E1", "PR1")
-admin.crear_muestra("L1", 5, "P2", "E1", "PR2")
-
-
-# ---------- Ingreso ----------
+# ---------- Ingreso ---------- 
 
 while True:
     print("\n==========================================")
@@ -74,4 +36,6 @@ while True:
     except (QuantumTechError, ValueError) as error:
         print("\nError:", error)
 
+empresa.guardar_estado_total()
+print("\nDatos guardados correctamente.")
 print("\nSistema cerrado.\n")

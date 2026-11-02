@@ -50,6 +50,7 @@ class Muestra:
             )
 
         self.__estado = "PENDIENTE"
+        self.__defectos.clear()
 
     
     def cerrar(self):

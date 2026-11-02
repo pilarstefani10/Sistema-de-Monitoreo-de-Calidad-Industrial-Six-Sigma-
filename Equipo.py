@@ -24,7 +24,8 @@ class Equipo:
     def calibrar(self, fecha):
         if not isinstance(fecha, date):
             raise DatosInvalidosError("La fecha de calibración debe ser válida")
-
+        if fecha > date.today():
+            raise DatosInvalidosError("La fecha de calibración no puede ser futura")
         if self.__historial_calibraciones.buscar(fecha):
             raise DatosInvalidosError("La calibración ya está registrada")
 
@@ -44,7 +45,8 @@ class Equipo:
 
 
     def eliminar_calibracion(self, fecha):
-        return self.__historial_calibraciones.eliminar_buscando(fecha)
+        if not self.__historial_calibraciones.eliminar_buscando(fecha):
+            raise DatosInvalidosError("El equipo no tiene una calibración en esa fecha")
 
     def getter_ultimacalibracion(self):
         return self.__historial_calibraciones.obtener_ultimo()
