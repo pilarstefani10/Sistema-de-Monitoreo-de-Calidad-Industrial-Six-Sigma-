@@ -361,7 +361,7 @@ class Empresa:
                 fila["descripcion"]
             )
 
-            muestra.restaruar_defecto(defecto)
+            muestra.restaurar_defecto(defecto)
 
         # 11. Restaurar los estados de las muestras
         for ID, muestra in muestras.items():

@@ -26,7 +26,7 @@ class MenuAdministrador:
             print("   0. Salir\n")
 
             opcion = input("Opción: ")
-
+            
             try:
                 if opcion == "1":
                     self.ver_lotes()

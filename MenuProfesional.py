@@ -22,6 +22,7 @@ class MenuProfesional:
             print("   6. Calibrar equipo")
             print("   7. Dar de baja una calibración")
             print("   8. Ver historial de calibraciones de un equipo")
+            print("   9. Ver mis certificaciones")
             print("   0. Salir\n")
 
             opcion = input("Opción: ")
@@ -43,6 +44,8 @@ class MenuProfesional:
                     self.eliminar_calibracion()
                 elif opcion == "8":
                     self.ver_calibraciones()
+                elif opcion == "9":
+                    self.ver_certificaciones()                    
                 elif opcion == "0":
                     print("\nSesión finalizada.\n")
                 else:
@@ -159,6 +162,15 @@ class MenuProfesional:
         self.__profesional.eliminar_calibracion(equipo, fecha)
         print("\nCalibración del", fecha, "dada de baja.")
 
+    def ver_certificaciones(self):
+        certificaciones = self.__profesional.getter_certificaciones()
+
+        if len(certificaciones) == 0:
+            print("\nNo tiene certificaciones cargadas.")
+            return
+
+        print("\n---------- MIS CERTIFICACIONES ----------\n")
+        print("\n".join(map(lambda cert: cert.getter_nombre() + " - Desde: " + str(cert.getter_fecha_inicio()) + " - Hasta: " + str(cert.getter_fecha_vencimiento()) + " - " + ("Vigente" if cert.esta_vigente(date.today()) else "Vencida"), certificaciones)))
     
     @staticmethod
     def pedir_fecha(mensaje):
