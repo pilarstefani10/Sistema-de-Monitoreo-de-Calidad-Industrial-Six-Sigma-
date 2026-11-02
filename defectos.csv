@@ -1,0 +1,11 @@
+muestra_id,tipo,gravedad,descripcion
+L1M1,Desviación moderada,2,Medida 10.3000 excedió la tolerancia por 0.3000
+L1M1,Desviación severa,4,Medida 10.7000 excedió la tolerancia por 0.7000
+L2M1,Desviación crítica,5,Medida 21.1000 excedió la tolerancia por 1.1000
+L3M1,Desviación moderada,2,Medida 5.3000 excedió la tolerancia por 0.3000
+L5M1,Desviación moderada,2,Medida 8.3000 excedió la tolerancia por 0.3000
+L5M1,Desviación moderada,2,Medida 7.7000 excedió la tolerancia por 0.3000
+L6M1,Anomalía Visual del procedimiento Control de superficie,5,Rayadura en la zona superior
+L7M1,Anomalía Visual del procedimiento Control de pintura,5,Mancha en la zona lateral
+L7M1,Anomalía Visual del procedimiento Control de pintura,5,Fisura en la zona inferior
+L8M1,Desviación leve,1,Medida 5.1500 excedió la tolerancia por 0.1500

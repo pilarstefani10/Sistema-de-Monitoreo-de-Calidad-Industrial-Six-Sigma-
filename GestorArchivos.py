@@ -17,7 +17,7 @@ class GestorArchivos:
 
                 if encabezados is not None:
                     if lector.fieldnames != list(encabezados):
-                        raise ArchivoInvalidoError(f"Encabezados incorrectos: {ruta}")
+                        raise ArchivoInvalidoError(f"El CSV no tiene encabezados: {ruta}")
 
                 return list(lector)
 
