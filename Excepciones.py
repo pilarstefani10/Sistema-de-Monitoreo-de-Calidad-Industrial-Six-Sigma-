@@ -1,14 +1,17 @@
-class DatosInvalidosError(Exception):
+class QuantumTechError(Exception):
     pass
 
-class EquipoNoAptoError(Exception):
+class DatosInvalidosError(QuantumTechError):
     pass
 
-class CertificacionInvalidaError(Exception):
+class EquipoNoAptoError(QuantumTechError):
     pass
 
-class TransicionInvalidaError(Exception):
+class CertificacionInvalidaError(QuantumTechError):
     pass
 
-class InspeccionNoDisponibleError(Exception):
+class TransicionInvalidaError(QuantumTechError):
+    pass
+
+class InspeccionNoDisponibleError(QuantumTechError):
     pass
