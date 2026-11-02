@@ -4,6 +4,8 @@ import csv
 
 class GestorArchivos:
 
+    CARPETA_DATOS = Path("datos")
+    
     @staticmethod
     def leer_csv_dict(ruta, encabezados=None):
         try:

@@ -22,6 +22,7 @@ class MenuAdministrador:
             print("   5. Dar de alta un profesional")
             print("   6. Dar de alta un equipo")
             print("   7. Comparar defectos dimensionales de dos lotes")
+            print("   8. Buscar lote mediante árbol")
             print("   0. Salir\n")
 
             opcion = input("Opción: ")
@@ -40,7 +41,9 @@ class MenuAdministrador:
                 elif opcion == "6":
                     self.crear_equipo()   
                 elif opcion == "7":
-                      self.comparar_lotes()             
+                      self.comparar_lotes()  
+                elif opcion == "8":
+                        self.buscar_lote_arbol()           
                 elif opcion == "0":
                     print("\nSesión finalizada.\n")
                 else:

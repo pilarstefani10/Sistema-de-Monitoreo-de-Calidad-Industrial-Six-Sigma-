@@ -20,7 +20,7 @@ class Arbol:
         if nodo is None:
             nodo = self.raiz
 
-        dato = int(lote.ID[1:])
+        dato = int(lote.getter_id()[1:])
 
         if dato < nodo.dato:
             if nodo.izquierda is None:
@@ -53,7 +53,7 @@ class Arbol:
         if dato < nodo.dato:
             return self.buscar(nodo.izquierda, dato)
 
-        return self.buscar(nodo.derecha, dato)
+        return self.buscar(nodo.derecha, dato,pasos)
 
     def inorden(self, nodo):
         if nodo is None:
@@ -86,7 +86,7 @@ class Arbol:
         )
 
     def __str__(self):
-        return str([lote.ID for lote in self.inorden(self.raiz)])
+        return str([lote.getter_id() for lote in self.inorden(self.raiz)])
 
 
     def _construir_balanceado(self, lotes, inicio, fin):

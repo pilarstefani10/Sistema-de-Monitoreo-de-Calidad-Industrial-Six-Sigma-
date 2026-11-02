@@ -122,7 +122,7 @@ class Empresa:
     
     @staticmethod
     def _leer(nombre_archivo):
-        ruta = Path("datos") / nombre_archivo
+        ruta = Path("datos")vo
         filas = GestorArchivos.leer_csv_dict(ruta)
 
         if filas is None:
@@ -134,7 +134,7 @@ class Empresa:
     @staticmethod
     def _guardar(nombre_archivo, encabezados, filas):
         carpeta = Path("datos")
-        carpeta.mkdir(parents=True, exist_ok=True)
+Path("datos")ta.mkdir(parents=True, exist_ok=True)
 
         GestorArchivos.escribir_csv(
             carpeta / nombre_archivo,
@@ -500,12 +500,20 @@ class Empresa:
                         "gravedad": defecto.getter_gravedad(),
                         "descripcion": defecto.getter_descripcion()
                     })
-
-                inspeccion = muestra.getter_inspeccion()
-
-                if inspeccion is not None:
+ 
+            
+                inspeccion = muestra.getter_inspeccion()     if insp        s not None:
                     if muestra.getter_estado() != "PENDIENTE":
                         inspecciones_terminadas.append(inspeccion)
+
+                    reporte = inspeccion.getter_reporte()
+
+                    if reporte is not None:
+                        GestorArchivos.guardar_reporte(
+                            reporte.getter_id(),
+                            reporte.crear_resumen()
+                        )
+
 
         self._guardar(
             "lotes.csv",

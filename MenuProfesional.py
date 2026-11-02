@@ -18,6 +18,8 @@ class MenuProfesional:
             print("   2. Ejecutar siguiente inspección")
             print("   3. Agregar certificación")
             print("   4. Calibrar equipo")
+            print("   5. Ver última inspección realizada")
+            print("   6. Ver historial de inspecciones")
             print("   0. Salir\n")
 
             opcion = input("Opción: ")
@@ -31,6 +33,10 @@ class MenuProfesional:
                     self.agregar_certificacion()
                 elif opcion == "4":
                     self.calibrar_equipo()
+                elif opcion == "5":
+                    self.ver_ultima_inspeccion()
+                elif opcion == "6":
+                    self.ver_historial()
                 elif opcion == "0":
                     print("\nSesión finalizada.\n")
                 else:
@@ -91,6 +97,30 @@ class MenuProfesional:
         self.__profesional.calibrar_equipo(equipo, date.today())
         print("\nEquipo", id_equipo, "calibrado.")
 
+    def ver_ultima_inspeccion(self):
+        inspeccion = self.__profesional.getter_ultima_inspeccion()
+
+        if inspeccion is None:
+            print("\nTodavía no realizó inspecciones.")
+            return
+
+        print("\n---------- ÚLTIMA INSPECCIÓN ----------\n")
+        print(inspeccion)
+        print("Resultado:", inspeccion.getter_muestra().getter_estado())
+
+        if inspeccion.getter_reporte() is not None:
+            print(inspeccion.getter_reporte().crear_resumen())
+
+    def ver_historial(self):
+        historial = self.__profesional.getter_historial()
+
+        if len(historial) == 0:
+            print("\nTodavía no realizó inspecciones.")
+            return
+
+        print("\n---------- HISTORIAL (de la más reciente a la más antigua) ----------\n")
+        print("\n".join(map(lambda inspeccion: inspeccion.getter_id() + " - Muestra: " + inspeccion.getter_muestra().getter_id() + " - " + inspeccion.getter_muestra().getter_estado(), historial)))
+    
     @staticmethod
     def pedir_fecha(mensaje):
         print(mensaje)
