@@ -12,7 +12,7 @@ class Lista:
 
     def agregar_inicio(self, dato):
         nuevo_nodo = Nodo(dato)
-        nuevo_nodo.siguiente = self.cabeza
+        nuevo_nodo.setter_siguiente(self.cabeza)
         self.cabeza = nuevo_nodo
         self.tamanio += 1
 
@@ -22,25 +22,25 @@ class Lista:
             self.cabeza = nuevo_nodo
         else:
             actual = self.cabeza
-            while actual.siguiente is not None:
-                actual = actual.siguiente
-            actual.siguiente = nuevo_nodo
+            while actual.getter_siguiente() is not None:
+                actual = actual.getter_siguiente()
+            actual.setter_siguiente(nuevo_nodo)
         self.tamanio += 1
 
     def __str__(self):
         cadena = ""
         actual = self.cabeza
         while actual is not None:
-            cadena += str(actual) + " -> "
-            actual = actual.siguiente
+            cadena += str(actual.getter_dato()) + " -> "
+            actual = actual.getter_siguiente()
         return cadena
 
     def buscar(self, dato):
         actual = self.cabeza
         while actual is not None:
-            if actual.dato == dato:
+            if actual.getter_dato() == dato:
                 return True
-            actual = actual.siguiente
+            actual = actual.getter_siguiente()
         return False
 
     def eliminar_buscando(self, dato):
@@ -51,14 +51,14 @@ class Lista:
         anterior = None
 
         while actual is not None:
-            if actual.dato == dato:
+            if actual.getter_dato() == dato:
                 if anterior is None:
-                    self.cabeza = actual.siguiente
+                    self.cabeza = actual.getter_siguiente()
                 else:
-                    anterior.siguiente = actual.siguiente
+                    anterior.setter_siguiente(actual.getter_siguiente())
                 self.tamanio -= 1
                 return True
             anterior = actual
-            actual = actual.siguiente
+            actual = actual.getter_siguiente()
 
         return False
