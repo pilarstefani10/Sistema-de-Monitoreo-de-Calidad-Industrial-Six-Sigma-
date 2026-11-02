@@ -17,14 +17,17 @@ class Muestra:
         self.__lote = lote
         self.__defectos = []
 
-    def registrar_defectos(self, defectos):
+    def registrar_defectos(self, defectos,inspeccion):
 
         if not isinstance(defectos, list):
             raise DatosInvalidosError(
                 "Los defectos deben ingresarse en una lista."
             )
 
-        elif self.__estado in ["CONFORME", "NO_CONFORME"]:
+        elif self.__inspeccion is not inspeccion:
+            raise TransicionInvalidaError("Los defectos no pertenecen a la inspección asignada.")
+
+        elif self.__estado != "EN_INSPECCION":
             raise TransicionInvalidaError(
                 "No se pueden agregar defectos a una muestra cerrada."
             )

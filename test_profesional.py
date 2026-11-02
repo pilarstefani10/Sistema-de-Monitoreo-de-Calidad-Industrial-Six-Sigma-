@@ -61,7 +61,7 @@ def crear_inspeccion():
         inspeccion.getter_muestra.return_value = muestra
         inspeccion.getter_procedimiento.return_value = procedimiento
         inspeccion.getter_id.return_value = "I1"
-
+        inspeccion.getter_reporte.return_value = None
         profesional.asignar_inspeccion(inspeccion)
 
         return inspeccion, muestra, procedimiento

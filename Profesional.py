@@ -80,7 +80,7 @@ class Profesional(Empleado):
             resultados = map(lambda _: procedimiento.evaluar_unidad(), range(muestra.getter_unidadesrepresentadas()))
             defectos = list(filter(lambda defecto: defecto is not None, resultados))
 
-            muestra.registrar_defectos(defectos)
+            muestra.registrar_defectos(defectos,inspeccion)
         except Exception:
             muestra.cancelar_inspeccion()
             raise

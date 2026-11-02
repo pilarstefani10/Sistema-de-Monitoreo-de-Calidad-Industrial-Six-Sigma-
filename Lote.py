@@ -68,6 +68,44 @@ class Lote:
     def muestras_cerradas(self):
         return all(map(lambda muestra: True if muestra.getter_estado() in ("CONFORME", "NO_CONFORME") else False, self.__muestras))
 
+    def contar_defectos_criticos(self):
+        cantidad = 0
+        for muestra in self.__muestras:
+            if muestra.getter_estado() in ("CONFORME", "NO_CONFORME"):
+                for defecto in muestra.getter_defectos():
+                    if defecto.es_critico():
+                        cantidad += 1
+        return cantidad
+
+
+    def contar_defectos_por_tipo(self):
+        conteos = {}
+        for muestra in self.__muestras:
+            if muestra.getter_estado() in ("CONFORME", "NO_CONFORME"):
+                for defecto in muestra.getter_defectos():
+                    tipo = defecto.getter_tipo()
+                    if tipo not in conteos:
+                        conteos[tipo] = 0
+                    conteos[tipo] += 1
+        return conteos
+
+
+    def porcentaje_preliminar(self):
+        cerradas = []
+        for muestra in self.__muestras:
+            if muestra.getter_estado() in ("CONFORME", "NO_CONFORME"):
+                cerradas.append(muestra)
+
+        if len(cerradas) == 0:
+            return 0
+
+        no_conformes = 0
+        for muestra in cerradas:
+            if muestra.getter_estado() == "NO_CONFORME":
+                no_conformes += 1
+
+        return (no_conformes / len(cerradas)) * 100
+
     def tipos_defectos_dimensionales(self):
         tipos = set()
         for muestra in self.__muestras:

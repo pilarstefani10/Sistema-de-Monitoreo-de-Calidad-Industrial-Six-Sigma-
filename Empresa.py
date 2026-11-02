@@ -582,9 +582,6 @@ class Empresa:
             for inspeccion in reversed(historial):
                 inspecciones_terminadas.append(inspeccion)
 
-        for profesional in self.getter_profesionales():
-            for inspeccion in reversed(profesional.getter_historial()):
-                inspecciones_terminadas.append(inspeccion)
 
         # Inspecciones: las pendientes se guardan en orden FIFO
         pendientes = []
@@ -596,7 +593,7 @@ class Empresa:
 
         filas = []
 
-        for i in pendientes + inspecciones_terminadas:
+        for i in pendientes + inspecciones_terminadas   :
             filas.append({
                 "id": i.getter_id(),
                 "muestra_id": i.getter_muestra().getter_id(),
