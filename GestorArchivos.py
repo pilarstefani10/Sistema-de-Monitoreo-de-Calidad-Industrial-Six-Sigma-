@@ -13,11 +13,10 @@ class GestorArchivos:
                 lector = csv.DictReader(archivo)
 
                 if lector.fieldnames is None:
-                    raise ArchivoInvalidoError("El CSV no tiene encabezados: " + ruta)
-
+                    raise ArchivoInvalidoError(f"El CSV no tiene encabezados: {ruta}")
                 if encabezados is not None:
                     if lector.fieldnames != list(encabezados):
-                        raise ArchivoInvalidoError(f"El CSV no tiene encabezados: {ruta}")
+                        raise ArchivoInvalidoError(f"Encabezados Incorrectos: {ruta}")
 
                 return list(lector)
 

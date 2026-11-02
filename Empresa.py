@@ -283,6 +283,7 @@ class Empresa:
             estados_muestras[muestra.getter_id()] = fila["estado"]
 
         # 9. Inspecciones
+        inspecciones_finalizadas = []
         for fila in self._leer("inspecciones.csv"):
             muestra = muestras[fila["muestra_id"]]
             profesional = self.buscar_profesional(

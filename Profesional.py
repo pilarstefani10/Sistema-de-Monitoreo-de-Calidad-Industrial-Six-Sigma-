@@ -46,6 +46,22 @@ class Profesional(Empleado):
 
         self.__cola_inspecciones.encolar(inspeccion)
 
+
+    def restaurar_inspeccion_finalizada(self, inspeccion):
+
+        if inspeccion.getter_profesional() is not self:
+            raise DatosInvalidosError(
+                "La inspección pertenece a otro profesional"
+            )
+
+        if inspeccion.getter_muestra().getter_estado() not in ("CONFORME", "NO_CONFORME"):
+            raise TransicionInvalidaError(
+                "La inspección no está finalizada"
+            )
+
+        self.__historial.apilar(inspeccion)
+
+
     def siguiente_inspeccion(self):
         return self.__cola_inspecciones.frente()
 
@@ -71,7 +87,12 @@ class Profesional(Empleado):
         muestra.cerrar()
 
         if muestra.getter_estado() == "NO_CONFORME":
-            inspeccion.registrar_reporte(Reporte(inspeccion.getter_id() + "R", inspeccion))
+            if inspeccion.getter_reporte() is None:
+                reporte = Reporte(
+                    inspeccion.getter_id() + "R",
+                    inspeccion
+                    )
+                inspeccion.registrar_reporte(reporte)
 
         self.__cola_inspecciones.desencolar()
         self.__historial.apilar(inspeccion)
@@ -80,6 +101,9 @@ class Profesional(Empleado):
 
     def calibrar_equipo(self, equipo, fecha):
         equipo.calibrar(fecha)
+        
+    def eliminar_calibracion(self, equipo, fecha):
+        equipo.eliminar_calibracion(fecha)
 
     def getter_certificaciones(self):
         return self.__certificaciones.copy()

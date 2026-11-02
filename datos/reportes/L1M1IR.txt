@@ -1,0 +1,8 @@
+
+Reporte: L1M1IR
+Fecha: 2026-11-02
+Muestra: L1M1
+Lote: L1
+Responsable: Laura Fernandez
+1. Tipo: Desviación moderada | Descripción: Medida 10.3000 excedió la tolerancia por 0.3000 | Gravedad: 2
+2. Tipo: Desviación severa | Descripción: Medida 10.7000 excedió la tolerancia por 0.7000 | Gravedad: 4
