@@ -1,4 +1,6 @@
 from datetime import date
+from Excepciones import QuantumTechError
+
 
 class MenuAdministrador:
 
@@ -44,7 +46,7 @@ class MenuAdministrador:
                 else:
                     print("\nOpción incorrecta.")
 
-            except ValueError as error:
+            except (QuantumTechError, ValueError) as error:
                 print("\nError:", error)
 
             if opcion != "0":
