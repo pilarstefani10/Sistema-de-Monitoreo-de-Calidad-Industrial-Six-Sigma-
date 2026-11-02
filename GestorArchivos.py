@@ -1,6 +1,6 @@
 from pathlib import Path
 import csv
-
+from Excepciones import ArchivoInvalidoError
 
 class GestorArchivos:
 
@@ -13,11 +13,11 @@ class GestorArchivos:
                 lector = csv.DictReader(archivo)
 
                 if lector.fieldnames is None:
-                    raise ValueError("El CSV no tiene encabezados: " + ruta)
+                    raise ArchivoInvalidoError("El CSV no tiene encabezados: " + ruta)
 
                 if encabezados is not None:
                     if lector.fieldnames != list(encabezados):
-                        raise ValueError(f"Encabezados incorrectos: {ruta}")
+                        raise ArchivoInvalidoError(f"Encabezados incorrectos: {ruta}")
 
                 return list(lector)
 
@@ -38,7 +38,7 @@ class GestorArchivos:
     
     @staticmethod
     def guardar_reporte(nombre, contenido):
-        carpeta = Path("datos/reportes")
+        carpeta = GestorArchivos.CARPETA_DATOS / "reportes"
         carpeta.mkdir(parents=True, exist_ok=True)
 
         ruta = carpeta / f"{nombre}.txt"
@@ -50,7 +50,7 @@ class GestorArchivos:
         except FileExistsError:
             with open(ruta, "r", encoding="utf-8") as archivo:
                 if archivo.read() != contenido:
-                    raise ValueError(
+                    raise ArchivoInvalidoError(
                         "Ya existe un reporte diferente con ese ID."
                     )
 

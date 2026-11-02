@@ -1,6 +1,5 @@
 from Excepciones import DatosInvalidosError
 from datetime import date
-from pathlib import Path
 import json
 from GestorArchivos import GestorArchivos
 from Administrador import Administrador

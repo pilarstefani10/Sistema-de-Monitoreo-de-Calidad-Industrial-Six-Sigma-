@@ -15,3 +15,5 @@ class TransicionInvalidaError(QuantumTechError):
 
 class InspeccionNoDisponibleError(QuantumTechError):
     pass
+class ArchivoInvalidoError(QuantumTechError):
+    pass
