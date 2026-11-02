@@ -1,7 +1,7 @@
 import pytest
 from Muestra import Muestra
 from Defecto import Defecto
-
+from Excepciones import DatosInvalidosError, TransicionInvalidaError
 
 def test_crear_muestra_correctamente():
 
@@ -17,10 +17,10 @@ def test_crear_muestra_correctamente():
 
 def test_muestra_con_unidades_invalidas():
 
-    with pytest.raises(ValueError):
+    with pytest.raises(DatosInvalidosError):
         Muestra("M1", 0, "L1")
 
-    with pytest.raises(ValueError):
+    with pytest.raises(DatosInvalidosError):
         Muestra("M2", -5, "L1")
 
 
@@ -59,7 +59,7 @@ def test_registrar_algo_que_no_sea_lista():
         "Envase roto"
     )
 
-    with pytest.raises(ValueError):
+    with pytest.raises(DatosInvalidosError):
         muestra.registrar_defectos(defecto)
 
     assert muestra.getter_defectos() == []
@@ -80,7 +80,7 @@ def test_lista_con_elemento_que_no_es_defecto():
         "esto no es un defecto"
     ]
 
-    with pytest.raises(ValueError):
+    with pytest.raises(DatosInvalidosError):
         muestra.registrar_defectos(defectos)
 
     assert muestra.getter_defectos() == []
@@ -108,7 +108,7 @@ def test_lista_invalida_no_agrega_defectos_parcialmente():
         "elemento invalido"
     ]
 
-    with pytest.raises(ValueError):
+    with pytest.raises(DatosInvalidosError):
         muestra.registrar_defectos(defectos)
 
     assert muestra.getter_defectos() == []
@@ -143,7 +143,7 @@ def test_no_cerrar_muestra_pendiente():
 
     muestra = Muestra("M1", 10, "L1")
 
-    with pytest.raises(ValueError):
+    with pytest.raises(TransicionInvalidaError):
         muestra.cerrar()
 
     assert muestra.getter_estado() == "PENDIENTE"
@@ -160,7 +160,7 @@ def test_error_al_registrar_no_borra_defectos_anteriores():
 
     muestra.registrar_defectos([defecto])
 
-    with pytest.raises(ValueError):
+    with pytest.raises(DatosInvalidosError):
         muestra.registrar_defectos(["esto no es un defecto"])
 
     assert len(muestra.getter_defectos()) == 1
@@ -168,5 +168,5 @@ def test_error_al_registrar_no_borra_defectos_anteriores():
 
 def test_muestra_no_acepta_unidades_decimales():
 
-    with pytest.raises(ValueError):
+    with pytest.raises(DatosInvalidosError):
         Muestra("M1", 2.5, "L1")
