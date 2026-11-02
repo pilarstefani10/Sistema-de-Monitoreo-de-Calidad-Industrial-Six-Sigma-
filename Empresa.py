@@ -1,5 +1,4 @@
 from Excepciones import DatosInvalidosError
-from Profesional import Profesional
 from datetime import date
 from pathlib import Path
 import json

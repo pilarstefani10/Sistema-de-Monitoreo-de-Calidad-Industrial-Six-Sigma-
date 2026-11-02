@@ -15,7 +15,7 @@ class GestorArchivos:
 
                 if encabezados is not None:
                     if lector.fieldnames != list(encabezados):
-                        raise ValueError("Encabezados incorrectos: " + ruta)
+                        raise ValueError(f"Encabezados incorrectos: {ruta}")
 
                 return list(lector)
 
@@ -47,7 +47,7 @@ class GestorArchivos:
 
         if primera_fila is not None:
             if primera_fila != list(encabezados):
-                raise ValueError("Encabezados incorrectos: " + ruta)
+                raise ValueError(f"Encabezados incorrectos: {ruta}")
 
         with open(ruta, "a", newline="", encoding="utf-8") as archivo:
             escritor = csv.DictWriter(
