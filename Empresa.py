@@ -310,6 +310,8 @@ class Empresa:
 
             if estados_muestras[muestra.getter_id()] == "PENDIENTE":
                 profesional.asignar_inspeccion(inspeccion)
+            elif estados_muestras[muestra.getter_id()] in ("CONFORME", "NO_CONFORME"):
+                inspecciones_finalizadas.append(inspeccion)
 
         # 10. Defectos
         for fila in self._leer("defectos.csv"):
@@ -336,6 +338,13 @@ class Empresa:
                         inspeccion
                     )
                     inspeccion.registrar_reporte(reporte)
+
+        
+        # Restaurar el historial de inspecciones finalizadas
+        for inspeccion in inspecciones_finalizadas:
+            profesional = inspeccion.getter_profesional()
+            profesional.restaurar_inspeccion_finalizada(inspeccion)
+
 
         # 12. Restaurar los estados de los lotes
         for lote in self.getter_lotes():
@@ -501,9 +510,6 @@ class Empresa:
           
                 inspeccion = muestra.getter_inspeccion()     
                 if inspeccion is not None:
-                    if muestra.getter_estado() != "PENDIENTE":
-                        inspecciones_terminadas.append(inspeccion)
-
                     reporte = inspeccion.getter_reporte()
 
                     if reporte is not None:
@@ -530,6 +536,13 @@ class Empresa:
             ["muestra_id", "tipo", "gravedad", "descripcion"],
             defectos
         )
+        
+        # Guardar el historial del más antiguo al más reciente
+        for profesional in self.getter_profesionales():
+            historial = profesional.getter_historial()
+
+            for inspeccion in reversed(historial):
+                inspecciones_terminadas.append(inspeccion)
 
         # Inspecciones: las pendientes se guardan en orden FIFO
         pendientes = []
