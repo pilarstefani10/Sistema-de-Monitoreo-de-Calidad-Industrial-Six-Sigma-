@@ -61,7 +61,7 @@ class MenuAdministrador:
 
     def ver_lotes(self):
         print("\n---------- LOTES ----------\n")
-        for lote in self.__empresa.getter_lotes():
+        for lote in self.__empresa.obtener_lotes_ordenados():
             print(lote.getter_id(), "- Estado:", lote.getter_estado(),
                   "- Muestras:", len(lote.getter_muestras()))
 
@@ -157,8 +157,8 @@ class MenuAdministrador:
             return
 
         print("\n---------- REPORTES DEL LOTE", lote.getter_id(), "----------")
-        print("\n".join(map(lambda reporte: reporte.crear_resumen() + reporte.impacto_preliminar(), reportes)))
-
+        print("\n".join(map(lambda reporte: reporte.crear_resumen(), reportes)))
+        print(reportes[0].impacto_preliminar())
 
     @staticmethod
     def pedir_fecha(mensaje):
