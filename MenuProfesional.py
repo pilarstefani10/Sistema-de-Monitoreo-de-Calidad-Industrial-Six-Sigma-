@@ -64,9 +64,11 @@ class MenuProfesional:
         if len(pendientes) == 0:
             print("No tiene inspecciones pendientes.")
 
-        for inspeccion in pendientes:
-            print(inspeccion.getter_id(), "- Muestra:", inspeccion.getter_muestra().getter_id(),
-                  "- Procedimiento:", inspeccion.getter_procedimiento().getter_nombre())
+        print("\n".join(map(
+            lambda inspeccion: inspeccion.getter_id()
+            + " - Muestra: " + inspeccion.getter_muestra().getter_id()
+            + " - Procedimiento: " + inspeccion.getter_procedimiento().getter_nombre(),
+            pendientes)))
 
     def ejecutar_siguiente(self):
         inspeccion = self.__profesional.ejecutar_siguiente_inspeccion()
@@ -79,8 +81,9 @@ class MenuProfesional:
             print("\nNo se encontraron defectos.")
         else:
             print("\nDefectos encontrados:\n")
-            for defecto in defectos:
-                print("   -", defecto)
+            print("\n".join(map(
+                lambda defecto: "   - " + str(defecto),
+                defectos)))
         if inspeccion.getter_reporte() is not None:
             reporte = inspeccion.getter_reporte()
             print(reporte.crear_resumen()) 

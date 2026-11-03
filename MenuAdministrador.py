@@ -73,17 +73,25 @@ class MenuAdministrador:
         self.ver_lotes()
 
         print("\n---------- PROFESIONALES ----------\n")
-        for profesional in self.__empresa.getter_profesionales():
-            print(profesional.getter_id(), "-", profesional.getter_nombre())
+
+        print("\n".join(map(
+            lambda profesional: profesional.getter_id() + " - " + profesional.getter_nombre(),
+            self.__empresa.getter_profesionales())))
+
 
         print("\n---------- EQUIPOS ----------\n")
-        for equipo in self.__empresa.getter_equipos():
-            print(equipo.getter_id(), "-", equipo.getter_categoria(),
-                  "- Última calibración:", equipo.getter_ultima_calibracion())
+
+        print("\n".join(map(
+            lambda equipo: equipo.getter_id() + " - " + equipo.getter_categoria()
+            + " - Última calibración: " + str(equipo.getter_ultima_calibracion()),
+            self.__empresa.getter_equipos())))
+
 
         print("\n---------- PROCEDIMIENTOS ----------\n")
-        for procedimiento in self.__empresa.getter_procedimientos():
-            print(procedimiento.getter_id(), "-", procedimiento.getter_nombre())
+
+        print("\n".join(map(
+            lambda procedimiento: procedimiento.getter_id() + " - " + procedimiento.getter_nombre(),
+            self.__empresa.getter_procedimientos())))
 
         id_lote = input("\nID del lote: ")
         unidades = self.pedir_entero("Unidades de la muestra: ")

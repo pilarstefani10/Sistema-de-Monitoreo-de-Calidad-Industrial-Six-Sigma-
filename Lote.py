@@ -111,14 +111,18 @@ class Lote:
         con_inspeccion = filter(lambda muestra: muestra.getter_inspeccion() is not None, self.__muestras)
         reportes = map(lambda muestra: muestra.getter_inspeccion().getter_reporte(), con_inspeccion)
         return list(filter(lambda reporte: reporte is not None, reportes))
-    
+        
     def tipos_defectos_dimensionales(self):
-        tipos = set()
-        for muestra in self.__muestras:
-            inspeccion = muestra.getter_inspeccion()
-            if inspeccion is not None and isinstance(inspeccion.getter_procedimiento(), ProcedimientoDimensional):
-                tipos.update(map(lambda defecto: defecto.getter_tipo(), muestra.getter_defectos()))
-        return tipos
+        muestras_dimensionales = filter(
+            lambda muestra: muestra.getter_inspeccion() is not None
+            and isinstance(
+                muestra.getter_inspeccion().getter_procedimiento(),
+                ProcedimientoDimensional),self.__muestras)
+        defectos = sum(
+            map(lambda muestra: muestra.getter_defectos(),
+                muestras_dimensionales),[])
+
+        return set(map(lambda defecto: defecto.getter_tipo(), defectos))
     
     def restaurar_estado(self, estado):
         if estado not in ("PENDIENTE", "APROBADO", "RECHAZADO"):
