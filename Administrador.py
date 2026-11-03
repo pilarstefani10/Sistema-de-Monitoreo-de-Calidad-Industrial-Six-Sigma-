@@ -59,8 +59,8 @@ class Administrador(Empleado):
         Inspeccion.validar(fecha, profesional, equipo, procedimiento)
         lote.validar_extraccion(unidades)
         muestra = Muestra(lote.proximo_id_muestra(), unidades, lote)
-        lote.agregar_muestra(muestra)
         self.crear_inspeccion(muestra,fecha,profesional,equipo,procedimiento)
+        lote.agregar_muestra(muestra)
         return muestra
 
     def crear_inspeccion(self, muestra, fecha, profesional, equipo, procedimiento):

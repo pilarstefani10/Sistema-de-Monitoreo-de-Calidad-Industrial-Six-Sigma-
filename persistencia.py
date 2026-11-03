@@ -224,7 +224,10 @@ class Persistencia:
         estados_muestras = {}
 
         for fila in self._leer("muestras.csv"):
-
+            if fila["id"] in muestras:
+                raise ValueError(
+                    "ID de muestra duplicado: " + fila["id"]
+                )
             lote = empresa.buscar_lote(
                 fila["lote_id"]
             )
@@ -286,6 +289,12 @@ class Persistencia:
             inspecciones_recuperadas.append(
                 (inspeccion, estado)
             )
+        for muestra in muestras.values():
+            if muestra.getter_inspeccion() is None:
+                raise ValueError(
+                    "La muestra no tiene una inspección asignada: "
+                    + muestra.getter_id()
+        )
 
 
         # 10. Defectos
@@ -303,8 +312,36 @@ class Persistencia:
 
        
         # 11. Restaurar estados de muestras
+
         for ID, muestra in muestras.items():
-            muestra.restaurar_estado(estados_muestras[ID])
+
+            estado = estados_muestras[ID]
+            inspeccion = muestra.getter_inspeccion()
+
+            if estado == "PENDIENTE":
+
+                if muestra.getter_defectos():
+                    raise ValueError(
+                        "Una muestra pendiente no puede tener defectos: " + ID
+                    )
+
+            else:
+                if inspeccion is None:
+                    raise ValueError(
+                        "La muestra cerrada no tiene inspección: " + ID
+                    )
+                if inspeccion.conformidad():
+                    resultado = "CONFORME"
+
+                else:
+                    resultado="NO_CONFORME"
+                
+                if estado != resultado:
+                    raise ValueError(
+                        "El estado de la muestra no coincide con sus defectos: " + ID
+                    )
+
+            muestra.restaurar_estado(estado)
 
         # Restaurar inspecciones según su estado guardado
         for inspeccion, estado in inspecciones_recuperadas:
@@ -341,9 +378,19 @@ class Persistencia:
         # 12. Restaurar estados de los lotes
         for lote in empresa.getter_lotes():
 
-            lote.restaurar_estado(
-                estados_lotes[lote.getter_id()]
-            )
+            estado = estados_lotes[lote.getter_id()]
+
+            if estado in ("APROBADO", "RECHAZADO"):
+
+                resultado = lote.resultado_segun_criterio()
+
+                if estado != resultado:
+                    raise ValueError(
+                        "El estado del lote no coincide con sus muestras: "
+                        + lote.getter_id()
+                    )
+
+            lote.restaurar_estado(estado)
 
     
     def guardar_estado_total(self, empresa):
