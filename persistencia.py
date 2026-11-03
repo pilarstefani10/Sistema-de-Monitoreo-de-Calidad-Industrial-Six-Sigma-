@@ -426,6 +426,12 @@ class Persistencia:
 
                 calibraciones.append(fila)
 
+        self._guardar(
+            "calibraciones.csv",
+            ["equipo_id", "fecha"],
+            calibraciones
+                )
+
 
         # 6. Procedimientos
         procedimientos = []
