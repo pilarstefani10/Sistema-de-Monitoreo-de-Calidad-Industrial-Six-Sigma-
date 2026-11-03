@@ -132,8 +132,14 @@ class MenuAdministrador:
         print("\n---------- CONSULTAS DEL LOTE ----------")
         print("Cantidad de defectos críticos:", lote.contar_defectos_criticos())
         print("Defectos por tipo:", lote.contar_defectos_por_tipo())
-        print("Porcentaje preliminar de muestras no conformes:",
-            lote.porcentaje_preliminar(), "%")
+        if lote.getter_estado() != "PENDIENTE":
+            print(
+            "Porcentaje de muestras no conformes:",
+            lote.porcentaje_real_no_conformes(), "%"
+            )
+        else:
+            print("El lote todavía no tiene un porcentaje definitivo.")
+            
         print("Tipos de defectos dimensionales:",
             lote.tipos_defectos_dimensionales())
 
