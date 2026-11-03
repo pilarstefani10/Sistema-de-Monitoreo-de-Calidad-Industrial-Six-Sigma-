@@ -43,6 +43,8 @@ class Arbol:
     def buscar(self, nodo, dato, pasos=0):
         if nodo is None:
             print(f"Búsqueda terminada en {pasos} pasos")
+            if self.tamanio > 0:
+                print(f"Referencia log₂({self.tamanio}) = {log2(self.tamanio):.2f}")
             return None
 
         pasos += 1

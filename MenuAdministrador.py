@@ -64,6 +64,7 @@ class MenuAdministrador:
         print("\n".join(map(lambda lote: lote.getter_id() + " - Estado: " + lote.getter_estado() + " - Muestras: " + str(len(lote.getter_muestras())), self.__empresa.obtener_lotes_ordenados())))
 
     def crear_lote(self):
+        print("Tener en cuenta que, para la busqueda de lotes mediante árbol esta función se alterará hasta reiniciar sesión")
         cantidad = self.pedir_entero("\nCantidad fabricada: ")
         lote = self.__administrador.crear_lote(cantidad)
         print("\nLote creado:", lote.getter_id())
