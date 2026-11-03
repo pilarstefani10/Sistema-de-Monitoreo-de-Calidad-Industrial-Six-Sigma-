@@ -414,20 +414,18 @@ class Persistencia:
         )
 
         # 5. Calibraciones
-        calibraciones = [
-            {
-                "equipo_id": e.getter_id(),
-                "fecha": fecha.isoformat()
-            }
-            for e in equipos
-            for fecha in e.getter_calibraciones()
-        ]
+        
+        calibraciones = []
 
-        self._guardar(
-            "calibraciones.csv",
-            ["equipo_id", "fecha"],
-            calibraciones
-        )
+        for equipo in equipos:
+            for fecha in equipo.getter_calibraciones():
+                fila = {
+                    "equipo_id": equipo.getter_id(),
+                    "fecha": fecha.isoformat()
+                }
+
+                calibraciones.append(fila)
+
 
         # 6. Procedimientos
         procedimientos = []
@@ -493,11 +491,13 @@ class Persistencia:
         )
 
         # 7. Obtener todas las muestras de los lotes
-        muestras = [
-            m
-            for lote in lotes
-            for m in lote.getter_muestras()
-        ]
+        
+        muestras = []
+
+        for lote in lotes:
+            for muestra in lote.getter_muestras():
+                muestras.append(muestra)
+
 
         # Guardar reportes sin sobrescribir los existentes
         for muestra in muestras:
@@ -542,16 +542,22 @@ class Persistencia:
         )
 
         # 10. Defectos
-        defectos = [
-            {
-                "muestra_id": m.getter_id(),
-                "tipo": d.getter_tipo(),
-                "gravedad": d.getter_gravedad(),
-                "descripcion": d.getter_descripcion()
-            }
-            for m in muestras
-            for d in m.getter_defectos()
-        ]
+        
+        defectos = []
+
+        for muestra in muestras:
+            for defecto in muestra.getter_defectos():
+
+                fila = {
+                    "muestra_id": muestra.getter_id(),
+                    "tipo": defecto.getter_tipo(),
+                    "gravedad": defecto.getter_gravedad(),
+                    "descripcion": defecto.getter_descripcion()
+                }
+
+                defectos.append(fila)
+
+
 
         self._guardar(
             "defectos.csv",
@@ -560,20 +566,21 @@ class Persistencia:
         )
 
         # 11. Inspecciones finalizadas en orden cronológico por profesional
-        finalizadas = [
-            i
-            for p in profesionales
-            for i in reversed(p.getter_historial())
-        ]
-
-        # Inspecciones pendientes en orden FIFO por profesional
-        pendientes = [
-            i
-            for p in profesionales
-            for i in p.getter_inspecciones_pendientes()
-        ]
-
         
+        finalizadas = []
+
+        for profesional in profesionales:
+            for inspeccion in reversed(profesional.getter_historial()):
+                finalizadas.append(inspeccion)
+
+
+    
+        pendientes = []
+
+        for profesional in profesionales:
+            for inspeccion in profesional.getter_inspecciones_pendientes():
+                pendientes.append(inspeccion)
+
         estados_inspecciones = {}
 
         for inspeccion in pendientes:
