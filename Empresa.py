@@ -1,4 +1,5 @@
 from Excepciones import DatosInvalidosError
+from persistencia import Persistencia
 from datetime import date
 import json
 from GestorArchivos import GestorArchivos
@@ -27,6 +28,7 @@ class Empresa:
         self.__procedimientos = {}
         self.__administradores = {}
         self.__arbol_lotes=Arbol()
+        self.__persistencia = Persistencia()
 
     def registrar_lote(self, lote):
         if lote.getter_id() in self.__lotes:
@@ -202,6 +204,16 @@ class Empresa:
 
     def getter_administradores(self):
         return list(self.__administradores.values())
+
+    
+    def reconstruir_arbol_lotes(self):
+        self.__arbol_lotes.construir_balanceado(
+            self.__lotes.values()
+        )
+
+    def cargar_estado_total(self):
+        self.__persistencia.cargar_estado_total(self)
+
 
 
     def guardar_estado_total(self):
