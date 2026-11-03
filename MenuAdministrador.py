@@ -20,7 +20,7 @@ class MenuAdministrador:
             print("   2. Crear lote")
             print("   3. Crear muestra y asignar inspección")
             print("   4. Evaluar lote")
-            print("   5. Contrar un profesional")
+            print("   5. Contratar un profesional")
             print("   6. Comprar un equipo")
             print("   7. Comparar defectos dimensionales de dos lotes")
             print("   8. Buscar lote mediante árbol y ver detalle completo")
