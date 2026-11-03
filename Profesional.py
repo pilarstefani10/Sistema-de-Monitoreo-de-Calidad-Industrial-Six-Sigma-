@@ -65,39 +65,67 @@ class Profesional(Empleado):
     def siguiente_inspeccion(self):
         return self.__cola_inspecciones.frente()
 
+    
     def ejecutar_siguiente_inspeccion(self):
 
         inspeccion = self.__cola_inspecciones.frente()
 
         if inspeccion is None:
-            raise InspeccionNoDisponibleError("No hay inspecciones pendientes")
-        
+            raise InspeccionNoDisponibleError(
+                "No hay inspecciones pendientes"
+            )
+
         muestra = inspeccion.getter_muestra()
-        muestra.iniciar_inspeccion()
-        procedimiento = inspeccion.getter_procedimiento()
 
-        try:
-            resultados = map(lambda _: procedimiento.evaluar_unidad(), range(muestra.getter_unidadesrepresentadas()))
-            defectos = list(filter(lambda defecto: defecto is not None, resultados))
+        # Evaluar solamente si todavía está pendiente
+        if muestra.getter_estado() == "PENDIENTE":
 
-            muestra.registrar_defectos(defectos,inspeccion)
-        except Exception:
-            muestra.cancelar_inspeccion()
-            raise
-        muestra.cerrar()
+            muestra.iniciar_inspeccion()
+            procedimiento = inspeccion.getter_procedimiento()
 
+            try:
+                resultados = map(
+                    lambda _: procedimiento.evaluar_unidad(),
+                    range(muestra.getter_unidadesrepresentadas())
+                )
+
+                defectos = list(filter(
+                    lambda defecto: defecto is not None,
+                    resultados
+                ))
+
+                muestra.registrar_defectos(defectos, inspeccion)
+
+                muestra.cerrar()
+
+            except Exception:
+                if muestra.getter_estado() == "EN_INSPECCION":
+                    muestra.cancelar_inspeccion()
+                raise
+
+        # Si ya estaba cerrada, no repetimos la evaluación.
+        # Solo completamos el reporte si está pendiente.
         if muestra.getter_estado() == "NO_CONFORME":
+
             if inspeccion.getter_reporte() is None:
                 reporte = Reporte(
                     inspeccion.getter_id() + "R",
                     inspeccion
-                    )
+                )
+
                 inspeccion.registrar_reporte(reporte)
 
+        elif muestra.getter_estado() != "CONFORME":
+            raise TransicionInvalidaError(
+                "La muestra no se encuentra en un estado válido para finalizar."
+            )
+
+        # Finalización exitosa
         self.__cola_inspecciones.desencolar()
         self.__historial.apilar(inspeccion)
 
         return inspeccion
+
 
     def calibrar_equipo(self, equipo, fecha):
         equipo.calibrar(fecha)
