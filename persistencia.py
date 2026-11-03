@@ -584,6 +584,7 @@ class Persistencia:
             for i in finalizadas
         })
 
+        
         # Convertir todas las inspecciones en filas CSV
         filas_inspecciones = list(map(
             lambda i: {
@@ -592,16 +593,19 @@ class Persistencia:
                 "fecha": i.getter_fecha().isoformat(),
                 "profesional_id": i.getter_profesional().getter_id(),
                 "equipo_id": i.getter_equipo().getter_id(),
-                "procedimiento_id": i.getter_procedimiento().getter_id()
+                "procedimiento_id": i.getter_procedimiento().getter_id(),
+                "estado_inspeccion": estados_inspecciones[i.getter_id()]
             },
             pendientes + finalizadas
         ))
 
+        
         self._guardar(
             "inspecciones.csv",
             [
                 "id", "muestra_id", "fecha",
-                "profesional_id", "equipo_id", "procedimiento_id"
+                "profesional_id", "equipo_id",
+                "procedimiento_id", "estado_inspeccion"
             ],
             filas_inspecciones
         )
