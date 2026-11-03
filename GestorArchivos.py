@@ -4,7 +4,7 @@ from Excepciones import ArchivoInvalidoError
 
 class GestorArchivos:
 
-    CARPETA_DATOS = Path("datos")
+    CARPETA_DATOS = Path(__file__).resolve().parent / "datos"
     
     @staticmethod
     def leer_csv_dict(ruta, encabezados=None):
