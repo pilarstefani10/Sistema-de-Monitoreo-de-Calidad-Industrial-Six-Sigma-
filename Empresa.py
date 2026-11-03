@@ -1,19 +1,5 @@
 from Excepciones import DatosInvalidosError
 from persistencia import Persistencia
-from datetime import date
-import json
-from GestorArchivos import GestorArchivos
-from Administrador import Administrador
-from Profesional import Profesional
-from Equipo import Equipo
-from Procedimiento import Procedimiento
-from ProcedimientoDimensional import ProcedimientoDimensional
-from ProcedimientoVisual import ProcedimientoVisual
-from Lote import Lote
-from Muestra import Muestra
-from Inspeccion import Inspeccion
-from Defecto import Defecto
-from Reporte import Reporte
 from Arbol import Arbol
 class Empresa:
 #La idea es que haya una única empresa o instancia que funcionará como un repertorio universal donde se añaden todos los profesionales, lotes, procedimientos, equipos y certificaciones
@@ -120,88 +106,6 @@ class Empresa:
 
         return empleado
 
-    
-    
-    @staticmethod
-    def _leer(nombre_archivo):
-
-        encabezados_csv = {
-            "administradores.csv": ["id", "nombre"],
-            "profesionales.csv": ["id", "nombre"],
-            "certificaciones.csv": [
-                "profesional_id", "nombre",
-                "fecha_inicio", "fecha_vencimiento"
-            ],
-            "equipos.csv": ["id", "categoria"],
-            "calibraciones.csv": ["equipo_id", "fecha"],
-            "procedimientos.csv": [
-                "id", "tipo", "nombre", "categoria_equipo",
-                "certificaciones_requeridas", "limite_gravedad",
-                "valor_esperado", "tolerancia", "desvio",
-                "rangos_gravedad", "probabilidad",
-                "zonas_posibles", "descripciones"
-            ],
-            "lotes.csv": [
-                "id", "cantidad_fabricada", "estado"
-            ],
-            "muestras.csv": [
-                "id", "lote_id", "unidades", "estado"
-            ],
-            "inspecciones.csv": [
-                "id", "muestra_id", "fecha",
-                "profesional_id", "equipo_id",
-                "procedimiento_id"
-            ],
-            "defectos.csv": [
-                "muestra_id", "tipo",
-                "gravedad", "descripcion"
-            ]
-        }
-
-        ruta = GestorArchivos.CARPETA_DATOS / nombre_archivo
-
-        filas = GestorArchivos.leer_csv_dict(
-            ruta, encabezados_csv[nombre_archivo]
-        )
-
-        if filas is None:
-            raise FileNotFoundError(f"No existe {ruta}")
-
-        return filas
-
-    
-    @staticmethod
-    def _guardar(nombre_archivo, encabezados, filas):
-        carpeta = GestorArchivos.CARPETA_DATOS
-        carpeta.mkdir(parents=True, exist_ok=True)
-
-        GestorArchivos.escribir_csv(
-            carpeta / nombre_archivo,
-            encabezados,
-            filas)
-    
-    @staticmethod    
-    def _crear_con_id(tipo, contador, ID, prefijo, *args, **kwargs):
-        numero = ID[len(prefijo):]
-
-        if not ID.startswith(prefijo) or not numero.isdigit() or int(numero) <= 0:
-            raise ValueError(f"ID inválido: {ID}")
-
-        siguiente = contador.nextid
-        contador.nextid = int(numero)
-
-        try:
-            objeto = tipo(*args, **kwargs)
-
-            if objeto.getter_id() != ID:
-                raise ValueError(f"No se pudo recuperar el ID {ID}")
-
-            return objeto
-        finally:
-            contador.nextid = max(siguiente, contador.nextid)
-
-
-
     def getter_administradores(self):
         return list(self.__administradores.values())
 
@@ -213,6 +117,9 @@ class Empresa:
 
     def cargar_estado_total(self):
         self.__persistencia.cargar_estado_total(self)
+
+    def guardar_estado_total(self):
+        self.__persistencia.guardar_estado_total(self)
 
 
 
