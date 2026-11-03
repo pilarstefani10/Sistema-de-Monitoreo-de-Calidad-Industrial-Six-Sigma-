@@ -6,7 +6,11 @@ class ProcedimientoVisual(Procedimiento):
     def __init__(self, **kwargs_config_proc):
         #Uso corchetes y no get para que falle si no encuentra algo con esa key
         if not isinstance(kwargs_config_proc["probabilidad"], float) or not (0<kwargs_config_proc["probabilidad"]<1):
-            raise DatosInvalidosError ("La probabilidad de ocurrencia de un Defecto Visual debe ser un numero entre 0 y 1")########ERROR A PERSONALIZAR
+            raise DatosInvalidosError ("La probabilidad de ocurrencia de un Defecto Visual debe ser un numero entre 0 y 1")
+        if not ProcedimientoVisual.lista_de_textos_valida(kwargs_config_proc["zonas_posibles"]):
+            raise DatosInvalidosError("Las zonas posibles deben ser una lista de textos no vacía")
+        if not ProcedimientoVisual.lista_de_textos_valida(kwargs_config_proc["descripciones"]):
+            raise DatosInvalidosError("Las descripciones deben ser una lista de textos no vacía")
         super().__init__(kwargs_config_proc["nombre"]
                         , kwargs_config_proc["categoria_equipo_requerida"]
                         , kwargs_config_proc["certificaciones_requeridas"]
@@ -16,7 +20,9 @@ class ProcedimientoVisual(Procedimiento):
         self.__zonas_posibles = kwargs_config_proc["zonas_posibles"]
         self.__probabilidad=kwargs_config_proc["probabilidad"]
     
-
+    @staticmethod
+    def lista_de_textos_valida(lista):
+        return isinstance(lista, list) and len(lista) > 0 and all(map(lambda texto: isinstance(texto, str) and texto != "", lista))
 
     def generar_kwargs(self):
         return {"zona_afectada": random.choice(self.__zonas_posibles),

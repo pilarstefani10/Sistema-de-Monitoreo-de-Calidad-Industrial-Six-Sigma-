@@ -72,9 +72,6 @@ class Empresa:
     def obtener_lotes_ordenados(self):
         return self.__arbol_lotes.inorden(self.__arbol_lotes.raiz)
 
-    def lotes_ordenados(self):
-        return self.__arbol_lotes.inorden(self.__arbol_lotes.raiz)
-
     def buscar_profesional(self, ID):
         return Empresa.buscar(self.__profesionales, ID, "profesional")
 

@@ -20,11 +20,11 @@ class MenuAdministrador:
             print("   2. Crear lote")
             print("   3. Crear muestra y asignar inspección")
             print("   4. Evaluar lote")
-            print("   5. Dar de alta un profesional")
-            print("   6. Dar de alta un equipo")
+            print("   5. Contrar un profesional")
+            print("   6. Comprar un equipo")
             print("   7. Comparar defectos dimensionales de dos lotes")
-            print("   8. Buscar lote mediante árbol y obtener detalle del lote")
-            print("   9. Ver reportes de un lote")
+            print("   8. Buscar lote mediante árbol y ver detalle completo")
+            print("   9. Crear un procedimiento")            
             print("   0. Salir\n")
 
             opcion = input("Opción: ")
@@ -43,11 +43,11 @@ class MenuAdministrador:
                 elif opcion == "6":
                     self.crear_equipo()   
                 elif opcion == "7":
-                      self.comparar_lotes()  
+                    self.comparar_lotes()  
                 elif opcion == "8":
-                        self.buscar_lote_arbol()  
+                    self.buscar_lote_arbol()  
                 elif opcion == "9":
-                    self.ver_reportes()         
+                    self.crear_procedimiento()
                 elif opcion == "0":
                     print("\nSesión finalizada.\n")
                 else:
@@ -61,9 +61,7 @@ class MenuAdministrador:
 
     def ver_lotes(self):
         print("\n---------- LOTES ----------\n")
-        for lote in self.__empresa.obtener_lotes_ordenados():
-            print(lote.getter_id(), "- Estado:", lote.getter_estado(),
-                  "- Muestras:", len(lote.getter_muestras()))
+        print("\n".join(map(lambda lote: lote.getter_id() + " - Estado: " + lote.getter_estado() + " - Muestras: " + str(len(lote.getter_muestras())), self.__empresa.obtener_lotes_ordenados())))
 
     def crear_lote(self):
         cantidad = self.pedir_entero("\nCantidad fabricada: ")
@@ -132,7 +130,16 @@ class MenuAdministrador:
         print("ID:", lote.getter_id())
         print("Cantidad fabricada:", lote.getter_cantidad_fabricada())
         print("Estado:", lote.getter_estado())
+        muestras=lote.getter_muestras()
 
+        print("\n---------- MUESTRAS DEL LOTE ----------")
+        if len(muestras) == 0:
+            print("El lote no tiene muestras.")
+        else:
+            print("\n".join(map(
+                lambda muestra:
+                    "Muestra: " + muestra.getter_id() +
+                    " - Estado: " + muestra.getter_estado(),muestras)))
         print("\n---------- CONSULTAS DEL LOTE ----------")
         print("Cantidad de defectos críticos:", lote.contar_defectos_criticos())
         print("Defectos por tipo:", lote.contar_defectos_por_tipo())
@@ -146,10 +153,9 @@ class MenuAdministrador:
         else:
             print("Porcentaje real de muestras no conformes:",
                 lote.porcentaje_real_no_conformes(), "%")
+        self.ver_reportes(lote)
 
-    def ver_reportes(self):
-        self.ver_lotes()
-        lote = self.__empresa.buscar_lote(input("\nID del lote: "))
+    def ver_reportes(self,lote):
         reportes = lote.reportes()
 
         if len(reportes) == 0:
@@ -159,6 +165,56 @@ class MenuAdministrador:
         print("\n---------- REPORTES DEL LOTE", lote.getter_id(), "----------")
         print("\n".join(map(lambda reporte: reporte.crear_resumen(), reportes)))
         print(reportes[0].impacto_preliminar())
+
+    def crear_procedimiento(self):
+        print("\n   1. Dimensional")
+        print("   2. Visual")
+        tipo = input("\nTipo de procedimiento: ")
+
+        if tipo not in ("1", "2"):
+            raise ValueError("Opción incorrecta.")
+
+        datos = {
+            "nombre": input("\nNombre: "),
+            "categoria_equipo_requerida": input("Categoría de equipo requerida: "),
+            "certificaciones_requeridas": set(self.pedir_lista("Certificaciones requeridas (separadas por coma): "))
+        }
+
+        if tipo == "1":
+            datos["limite_gravedad"] = self.pedir_entero("Límite de gravedad: ")
+            datos["valor_esperado"] = self.pedir_decimal("Valor esperado: ")
+            datos["tolerancia"] = self.pedir_decimal("Tolerancia: ")
+            datos["desvio"] = self.pedir_decimal("Desvío: ")
+            print("Límite de cada nivel de gravedad (diferencia con el valor esperado):")
+            datos["rangos_gravedad"] = {
+                "leve": self.pedir_decimal("  Leve: "),
+                "moderado": self.pedir_decimal("  Moderado: "),
+                "serio": self.pedir_decimal("  Serio: "),
+                "severo": self.pedir_decimal("  Severo: "),
+                "crítico": self.pedir_decimal("  Crítico: ")
+            }
+            procedimiento = self.__administrador.crear_procedimiento("dimensional", **datos)
+        else:
+            datos["probabilidad"] = self.pedir_decimal("Probabilidad de defecto por unidad (entre 0 y 1): ")
+            datos["zonas_posibles"] = self.pedir_lista("Zonas posibles (separadas por coma): ")
+            datos["descripciones"] = self.pedir_lista("Descripciones de defectos (separadas por coma): ")
+            procedimiento = self.__administrador.crear_procedimiento("visual", **datos)
+
+        print("\nProcedimiento creado:", procedimiento.getter_id(), "-", procedimiento.getter_nombre())
+
+    @staticmethod
+    def pedir_decimal(mensaje):
+        texto = input(mensaje)
+        try:
+            return float(texto)
+        except ValueError:
+            raise ValueError("Debe ingresar un número (use punto para los decimales).")
+
+    @staticmethod
+    def pedir_lista(mensaje):
+        return list(filter(lambda texto: texto != "", map(lambda texto: texto.strip(), input(mensaje).split(","))))
+
+
 
     @staticmethod
     def pedir_fecha(mensaje):
