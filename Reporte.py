@@ -36,7 +36,13 @@ class Reporte:
 
     def impacto_preliminar(self):
         lote = self.__inspeccion.getter_muestra().getter_lote()
-
+        
+        if lote.getter_estado() != "PENDIENTE":
+            impacto = "\nResultado final del lote " + lote.getter_id() + ":\n"
+            impacto += f"  No conformes: {lote.porcentaje_real_no_conformes():.1f}% de las muestras (límite: 5%)\n"
+            impacto += "  El lote fue evaluado como: " + lote.getter_estado() + "\n"
+            return impacto
+        
         impacto = "\nImpacto preliminar en el lote " + lote.getter_id() + ":\n"
         impacto += f"  No conformes: {lote.porcentaje_preliminar():.1f}% de las muestras inspeccionadas (límite: 5%)\n"
         impacto += "  Si se evaluara hoy, el lote quedaría: " + lote.resultado_preliminar() + "\n"

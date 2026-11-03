@@ -69,6 +69,9 @@ class Empresa:
 
         return lote
 
+    def obtener_lotes_ordenados(self):
+        return self.__arbol_lotes.inorden(self.__arbol_lotes.raiz)
+
     def lotes_ordenados(self):
         return self.__arbol_lotes.inorden(self.__arbol_lotes.raiz)
 

@@ -23,7 +23,7 @@ class MenuAdministrador:
             print("   5. Dar de alta un profesional")
             print("   6. Dar de alta un equipo")
             print("   7. Comparar defectos dimensionales de dos lotes")
-            print("   8. Buscar lote mediante árbol")
+            print("   8. Buscar lote mediante árbol y obtener detalle del lote")
             print("   9. Ver reportes de un lote")
             print("   0. Salir\n")
 
