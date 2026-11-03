@@ -61,6 +61,31 @@ class Profesional(Empleado):
 
         self.__historial.apilar(inspeccion)
 
+    
+    def restaurar_reporte_pendiente(self, inspeccion):
+        if inspeccion.getter_profesional() is not self:
+            raise DatosInvalidosError(
+                "La inspección pertenece a otro profesional"
+            )
+
+        muestra = inspeccion.getter_muestra()
+
+        if muestra.getter_estado() != "NO_CONFORME":
+            raise TransicionInvalidaError(
+                "Solo una muestra no conforme puede tener un reporte pendiente."
+            )
+
+        if inspeccion.getter_reporte() is not None:
+            raise TransicionInvalidaError(
+                "La inspección ya tiene un reporte."
+            )
+
+        if inspeccion in self.getter_inspecciones_pendientes():
+            raise TransicionInvalidaError(
+                "La inspección ya está en la cola."
+            )
+
+        self.__cola_inspecciones.encolar(inspeccion)
 
     def siguiente_inspeccion(self):
         return self.__cola_inspecciones.frente()

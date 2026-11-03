@@ -42,11 +42,11 @@ class Persistencia:
             "muestras.csv": [
                 "id", "lote_id", "unidades", "estado"
             ],
-            "inspecciones.csv": [
+           "inspecciones.csv": [
                 "id", "muestra_id", "fecha",
                 "profesional_id", "equipo_id",
-                "procedimiento_id"
-            ],
+                "procedimiento_id", "estado_inspeccion"
+                    ],
             "defectos.csv": [
                 "muestra_id", "tipo",
                 "gravedad", "descripcion"
@@ -240,8 +240,9 @@ class Persistencia:
             muestras[muestra.getter_id()] = muestra
             estados_muestras[muestra.getter_id()] = fila["estado"]
 
+       
         # 9. Inspecciones
-        inspecciones_finalizadas = []
+        inspecciones_recuperadas = []
 
         for fila in self._leer("inspecciones.csv"):
 
@@ -262,6 +263,15 @@ class Persistencia:
             if fila["id"] != muestra.getter_id() + "I":
                 raise ValueError("ID de inspección inconsistente")
 
+            estado = fila["estado_inspeccion"]
+
+            if estado not in (
+                "PENDIENTE",
+                "REPORTE_PENDIENTE",
+                "FINALIZADA"
+            ):
+                raise ValueError("Estado de inspección inválido")
+
             inspeccion = Inspeccion.desde_archivo(
                 fila["id"],
                 date.fromisoformat(fila["fecha"]),
@@ -273,13 +283,10 @@ class Persistencia:
 
             muestra.setter_inspeccion(inspeccion)
 
-            if estados_muestras[muestra.getter_id()] == "PENDIENTE":
-                profesional.asignar_inspeccion(inspeccion)
+            inspecciones_recuperadas.append(
+                (inspeccion, estado)
+            )
 
-            elif estados_muestras[muestra.getter_id()] in (
-                "CONFORME", "NO_CONFORME"
-            ):
-                inspecciones_finalizadas.append(inspeccion)
 
         # 10. Defectos
         for fila in self._leer("defectos.csv"):
@@ -294,32 +301,42 @@ class Persistencia:
 
             muestra.restaurar_defecto(defecto)
 
+       
         # 11. Restaurar estados de muestras
         for ID, muestra in muestras.items():
-
             muestra.restaurar_estado(estados_muestras[ID])
 
-            if muestra.getter_estado() == "NO_CONFORME":
+        # Restaurar inspecciones según su estado guardado
+        for inspeccion, estado in inspecciones_recuperadas:
 
-                inspeccion = muestra.getter_inspeccion()
+            profesional = inspeccion.getter_profesional()
+            muestra = inspeccion.getter_muestra()
 
-                if inspeccion is not None:
+            if estado == "PENDIENTE":
+                profesional.asignar_inspeccion(inspeccion)
 
+            elif estado == "REPORTE_PENDIENTE":
+                profesional.restaurar_reporte_pendiente(
+                    inspeccion
+                )
+
+            elif estado == "FINALIZADA":
+
+                if muestra.getter_estado() == "NO_CONFORME":
                     reporte = Reporte(
                         inspeccion.getter_id() + "R",
                         inspeccion
                     )
-
                     inspeccion.registrar_reporte(reporte)
 
-        # Restaurar historial de inspecciones finalizadas
-        for inspeccion in inspecciones_finalizadas:
+                elif muestra.getter_estado() != "CONFORME":
+                    raise ValueError(
+                        "Una inspección finalizada debe tener una muestra cerrada."
+                    )
 
-            profesional = inspeccion.getter_profesional()
-
-            profesional.restaurar_inspeccion_finalizada(
-                inspeccion
-            )
+                profesional.restaurar_inspeccion_finalizada(
+                    inspeccion
+                )
 
         # 12. Restaurar estados de los lotes
         for lote in empresa.getter_lotes():
@@ -550,6 +567,22 @@ class Persistencia:
             for p in profesionales
             for i in p.getter_inspecciones_pendientes()
         ]
+
+
+        
+        estados_inspecciones = {
+            i.getter_id(): (
+                "REPORTE_PENDIENTE"
+                if i.getter_muestra().getter_estado() == "NO_CONFORME"
+                else "PENDIENTE"
+            )
+            for i in pendientes
+        }
+
+        estados_inspecciones.update({
+            i.getter_id(): "FINALIZADA"
+            for i in finalizadas
+        })
 
         # Convertir todas las inspecciones en filas CSV
         filas_inspecciones = list(map(
