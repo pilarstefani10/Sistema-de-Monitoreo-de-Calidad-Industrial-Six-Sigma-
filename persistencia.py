@@ -378,16 +378,21 @@ class Persistencia:
         )
 
         # 3. Certificaciones
-        certificaciones = [
-            {
-                "profesional_id": p.getter_id(),
-                "nombre": c.getter_nombre(),
-                "fecha_inicio": c.getter_fecha_inicio().isoformat(),
-                "fecha_vencimiento": c.getter_fecha_vencimiento().isoformat()
-            }
-            for p in profesionales
-            for c in p.getter_certificaciones()
-        ]
+        
+        certificaciones = []
+
+        for profesional in profesionales:
+            for certificacion in profesional.getter_certificaciones():
+
+                fila = {
+                    "profesional_id": profesional.getter_id(),
+                    "nombre": certificacion.getter_nombre(),
+                    "fecha_inicio": certificacion.getter_fecha_inicio().isoformat(),
+                    "fecha_vencimiento": certificacion.getter_fecha_vencimiento().isoformat()
+                }
+
+                certificaciones.append(fila)
+
 
         self._guardar(
             "certificaciones.csv",
@@ -568,21 +573,20 @@ class Persistencia:
             for i in p.getter_inspecciones_pendientes()
         ]
 
+        
+        estados_inspecciones = {}
+
+        for inspeccion in pendientes:
+            if inspeccion.getter_muestra().getter_estado() == "NO_CONFORME":
+                estados_inspecciones[inspeccion.getter_id()] = "REPORTE_PENDIENTE"
+            else:
+                estados_inspecciones[inspeccion.getter_id()] = "PENDIENTE"
+
+        for inspeccion in finalizadas:
+            estados_inspecciones[inspeccion.getter_id()] = "FINALIZADA"
 
         
-        estados_inspecciones = {
-            i.getter_id(): (
-                "REPORTE_PENDIENTE"
-                if i.getter_muestra().getter_estado() == "NO_CONFORME"
-                else "PENDIENTE"
-            )
-            for i in pendientes
-        }
-
-        estados_inspecciones.update({
-            i.getter_id(): "FINALIZADA"
-            for i in finalizadas
-        })
+        
 
         
         # Convertir todas las inspecciones en filas CSV
