@@ -598,8 +598,6 @@ class Persistencia:
         for inspeccion in finalizadas:
             estados_inspecciones[inspeccion.getter_id()] = "FINALIZADA"
 
-        
-        
 
         
         # Convertir todas las inspecciones en filas CSV

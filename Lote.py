@@ -68,27 +68,32 @@ class Lote:
     def muestras_cerradas(self):
         return all(map(lambda muestra: True if muestra.getter_estado() in ("CONFORME", "NO_CONFORME") else False, self.__muestras))
 
+    def muestras_inspeccionadas(self):
+        return list(filter(lambda muestra: muestra.getter_estado() in ("CONFORME", "NO_CONFORME"), self.__muestras))
+    
+    def defectos_registrados(self):
+        return sum(map(lambda muestra: muestra.getter_defectos(), self.muestras_inspeccionadas()), [])
+    
     def contar_defectos_criticos(self):
-        cantidad = 0
-        for muestra in self.__muestras:
-            if muestra.getter_estado() in ("CONFORME", "NO_CONFORME"):
-                for defecto in muestra.getter_defectos():
-                    if defecto.es_critico():
-                        cantidad += 1
-        return cantidad
-
-
+        return len(list(filter(lambda defecto: defecto.es_critico(), self.defectos_registrados())))
+    
     def contar_defectos_por_tipo(self):
-        conteos = {}
-        for muestra in self.__muestras:
-            if muestra.getter_estado() in ("CONFORME", "NO_CONFORME"):
-                for defecto in muestra.getter_defectos():
-                    tipo = defecto.getter_tipo()
-                    if tipo not in conteos:
-                        conteos[tipo] = 0
-                    conteos[tipo] += 1
-        return conteos
+        tipos = list(map(lambda defecto: defecto.getter_tipo(), self.defectos_registrados()))
+        return dict(map(lambda tipo: (tipo, tipos.count(tipo)), set(tipos)))
 
+    def porcentaje_preliminar(self):
+        inspeccionadas = self.muestras_inspeccionadas()
+
+        if len(inspeccionadas) == 0:
+            return 0
+
+        no_conformes = len(list(filter(lambda muestra: muestra.getter_estado() == "NO_CONFORME", inspeccionadas)))
+        return no_conformes / len(inspeccionadas) * 100
+
+    def resultado_preliminar(self):
+        if self.porcentaje_preliminar() > 5:
+            return "RECHAZADO"
+        return "APROBADO"
 
     def porcentaje_real_no_conformes(self):
         if self.__estado == "PENDIENTE":
@@ -96,18 +101,17 @@ class Lote:
                 "El lote todavía no fue evaluado. No tiene porcentaje definitivo."
             )
 
-        total = len(self.__muestras)
-
-        if total == 0:
+        if len(self.__muestras) == 0:
             return 0
 
-        no_conformes = 0
-        for muestra in self.__muestras:
-            if muestra.getter_estado() == "NO_CONFORME":
-                no_conformes += 1
+        no_conformes = len(list(filter(lambda muestra: muestra.getter_estado() == "NO_CONFORME", self.__muestras)))
+        return no_conformes / len(self.__muestras) * 100
 
-        return (no_conformes / total) * 100
-
+    def reportes(self):
+        con_inspeccion = filter(lambda muestra: muestra.getter_inspeccion() is not None, self.__muestras)
+        reportes = map(lambda muestra: muestra.getter_inspeccion().getter_reporte(), con_inspeccion)
+        return list(filter(lambda reporte: reporte is not None, reportes))
+    
     def tipos_defectos_dimensionales(self):
         tipos = set()
         for muestra in self.__muestras:
