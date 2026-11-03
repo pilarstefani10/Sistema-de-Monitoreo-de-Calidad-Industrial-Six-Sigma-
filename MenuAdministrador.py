@@ -2,6 +2,7 @@ from datetime import date
 from Excepciones import QuantumTechError
 
 
+
 class MenuAdministrador:
 
     def __init__(self, empresa, administrador):
@@ -23,6 +24,7 @@ class MenuAdministrador:
             print("   6. Dar de alta un equipo")
             print("   7. Comparar defectos dimensionales de dos lotes")
             print("   8. Buscar lote mediante árbol")
+            print("   9. Ver reportes de un lote")
             print("   0. Salir\n")
 
             opcion = input("Opción: ")
@@ -43,7 +45,9 @@ class MenuAdministrador:
                 elif opcion == "7":
                       self.comparar_lotes()  
                 elif opcion == "8":
-                        self.buscar_lote_arbol()           
+                        self.buscar_lote_arbol()  
+                elif opcion == "9":
+                    self.ver_reportes()         
                 elif opcion == "0":
                     print("\nSesión finalizada.\n")
                 else:
@@ -132,16 +136,29 @@ class MenuAdministrador:
         print("\n---------- CONSULTAS DEL LOTE ----------")
         print("Cantidad de defectos críticos:", lote.contar_defectos_criticos())
         print("Defectos por tipo:", lote.contar_defectos_por_tipo())
-        if lote.getter_estado() != "PENDIENTE":
-            print(
-            "Porcentaje de muestras no conformes:",
-            lote.porcentaje_real_no_conformes(), "%"
-            )
-        else:
-            print("El lote todavía no tiene un porcentaje definitivo.")
-            
         print("Tipos de defectos dimensionales:",
             lote.tipos_defectos_dimensionales())
+
+        if lote.getter_estado() == "PENDIENTE":
+            print("\nEl lote todavía está pendiente.")
+            print("Se muestran los defectos acumulados hasta el momento.")
+            print("El porcentaje definitivo estará disponible cuando se evalúe el lote.")
+        else:
+            print("Porcentaje real de muestras no conformes:",
+                lote.porcentaje_real_no_conformes(), "%")
+
+    def ver_reportes(self):
+        self.ver_lotes()
+        lote = self.__empresa.buscar_lote(input("\nID del lote: "))
+        reportes = lote.reportes()
+
+        if len(reportes) == 0:
+            print("\nEl lote", lote.getter_id(), "no tiene reportes de desviación.")
+            return
+
+        print("\n---------- REPORTES DEL LOTE", lote.getter_id(), "----------")
+        print("\n".join(map(lambda reporte: reporte.crear_resumen() + reporte.impacto_preliminar(), reportes)))
+
 
     @staticmethod
     def pedir_fecha(mensaje):

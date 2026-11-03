@@ -30,15 +30,18 @@ class Reporte:
         resumen += "Muestra: " + muestra.getter_id() + "\n"
         resumen += "Lote: " + muestra.getter_lote().getter_id() + "\n"
         resumen += "Responsable: " + self.__inspeccion.getter_profesional().getter_nombre() + "\n"
-        for numero, (tipo, gravedad, descripcion) in enumerate(
-            self.__defectos, start=1
-            ):
-            resumen += f"{numero}. Tipo: {tipo}"
-            resumen += f" | Descripción: {descripcion}"
-            resumen += f" | Gravedad: {gravedad}\n"
+        resumen += "".join(map(lambda par: f"{par[0]}. Tipo: {par[1][0]} | Descripción: {par[1][2]} | Gravedad: {par[1][1]}\n", enumerate(self.__defectos, start=1)))
 
         return resumen
 
+    def impacto_preliminar(self):
+        lote = self.__inspeccion.getter_muestra().getter_lote()
+
+        impacto = "\nImpacto preliminar en el lote " + lote.getter_id() + ":\n"
+        impacto += f"  No conformes: {lote.porcentaje_preliminar():.1f}% de las muestras inspeccionadas (límite: 5%)\n"
+        impacto += "  Si se evaluara hoy, el lote quedaría: " + lote.resultado_preliminar() + "\n"
+        return impacto
+    
     def getter_id(self):
         return self.__ID
 

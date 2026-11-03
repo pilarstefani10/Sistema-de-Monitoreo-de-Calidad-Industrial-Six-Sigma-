@@ -1,4 +1,5 @@
 from NodoArbol import NodoArbol
+from math import log2
 
 class Arbol:
     def __init__(self):
@@ -48,6 +49,7 @@ class Arbol:
 
         if dato == nodo.dato:
             print(f"Lote encontrado en {pasos} pasos")
+            print(f"Referencia log₂({self.tamanio}) = {log2(self.tamanio):.2f}")
             return nodo.lote
 
         if dato < nodo.dato:

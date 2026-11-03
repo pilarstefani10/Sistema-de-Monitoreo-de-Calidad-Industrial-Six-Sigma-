@@ -84,7 +84,7 @@ class MenuProfesional:
         if inspeccion.getter_reporte() is not None:
             reporte = inspeccion.getter_reporte()
             print(reporte.crear_resumen()) 
-
+            print(reporte.impacto_preliminar())
 
     def agregar_certificacion(self):
         nombre = input("\nNombre de la certificación: ")
@@ -129,6 +129,7 @@ class MenuProfesional:
 
         if inspeccion.getter_reporte() is not None:
             print(inspeccion.getter_reporte().crear_resumen())
+            print(inspeccion.getter_reporte().impacto_preliminar())
 
     def ver_historial(self):
         historial = self.__profesional.getter_historial()
