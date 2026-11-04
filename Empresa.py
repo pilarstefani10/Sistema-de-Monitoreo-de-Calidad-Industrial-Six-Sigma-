@@ -1,5 +1,5 @@
 from Excepciones import DatosInvalidosError
-from persistencia import Persistencia
+from Persistencia2 import Persistencia
 from Arbol import Arbol
 class Empresa:
 #La idea es que haya una única empresa o instancia que funcionará como un repertorio universal donde se añaden todos los profesionales, lotes, procedimientos, equipos y certificaciones
