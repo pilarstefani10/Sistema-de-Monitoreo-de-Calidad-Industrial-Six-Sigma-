@@ -77,3 +77,13 @@ class Lista_Calibraciones(Lista):
 
     def agregar_final(self, dato):
         self.agregar_ordenado(dato)
+
+    def consultar_fechas(self):
+        fechas = []
+        actual = self.getter_cabeza()
+
+        while actual is not None:
+            fechas.append(actual.getter_dato())
+            actual = actual.getter_siguiente()
+
+        return fechas

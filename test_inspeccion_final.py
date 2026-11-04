@@ -38,7 +38,7 @@ def crear_inspeccion():
         profesional.certificaciones_faltantes.return_value = set()
 
         equipo = Mock(spec=Equipo)
-        equipo.getter_ultima_calibracion.return_value = fecha
+        equipo.calibracion_vigente.return_value = True
         equipo.getter_categoria.return_value = "dimensional"
 
         procedimiento = Mock(spec=Procedimiento)

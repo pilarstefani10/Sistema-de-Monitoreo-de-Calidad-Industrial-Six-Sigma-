@@ -318,22 +318,16 @@ class Persistencia:
 
         # Conservar el orden original de pila (invertido al escribir) y cola (FIFO).
         # Inspecciones finalizadas
-        finalizadas = sum(
-            map(
-                lambda profesional: list(reversed(profesional.getter_historial())),
-                profesionales
-            ),
-            []
-        )
+        finalizadas = []
+        pendientes = []
 
-        # Inspecciones pendientes
-        pendientes = sum(
-            map(
-                lambda profesional: profesional.getter_inspecciones_pendientes(),
-                profesionales
-            ),
-            []
-        )
+        for profesional in profesionales:
+            for inspeccion in reversed(profesional.getter_historial()):
+                finalizadas.append(inspeccion)
+
+            pendientes.extend(
+                profesional.getter_inspecciones_pendientes()
+            )
 
         def fila_inspeccion(inspeccion):
             fila = inspeccion.estandarizar()
