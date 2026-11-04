@@ -1,6 +1,6 @@
 from Procedimiento import Procedimiento
 from Defecto import Defecto
-import random
+import random,json
 from Excepciones import DatosInvalidosError
 class ProcedimientoDimensional(Procedimiento):
     def __init__(self, **kwargs_config_proc):
@@ -72,6 +72,22 @@ class ProcedimientoDimensional(Procedimiento):
                     gravedad=gravedad
                 )
         return defecto
+
+    def estandarizar(self):
+        datos = super().estandarizar()
+
+        datos.update({
+            "tipo": "dimensional",
+            "valor_esperado": self.__valor_esperado,
+            "tolerancia": self.__tolerancia,
+            "desvio": self.__desvio,
+            "rangos_gravedad": json.dumps(
+                self.__rangos_gravedad,
+                ensure_ascii=False
+            )
+        })
+
+        return datos
 
     def getter_valor_esperado(self):
         return self.__valor_esperado

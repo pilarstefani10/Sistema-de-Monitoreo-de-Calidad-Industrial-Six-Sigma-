@@ -11,6 +11,13 @@ class Certificacion:
             self.__fecha_inicio = fecha_inicio
             self.__fecha_vencimiento = fecha_vencimiento
 
+    def estandarizar(self):
+        return {
+            "nombre": self.__name,
+            "fecha_inicio": self.__fecha_inicio.isoformat(),
+            "fecha_vencimiento": self.__fecha_vencimiento.isoformat()
+        }
+
     @staticmethod
     def validar_nombre(nombre):
         return isinstance(nombre, str) and nombre != ""

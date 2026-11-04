@@ -326,10 +326,6 @@ class Persistencia:
                     )
 
             else:
-                if inspeccion is None:
-                    raise ValueError(
-                        "La muestra cerrada no tiene inspección: " + ID
-                    )
                 if inspeccion.conformidad():
                     resultado = "CONFORME"
 

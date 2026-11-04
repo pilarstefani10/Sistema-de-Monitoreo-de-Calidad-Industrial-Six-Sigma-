@@ -1,5 +1,6 @@
 
 from Excepciones import DatosInvalidosError
+import json
 class Procedimiento:
     nextid = 1
     def __init__(self, nombre, categoria_equipo_requerida, certificaciones_requeridas, limite_gravedad):
@@ -26,6 +27,26 @@ class Procedimiento:
 
     def evaluar_unidad(self): 
         raise NotImplementedError ("No se está evaluando la unidad correctamente")
+
+    def estandarizar(self):
+        return {
+            "id": self.__ID,
+            "tipo": "",
+            "nombre": self.__nombre,
+            "categoria_equipo": self.__categoria_equipo_requerida,
+            "certificaciones_requeridas": json.dumps(
+                sorted(self.__certificaciones_requeridas),
+                ensure_ascii=False
+            ),
+            "limite_gravedad": self.__limite_gravedad,
+            "valor_esperado": "",
+            "tolerancia": "",
+            "desvio": "",
+            "rangos_gravedad": "",
+            "probabilidad": "",
+            "zonas_posibles": "",
+            "descripciones": ""
+        }
 
 
     def getter_limitegravedad(self):

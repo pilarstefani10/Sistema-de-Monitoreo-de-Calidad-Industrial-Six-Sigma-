@@ -15,6 +15,13 @@ class Defecto:
     def es_critico(self):
         return self.__gravedad == 5
 
+    def estandarizar(self):
+        return {
+            "tipo": self.__tipo,
+            "gravedad": self.__gravedad,
+            "descripcion": self.__descripcion
+        }
+
     @staticmethod
     def validar_tipo(tipo):
             return isinstance(tipo, str) and tipo != ""

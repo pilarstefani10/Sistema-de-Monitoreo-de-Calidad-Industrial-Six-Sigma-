@@ -29,7 +29,6 @@ class Empresa:
 
         self.__profesionales[profesional.getter_id()] = profesional
         
-
     def registrar_administrador(self, administrador):
         if administrador.getter_id() in self.__administradores:
             raise DatosInvalidosError("ID de administrador duplicado")
@@ -120,9 +119,3 @@ class Empresa:
 
     def guardar_estado_total(self):
         self.__persistencia.guardar_estado_total(self)
-
-
-
-   
-
-        

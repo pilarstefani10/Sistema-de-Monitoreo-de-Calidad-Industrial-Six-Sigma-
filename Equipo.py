@@ -48,6 +48,12 @@ class Equipo:
         if not self.__historial_calibraciones.eliminar_buscando(fecha):
             raise DatosInvalidosError("El equipo no tiene una calibración en esa fecha")
 
+    def estandarizar(self):
+        return {
+            "id": self.__ID,
+            "categoria": self.__categoria
+        }
+        
     def getter_ultimacalibracion(self):
         return self.__historial_calibraciones.obtener_ultimo()
 
@@ -62,6 +68,3 @@ class Equipo:
     
     def getter_calibraciones(self):
         return self.__historial_calibraciones.consultar_fechas()
-        
-
-    

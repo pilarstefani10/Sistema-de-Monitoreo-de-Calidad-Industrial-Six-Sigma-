@@ -129,6 +129,12 @@ class Lote:
             raise ValueError("Estado de lote inválido")
         self.__estado = estado
 
+    def estandarizar(self):
+        return {
+            "id": self.__ID,
+            "cantidad_fabricada": self.__cantidad_fabricada,
+            "estado": self.__estado
+        }
 
     def getter_estado(self):
         return self.__estado

@@ -84,6 +84,14 @@ class Muestra:
         else:
             self.__estado ="NO_CONFORME"
 
+    def estandarizar(self):
+        return {
+            "id": self.__ID,
+            "lote_id": self.__lote.getter_id(),
+            "unidades": self.__unidades_representadas,
+            "estado": self.__estado
+        }
+
     #Getters y Setters
     def getter_unidadesrepresentadas(self):
         return self.__unidades_representadas

@@ -83,6 +83,16 @@ class Inspeccion:
 
         return inspeccion
 
+    def estandarizar(self):
+        return {
+            "id": self.__ID,
+            "muestra_id": self.__muestra.getter_id(),
+            "fecha": self.__fecha.isoformat(),
+            "profesional_id": self.__profesional.getter_id(),
+            "equipo_id": self.__equipo.getter_id(),
+            "procedimiento_id": self.__procedimiento.getter_id()
+        }
+
 
     def getter_fecha(self):
         return self.__fecha

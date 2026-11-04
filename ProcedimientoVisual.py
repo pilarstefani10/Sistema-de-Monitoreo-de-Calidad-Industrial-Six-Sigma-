@@ -1,7 +1,7 @@
 from Procedimiento import Procedimiento
 from Defecto import Defecto
 from Excepciones import DatosInvalidosError
-import random
+import random,json
 class ProcedimientoVisual(Procedimiento):
     def __init__(self, **kwargs_config_proc):
         #Uso corchetes y no get para que falle si no encuentra algo con esa key
@@ -47,6 +47,24 @@ class ProcedimientoVisual(Procedimiento):
                 gravedad=5 
             )
         return defecto
+
+    def estandarizar(self):
+        datos = super().estandarizar()
+
+        datos.update({
+            "tipo": "visual",
+            "probabilidad": self.__probabilidad,
+            "zonas_posibles": json.dumps(
+                self.__zonas_posibles,
+                ensure_ascii=False
+            ),
+            "descripciones": json.dumps(
+                self.__descripciones,
+                ensure_ascii=False
+            )
+        })
+
+        return datos
 
     def getter_probabilidad(self):
         return self.__probabilidad

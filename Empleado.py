@@ -8,8 +8,16 @@ class Empleado:
         self.__name = name
         self.__ID = ID
 
+    def estandarizar(self):
+        return {
+            "id": self.__ID,
+            "nombre": self.__name
+        }
+    
     def getter_nombre(self):
         return self.__name
 
     def getter_id(self):
         return self.__ID
+
+    

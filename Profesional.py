@@ -26,7 +26,6 @@ class Profesional(Empleado):
 
     def __str__(self):
         return f"Profesional: {self.getter_nombre()}, ID: {self.getter_id()}, Certificaciones: {[cert.getter_nombre() for cert in self.__certificaciones]}"  
-    
 
     def asignar_inspeccion(self, inspeccion):
         if inspeccion.getter_profesional() is not self:
