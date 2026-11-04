@@ -206,7 +206,10 @@ class Persistencia:
         filas = self._leer("lotes.csv")
         lotes = list(map(lambda f: Lote(int(f["cantidad_fabricada"])), filas))
         self.verificar_ids(filas, lotes, "lotes")
-        self._registrar(lotes, empresa.registrar_lote)
+        self._registrar(
+            lotes,
+            lambda lote: empresa.registrar_lote(lote, False)
+        )
         estados_lotes = {f["id"]: f["estado"] for f in filas}
         empresa.reconstruir_arbol_lotes()
 

@@ -16,11 +16,13 @@ class Empresa:
         self.__arbol_lotes=Arbol()
         self.__persistencia = Persistencia()
 
-    def registrar_lote(self, lote):
+    def registrar_lote(self, lote, insertar_en_arbol=True):
         if lote.getter_id() in self.__lotes:
             raise DatosInvalidosError("ID de lote duplicado")
 
-        self.__arbol_lotes.insertar(lote)
+        if insertar_en_arbol:
+            self.__arbol_lotes.insertar(lote)
+
         self.__lotes[lote.getter_id()] = lote
 
     def registrar_profesional(self, profesional):
