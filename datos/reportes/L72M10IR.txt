@@ -1,0 +1,7 @@
+
+Reporte: L72M10IR
+Fecha: 2026-11-09
+Muestra: L72M10
+Lote: L72
+Responsable: Ricardo Gomez
+1. Tipo: Anomalía Visual del procedimiento Control de pintura | Descripción: Porosidad en la zona lateral | Gravedad: 5

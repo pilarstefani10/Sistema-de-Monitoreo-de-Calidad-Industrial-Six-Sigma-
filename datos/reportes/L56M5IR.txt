@@ -1,0 +1,9 @@
+
+Reporte: L56M5IR
+Fecha: 2026-11-09
+Muestra: L56M5
+Lote: L56
+Responsable: Delfina Ponce
+1. Tipo: Desviación moderada | Descripción: Medida 7.8503 excedió la tolerancia por 0.1497 | Gravedad: 2
+2. Tipo: Desviación leve | Descripción: Medida 7.8907 excedió la tolerancia por 0.1093 | Gravedad: 1
+3. Tipo: Desviación severa | Descripción: Medida 7.7654 excedió la tolerancia por 0.2346 | Gravedad: 4

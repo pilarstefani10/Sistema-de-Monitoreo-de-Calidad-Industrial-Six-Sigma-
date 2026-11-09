@@ -1,0 +1,7 @@
+
+Reporte: L9M8IR
+Fecha: 2026-11-09
+Muestra: L9M8
+Lote: L9
+Responsable: Gaston Ruiz
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Fisura en la zona inferior | Gravedad: 5

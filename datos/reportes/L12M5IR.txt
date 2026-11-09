@@ -1,0 +1,7 @@
+
+Reporte: L12M5IR
+Fecha: 2026-11-09
+Muestra: L12M5
+Lote: L12
+Responsable: Milagros Cabrera
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Rayadura en la zona lateral | Gravedad: 5

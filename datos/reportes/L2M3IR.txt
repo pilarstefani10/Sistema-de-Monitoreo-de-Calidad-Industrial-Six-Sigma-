@@ -1,0 +1,11 @@
+
+Reporte: L2M3IR
+Fecha: 2026-11-09
+Muestra: L2M3
+Lote: L2
+Responsable: Abril Correa
+1. Tipo: Desviación leve | Descripción: Medida 8.1017 excedió la tolerancia por 0.1017 | Gravedad: 1
+2. Tipo: Desviación leve | Descripción: Medida 7.8916 excedió la tolerancia por 0.1084 | Gravedad: 1
+3. Tipo: Desviación moderada | Descripción: Medida 7.8469 excedió la tolerancia por 0.1531 | Gravedad: 2
+4. Tipo: Desviación severa | Descripción: Medida 8.2283 excedió la tolerancia por 0.2283 | Gravedad: 4
+5. Tipo: Desviación moderada | Descripción: Medida 8.1451 excedió la tolerancia por 0.1451 | Gravedad: 2

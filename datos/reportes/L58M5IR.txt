@@ -1,0 +1,7 @@
+
+Reporte: L58M5IR
+Fecha: 2026-11-09
+Muestra: L58M5
+Lote: L58
+Responsable: Victoria Luna
+1. Tipo: Anomalía Visual del procedimiento Control de soldadura | Descripción: Mancha en la zona inferior | Gravedad: 5

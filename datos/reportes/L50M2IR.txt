@@ -1,0 +1,7 @@
+
+Reporte: L50M2IR
+Fecha: 2026-11-09
+Muestra: L50M2
+Lote: L50
+Responsable: Maximiliano Vera
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Porosidad en la zona inferior | Gravedad: 5

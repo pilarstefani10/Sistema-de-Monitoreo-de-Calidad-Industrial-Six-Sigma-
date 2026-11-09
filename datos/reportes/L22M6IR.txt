@@ -1,0 +1,7 @@
+
+Reporte: L22M6IR
+Fecha: 2026-11-09
+Muestra: L22M6
+Lote: L22
+Responsable: Diego Acosta
+1. Tipo: Anomalía Visual del procedimiento Control de soldadura | Descripción: Porosidad en la zona inferior | Gravedad: 5

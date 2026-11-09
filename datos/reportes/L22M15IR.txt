@@ -1,0 +1,7 @@
+
+Reporte: L22M15IR
+Fecha: 2026-11-09
+Muestra: L22M15
+Lote: L22
+Responsable: Valentina Rios
+1. Tipo: Anomalía Visual del procedimiento Control de acabado | Descripción: Rayadura en la zona superior | Gravedad: 5

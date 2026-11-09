@@ -1,0 +1,13 @@
+
+Reporte: L25M15IR
+Fecha: 2026-11-09
+Muestra: L25M15
+Lote: L25
+Responsable: Bruno Castillo
+1. Tipo: Desviación seria | Descripción: Medida 7.8036 excedió la tolerancia por 0.1964 | Gravedad: 3
+2. Tipo: Desviación leve | Descripción: Medida 8.1046 excedió la tolerancia por 0.1046 | Gravedad: 1
+3. Tipo: Desviación leve | Descripción: Medida 7.8623 excedió la tolerancia por 0.1377 | Gravedad: 1
+4. Tipo: Desviación seria | Descripción: Medida 8.1953 excedió la tolerancia por 0.1953 | Gravedad: 3
+5. Tipo: Desviación seria | Descripción: Medida 7.7923 excedió la tolerancia por 0.2077 | Gravedad: 3
+6. Tipo: Desviación severa | Descripción: Medida 7.7697 excedió la tolerancia por 0.2303 | Gravedad: 4
+7. Tipo: Desviación leve | Descripción: Medida 7.8857 excedió la tolerancia por 0.1143 | Gravedad: 1

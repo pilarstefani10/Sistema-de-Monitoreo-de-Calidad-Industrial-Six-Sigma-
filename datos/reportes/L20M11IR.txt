@@ -1,0 +1,10 @@
+
+Reporte: L20M11IR
+Fecha: 2026-11-09
+Muestra: L20M11
+Lote: L20
+Responsable: Paula Benitez
+1. Tipo: Desviación seria | Descripción: Medida 7.8187 excedió la tolerancia por 0.1813 | Gravedad: 3
+2. Tipo: Desviación moderada | Descripción: Medida 8.1743 excedió la tolerancia por 0.1743 | Gravedad: 2
+3. Tipo: Desviación moderada | Descripción: Medida 7.8250 excedió la tolerancia por 0.1750 | Gravedad: 2
+4. Tipo: Desviación moderada | Descripción: Medida 7.8334 excedió la tolerancia por 0.1666 | Gravedad: 2

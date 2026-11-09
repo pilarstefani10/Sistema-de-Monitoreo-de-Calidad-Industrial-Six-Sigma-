@@ -1,0 +1,8 @@
+
+Reporte: L57M7IR
+Fecha: 2026-11-09
+Muestra: L57M7
+Lote: L57
+Responsable: Antonella Sosa
+1. Tipo: Desviación crítica | Descripción: Medida 7.7358 excedió la tolerancia por 0.2642 | Gravedad: 5
+2. Tipo: Desviación seria | Descripción: Medida 8.1838 excedió la tolerancia por 0.1838 | Gravedad: 3

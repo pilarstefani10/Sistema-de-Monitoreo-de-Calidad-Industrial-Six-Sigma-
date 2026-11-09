@@ -1,0 +1,10 @@
+
+Reporte: L48M11IR
+Fecha: 2026-11-09
+Muestra: L48M11
+Lote: L48
+Responsable: Nicolas Herrera
+1. Tipo: Desviación seria | Descripción: Medida 8.1825 excedió la tolerancia por 0.1825 | Gravedad: 3
+2. Tipo: Desviación leve | Descripción: Medida 8.1180 excedió la tolerancia por 0.1180 | Gravedad: 1
+3. Tipo: Desviación crítica | Descripción: Medida 8.3189 excedió la tolerancia por 0.3189 | Gravedad: 5
+4. Tipo: Desviación leve | Descripción: Medida 7.8981 excedió la tolerancia por 0.1019 | Gravedad: 1

@@ -1,0 +1,7 @@
+
+Reporte: L22M10IR
+Fecha: 2026-11-09
+Muestra: L22M10
+Lote: L22
+Responsable: Matias Ferreyra
+1. Tipo: Anomalía Visual del procedimiento Control de soldadura | Descripción: Porosidad en la zona superior | Gravedad: 5

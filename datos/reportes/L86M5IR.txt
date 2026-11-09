@@ -1,0 +1,7 @@
+
+Reporte: L86M5IR
+Fecha: 2026-11-09
+Muestra: L86M5
+Lote: L86
+Responsable: Ricardo Gomez
+1. Tipo: Anomalía Visual del procedimiento Control de acabado | Descripción: Porosidad en la zona superior | Gravedad: 5

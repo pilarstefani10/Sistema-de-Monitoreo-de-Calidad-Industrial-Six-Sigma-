@@ -1,0 +1,7 @@
+
+Reporte: L58M1IR
+Fecha: 2026-11-09
+Muestra: L58M1
+Lote: L58
+Responsable: Bruno Castillo
+1. Tipo: Anomalía Visual del procedimiento Control de acabado | Descripción: Porosidad en la zona lateral | Gravedad: 5

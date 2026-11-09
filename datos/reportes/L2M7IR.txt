@@ -1,0 +1,7 @@
+
+Reporte: L2M7IR
+Fecha: 2026-11-09
+Muestra: L2M7
+Lote: L2
+Responsable: Gonzalo Peralta
+1. Tipo: Anomalía Visual del procedimiento Control de pintura | Descripción: Fisura en la zona inferior | Gravedad: 5

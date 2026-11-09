@@ -1,0 +1,12 @@
+
+Reporte: L1M2IR
+Fecha: 2026-11-09
+Muestra: L1M2
+Lote: L1
+Responsable: Ignacio Figueroa
+1. Tipo: Desviación leve | Descripción: Medida 7.8728 excedió la tolerancia por 0.1272 | Gravedad: 1
+2. Tipo: Desviación leve | Descripción: Medida 7.8837 excedió la tolerancia por 0.1163 | Gravedad: 1
+3. Tipo: Desviación moderada | Descripción: Medida 7.8522 excedió la tolerancia por 0.1478 | Gravedad: 2
+4. Tipo: Desviación leve | Descripción: Medida 7.8617 excedió la tolerancia por 0.1383 | Gravedad: 1
+5. Tipo: Desviación severa | Descripción: Medida 8.2309 excedió la tolerancia por 0.2309 | Gravedad: 4
+6. Tipo: Desviación leve | Descripción: Medida 8.1243 excedió la tolerancia por 0.1243 | Gravedad: 1

@@ -1,0 +1,7 @@
+
+Reporte: L85M7IR
+Fecha: 2026-11-09
+Muestra: L85M7
+Lote: L85
+Responsable: Brenda Villalba
+1. Tipo: Anomalía Visual del procedimiento Control de pintura | Descripción: Porosidad en la zona lateral | Gravedad: 5

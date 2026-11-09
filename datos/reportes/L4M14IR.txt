@@ -1,0 +1,7 @@
+
+Reporte: L4M14IR
+Fecha: 2026-11-09
+Muestra: L4M14
+Lote: L4
+Responsable: Antonella Sosa
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Fisura en la zona lateral | Gravedad: 5

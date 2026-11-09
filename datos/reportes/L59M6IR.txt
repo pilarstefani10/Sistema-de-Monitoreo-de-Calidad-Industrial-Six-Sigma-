@@ -1,0 +1,12 @@
+
+Reporte: L59M6IR
+Fecha: 2026-11-09
+Muestra: L59M6
+Lote: L59
+Responsable: Matias Ferreyra
+1. Tipo: Desviación leve | Descripción: Medida 7.8819 excedió la tolerancia por 0.1181 | Gravedad: 1
+2. Tipo: Desviación leve | Descripción: Medida 8.1172 excedió la tolerancia por 0.1172 | Gravedad: 1
+3. Tipo: Desviación moderada | Descripción: Medida 8.1657 excedió la tolerancia por 0.1657 | Gravedad: 2
+4. Tipo: Desviación leve | Descripción: Medida 7.8703 excedió la tolerancia por 0.1297 | Gravedad: 1
+5. Tipo: Desviación leve | Descripción: Medida 7.8932 excedió la tolerancia por 0.1068 | Gravedad: 1
+6. Tipo: Desviación seria | Descripción: Medida 8.2115 excedió la tolerancia por 0.2115 | Gravedad: 3

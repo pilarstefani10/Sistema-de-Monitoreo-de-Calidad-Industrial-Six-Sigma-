@@ -1,0 +1,9 @@
+
+Reporte: L65M4IR
+Fecha: 2026-11-09
+Muestra: L65M4
+Lote: L65
+Responsable: Morena Salinas
+1. Tipo: Desviación seria | Descripción: Medida 8.2100 excedió la tolerancia por 0.2100 | Gravedad: 3
+2. Tipo: Desviación moderada | Descripción: Medida 7.8339 excedió la tolerancia por 0.1661 | Gravedad: 2
+3. Tipo: Desviación leve | Descripción: Medida 7.8720 excedió la tolerancia por 0.1280 | Gravedad: 1

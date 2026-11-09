@@ -1,0 +1,7 @@
+
+Reporte: L80M7IR
+Fecha: 2026-11-09
+Muestra: L80M7
+Lote: L80
+Responsable: Gaston Ruiz
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Fisura en la zona superior | Gravedad: 5

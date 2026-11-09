@@ -1,0 +1,7 @@
+
+Reporte: L54M3IR
+Fecha: 2026-11-09
+Muestra: L54M3
+Lote: L54
+Responsable: Gonzalo Peralta
+1. Tipo: Anomalía Visual del procedimiento Control de pintura | Descripción: Rayadura en la zona inferior | Gravedad: 5

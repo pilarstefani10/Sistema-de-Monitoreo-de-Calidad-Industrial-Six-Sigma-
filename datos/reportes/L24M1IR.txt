@@ -1,0 +1,10 @@
+
+Reporte: L24M1IR
+Fecha: 2026-11-09
+Muestra: L24M1
+Lote: L24
+Responsable: Facundo Ibarra
+1. Tipo: Desviación leve | Descripción: Medida 8.1167 excedió la tolerancia por 0.1167 | Gravedad: 1
+2. Tipo: Desviación moderada | Descripción: Medida 8.1783 excedió la tolerancia por 0.1783 | Gravedad: 2
+3. Tipo: Desviación moderada | Descripción: Medida 8.1690 excedió la tolerancia por 0.1690 | Gravedad: 2
+4. Tipo: Desviación leve | Descripción: Medida 7.8896 excedió la tolerancia por 0.1104 | Gravedad: 1

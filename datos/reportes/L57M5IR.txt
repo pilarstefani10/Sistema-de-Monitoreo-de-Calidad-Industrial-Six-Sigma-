@@ -1,0 +1,7 @@
+
+Reporte: L57M5IR
+Fecha: 2026-11-09
+Muestra: L57M5
+Lote: L57
+Responsable: Ignacio Figueroa
+1. Tipo: Anomalía Visual del procedimiento Control de superficie | Descripción: Rayadura en la zona inferior | Gravedad: 5

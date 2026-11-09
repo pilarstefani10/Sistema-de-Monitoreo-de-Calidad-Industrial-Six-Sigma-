@@ -1,0 +1,10 @@
+
+Reporte: L59M7IR
+Fecha: 2026-11-09
+Muestra: L59M7
+Lote: L59
+Responsable: Ezequiel Rios
+1. Tipo: Desviación leve | Descripción: Medida 8.1257 excedió la tolerancia por 0.1257 | Gravedad: 1
+2. Tipo: Desviación moderada | Descripción: Medida 8.1515 excedió la tolerancia por 0.1515 | Gravedad: 2
+3. Tipo: Desviación leve | Descripción: Medida 7.8800 excedió la tolerancia por 0.1200 | Gravedad: 1
+4. Tipo: Desviación moderada | Descripción: Medida 8.1654 excedió la tolerancia por 0.1654 | Gravedad: 2

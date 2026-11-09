@@ -1,0 +1,7 @@
+
+Reporte: L1M5IR
+Fecha: 2026-11-09
+Muestra: L1M5
+Lote: L1
+Responsable: Morena Salinas
+1. Tipo: Anomalía Visual del procedimiento Control de soldadura | Descripción: Rayadura en la zona inferior | Gravedad: 5

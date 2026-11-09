@@ -1,0 +1,7 @@
+
+Reporte: L42M8IR
+Fecha: 2026-11-09
+Muestra: L42M8
+Lote: L42
+Responsable: Leandro Ojeda
+1. Tipo: Anomalía Visual del procedimiento Control de acabado | Descripción: Rayadura en la zona lateral | Gravedad: 5

@@ -1,0 +1,12 @@
+
+Reporte: L67M11IR
+Fecha: 2026-11-09
+Muestra: L67M11
+Lote: L67
+Responsable: Facundo Ibarra
+1. Tipo: Desviación leve | Descripción: Medida 7.8653 excedió la tolerancia por 0.1347 | Gravedad: 1
+2. Tipo: Desviación seria | Descripción: Medida 7.8179 excedió la tolerancia por 0.1821 | Gravedad: 3
+3. Tipo: Desviación leve | Descripción: Medida 8.1146 excedió la tolerancia por 0.1146 | Gravedad: 1
+4. Tipo: Desviación leve | Descripción: Medida 7.8943 excedió la tolerancia por 0.1057 | Gravedad: 1
+5. Tipo: Desviación moderada | Descripción: Medida 8.1579 excedió la tolerancia por 0.1579 | Gravedad: 2
+6. Tipo: Desviación leve | Descripción: Medida 8.1207 excedió la tolerancia por 0.1207 | Gravedad: 1

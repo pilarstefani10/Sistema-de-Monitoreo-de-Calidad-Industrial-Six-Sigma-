@@ -1,0 +1,11 @@
+
+Reporte: L3M1IR
+Fecha: 2026-11-09
+Muestra: L3M1
+Lote: L3
+Responsable: Matias Ferreyra
+1. Tipo: Desviación leve | Descripción: Medida 8.1022 excedió la tolerancia por 0.1022 | Gravedad: 1
+2. Tipo: Desviación leve | Descripción: Medida 8.1400 excedió la tolerancia por 0.1400 | Gravedad: 1
+3. Tipo: Desviación moderada | Descripción: Medida 7.8339 excedió la tolerancia por 0.1661 | Gravedad: 2
+4. Tipo: Desviación leve | Descripción: Medida 8.1373 excedió la tolerancia por 0.1373 | Gravedad: 1
+5. Tipo: Desviación leve | Descripción: Medida 8.1125 excedió la tolerancia por 0.1125 | Gravedad: 1

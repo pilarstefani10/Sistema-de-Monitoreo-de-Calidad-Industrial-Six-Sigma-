@@ -1,0 +1,10 @@
+
+Reporte: L82M2IR
+Fecha: 2026-11-09
+Muestra: L82M2
+Lote: L82
+Responsable: Ignacio Figueroa
+1. Tipo: Desviación moderada | Descripción: Medida 8.1453 excedió la tolerancia por 0.1453 | Gravedad: 2
+2. Tipo: Desviación seria | Descripción: Medida 8.1876 excedió la tolerancia por 0.1876 | Gravedad: 3
+3. Tipo: Desviación severa | Descripción: Medida 8.2351 excedió la tolerancia por 0.2351 | Gravedad: 4
+4. Tipo: Desviación leve | Descripción: Medida 8.1139 excedió la tolerancia por 0.1139 | Gravedad: 1

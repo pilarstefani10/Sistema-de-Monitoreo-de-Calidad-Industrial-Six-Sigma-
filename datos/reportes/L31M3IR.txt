@@ -1,0 +1,10 @@
+
+Reporte: L31M3IR
+Fecha: 2026-11-09
+Muestra: L31M3
+Lote: L31
+Responsable: Nahuel Campos
+1. Tipo: Desviación moderada | Descripción: Medida 7.8504 excedió la tolerancia por 0.1496 | Gravedad: 2
+2. Tipo: Desviación leve | Descripción: Medida 7.8948 excedió la tolerancia por 0.1052 | Gravedad: 1
+3. Tipo: Desviación moderada | Descripción: Medida 7.8327 excedió la tolerancia por 0.1673 | Gravedad: 2
+4. Tipo: Desviación leve | Descripción: Medida 8.1356 excedió la tolerancia por 0.1356 | Gravedad: 1

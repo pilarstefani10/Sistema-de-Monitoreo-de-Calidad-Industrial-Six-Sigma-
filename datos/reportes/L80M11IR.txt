@@ -1,0 +1,7 @@
+
+Reporte: L80M11IR
+Fecha: 2026-11-09
+Muestra: L80M11
+Lote: L80
+Responsable: Andres Molina
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Rayadura en la zona superior | Gravedad: 5

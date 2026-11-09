@@ -1,0 +1,7 @@
+
+Reporte: L82M11IR
+Fecha: 2026-11-09
+Muestra: L82M11
+Lote: L82
+Responsable: Matias Ferreyra
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Mancha en la zona superior | Gravedad: 5

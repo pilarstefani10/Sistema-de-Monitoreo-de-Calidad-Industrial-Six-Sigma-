@@ -1,0 +1,11 @@
+
+Reporte: L40M2IR
+Fecha: 2026-11-09
+Muestra: L40M2
+Lote: L40
+Responsable: Martina Rivero
+1. Tipo: Desviación seria | Descripción: Medida 8.1818 excedió la tolerancia por 0.1818 | Gravedad: 3
+2. Tipo: Desviación seria | Descripción: Medida 8.2023 excedió la tolerancia por 0.2023 | Gravedad: 3
+3. Tipo: Desviación seria | Descripción: Medida 7.7864 excedió la tolerancia por 0.2136 | Gravedad: 3
+4. Tipo: Desviación moderada | Descripción: Medida 8.1526 excedió la tolerancia por 0.1526 | Gravedad: 2
+5. Tipo: Desviación moderada | Descripción: Medida 8.1702 excedió la tolerancia por 0.1702 | Gravedad: 2

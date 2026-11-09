@@ -1,0 +1,7 @@
+
+Reporte: L26M14IR
+Fecha: 2026-11-09
+Muestra: L26M14
+Lote: L26
+Responsable: Victoria Luna
+1. Tipo: Anomalía Visual del procedimiento Control de pintura | Descripción: Rayadura en la zona inferior | Gravedad: 5

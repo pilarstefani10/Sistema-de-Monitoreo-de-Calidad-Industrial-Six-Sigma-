@@ -1,0 +1,7 @@
+
+Reporte: L17M12IR
+Fecha: 2026-11-09
+Muestra: L17M12
+Lote: L17
+Responsable: Gaston Ruiz
+1. Tipo: Anomalía Visual del procedimiento Control de pintura | Descripción: Rayadura en la zona inferior | Gravedad: 5

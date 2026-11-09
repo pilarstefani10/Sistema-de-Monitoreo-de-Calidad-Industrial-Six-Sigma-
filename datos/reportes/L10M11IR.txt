@@ -1,0 +1,7 @@
+
+Reporte: L10M11IR
+Fecha: 2026-11-09
+Muestra: L10M11
+Lote: L10
+Responsable: Milagros Cabrera
+1. Tipo: Anomalía Visual del procedimiento Control de superficie | Descripción: Mancha en la zona inferior | Gravedad: 5

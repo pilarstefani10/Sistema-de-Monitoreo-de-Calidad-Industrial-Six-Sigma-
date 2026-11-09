@@ -1,0 +1,10 @@
+
+Reporte: L7M3IR
+Fecha: 2026-11-09
+Muestra: L7M3
+Lote: L7
+Responsable: Lautaro Godoy
+1. Tipo: Desviación moderada | Descripción: Medida 7.8478 excedió la tolerancia por 0.1522 | Gravedad: 2
+2. Tipo: Desviación moderada | Descripción: Medida 7.8361 excedió la tolerancia por 0.1639 | Gravedad: 2
+3. Tipo: Desviación moderada | Descripción: Medida 8.1412 excedió la tolerancia por 0.1412 | Gravedad: 2
+4. Tipo: Desviación leve | Descripción: Medida 8.1247 excedió la tolerancia por 0.1247 | Gravedad: 1

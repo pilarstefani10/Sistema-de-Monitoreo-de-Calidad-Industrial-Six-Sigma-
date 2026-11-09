@@ -1,0 +1,10 @@
+
+Reporte: L67M16IR
+Fecha: 2026-11-09
+Muestra: L67M16
+Lote: L67
+Responsable: Ezequiel Rios
+1. Tipo: Desviación leve | Descripción: Medida 8.1024 excedió la tolerancia por 0.1024 | Gravedad: 1
+2. Tipo: Desviación leve | Descripción: Medida 7.8738 excedió la tolerancia por 0.1262 | Gravedad: 1
+3. Tipo: Desviación leve | Descripción: Medida 7.8898 excedió la tolerancia por 0.1102 | Gravedad: 1
+4. Tipo: Desviación seria | Descripción: Medida 7.7870 excedió la tolerancia por 0.2130 | Gravedad: 3

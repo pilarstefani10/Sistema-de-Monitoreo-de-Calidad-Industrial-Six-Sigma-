@@ -1,0 +1,7 @@
+
+Reporte: L79M11IR
+Fecha: 2026-11-09
+Muestra: L79M11
+Lote: L79
+Responsable: Camila Ortiz
+1. Tipo: Anomalía Visual del procedimiento Control de soldadura | Descripción: Fisura en la zona superior | Gravedad: 5

@@ -1,0 +1,8 @@
+
+Reporte: L66M2IR
+Fecha: 2026-11-09
+Muestra: L66M2
+Lote: L66
+Responsable: Facundo Ibarra
+1. Tipo: Anomalía Visual del procedimiento Control de soldadura | Descripción: Mancha en la zona lateral | Gravedad: 5
+2. Tipo: Anomalía Visual del procedimiento Control de soldadura | Descripción: Mancha en la zona superior | Gravedad: 5

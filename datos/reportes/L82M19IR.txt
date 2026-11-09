@@ -1,0 +1,10 @@
+
+Reporte: L82M19IR
+Fecha: 2026-11-09
+Muestra: L82M19
+Lote: L82
+Responsable: Lucia Moreno
+1. Tipo: Desviación moderada | Descripción: Medida 8.1593 excedió la tolerancia por 0.1593 | Gravedad: 2
+2. Tipo: Desviación moderada | Descripción: Medida 8.1407 excedió la tolerancia por 0.1407 | Gravedad: 2
+3. Tipo: Desviación leve | Descripción: Medida 7.8952 excedió la tolerancia por 0.1048 | Gravedad: 1
+4. Tipo: Desviación leve | Descripción: Medida 8.1318 excedió la tolerancia por 0.1318 | Gravedad: 1

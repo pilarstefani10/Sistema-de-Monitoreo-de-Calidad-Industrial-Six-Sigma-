@@ -1,0 +1,12 @@
+
+Reporte: L44M1IR
+Fecha: 2026-11-09
+Muestra: L44M1
+Lote: L44
+Responsable: Agustina Ramos
+1. Tipo: Desviación moderada | Descripción: Medida 8.1545 excedió la tolerancia por 0.1545 | Gravedad: 2
+2. Tipo: Desviación leve | Descripción: Medida 7.8926 excedió la tolerancia por 0.1074 | Gravedad: 1
+3. Tipo: Desviación moderada | Descripción: Medida 7.8286 excedió la tolerancia por 0.1714 | Gravedad: 2
+4. Tipo: Desviación crítica | Descripción: Medida 8.2932 excedió la tolerancia por 0.2932 | Gravedad: 5
+5. Tipo: Desviación leve | Descripción: Medida 8.1284 excedió la tolerancia por 0.1284 | Gravedad: 1
+6. Tipo: Desviación leve | Descripción: Medida 7.8819 excedió la tolerancia por 0.1181 | Gravedad: 1

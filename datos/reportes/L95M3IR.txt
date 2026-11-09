@@ -1,0 +1,11 @@
+
+Reporte: L95M3IR
+Fecha: 2026-11-09
+Muestra: L95M3
+Lote: L95
+Responsable: Martina Rivero
+1. Tipo: Desviación seria | Descripción: Medida 7.8009 excedió la tolerancia por 0.1991 | Gravedad: 3
+2. Tipo: Desviación leve | Descripción: Medida 8.1101 excedió la tolerancia por 0.1101 | Gravedad: 1
+3. Tipo: Desviación leve | Descripción: Medida 7.8700 excedió la tolerancia por 0.1300 | Gravedad: 1
+4. Tipo: Desviación moderada | Descripción: Medida 8.1430 excedió la tolerancia por 0.1430 | Gravedad: 2
+5. Tipo: Desviación moderada | Descripción: Medida 7.8501 excedió la tolerancia por 0.1499 | Gravedad: 2

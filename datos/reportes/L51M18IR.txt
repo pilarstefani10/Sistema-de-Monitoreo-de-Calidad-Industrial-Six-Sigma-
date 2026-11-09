@@ -1,0 +1,7 @@
+
+Reporte: L51M18IR
+Fecha: 2026-11-09
+Muestra: L51M18
+Lote: L51
+Responsable: Martin Vega
+1. Tipo: Anomalía Visual del procedimiento Control de superficie | Descripción: Porosidad en la zona lateral | Gravedad: 5

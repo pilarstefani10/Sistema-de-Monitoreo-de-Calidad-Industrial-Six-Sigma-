@@ -1,0 +1,7 @@
+
+Reporte: L52M2IR
+Fecha: 2026-11-09
+Muestra: L52M2
+Lote: L52
+Responsable: Candela Mendez
+1. Tipo: Anomalía Visual del procedimiento Control de pintura | Descripción: Porosidad en la zona superior | Gravedad: 5

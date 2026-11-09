@@ -1,0 +1,11 @@
+
+Reporte: L1M13IR
+Fecha: 2026-11-09
+Muestra: L1M13
+Lote: L1
+Responsable: Pilar Dominguez
+1. Tipo: Desviación moderada | Descripción: Medida 7.8401 excedió la tolerancia por 0.1599 | Gravedad: 2
+2. Tipo: Desviación leve | Descripción: Medida 7.8968 excedió la tolerancia por 0.1032 | Gravedad: 1
+3. Tipo: Desviación leve | Descripción: Medida 8.1097 excedió la tolerancia por 0.1097 | Gravedad: 1
+4. Tipo: Desviación moderada | Descripción: Medida 7.8512 excedió la tolerancia por 0.1488 | Gravedad: 2
+5. Tipo: Desviación leve | Descripción: Medida 8.1178 excedió la tolerancia por 0.1178 | Gravedad: 1

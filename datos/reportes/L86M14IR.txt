@@ -1,0 +1,10 @@
+
+Reporte: L86M14IR
+Fecha: 2026-11-09
+Muestra: L86M14
+Lote: L86
+Responsable: Laura Fernandez
+1. Tipo: Desviación moderada | Descripción: Medida 8.1702 excedió la tolerancia por 0.1702 | Gravedad: 2
+2. Tipo: Desviación moderada | Descripción: Medida 8.1481 excedió la tolerancia por 0.1481 | Gravedad: 2
+3. Tipo: Desviación crítica | Descripción: Medida 8.2690 excedió la tolerancia por 0.2690 | Gravedad: 5
+4. Tipo: Desviación leve | Descripción: Medida 7.8729 excedió la tolerancia por 0.1271 | Gravedad: 1

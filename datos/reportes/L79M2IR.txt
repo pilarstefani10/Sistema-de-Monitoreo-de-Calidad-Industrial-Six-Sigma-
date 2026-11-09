@@ -1,0 +1,7 @@
+
+Reporte: L79M2IR
+Fecha: 2026-11-09
+Muestra: L79M2
+Lote: L79
+Responsable: Ezequiel Rios
+1. Tipo: Anomalía Visual del procedimiento Control de pintura | Descripción: Porosidad en la zona superior | Gravedad: 5

@@ -1,0 +1,7 @@
+
+Reporte: L25M14IR
+Fecha: 2026-11-09
+Muestra: L25M14
+Lote: L25
+Responsable: Bruno Castillo
+1. Tipo: Anomalía Visual del procedimiento Control de superficie | Descripción: Rayadura en la zona superior | Gravedad: 5

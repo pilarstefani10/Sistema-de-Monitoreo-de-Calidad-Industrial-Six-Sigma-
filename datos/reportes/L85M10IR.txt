@@ -1,0 +1,7 @@
+
+Reporte: L85M10IR
+Fecha: 2026-11-09
+Muestra: L85M10
+Lote: L85
+Responsable: Pilar Dominguez
+1. Tipo: Anomalía Visual del procedimiento Control de soldadura | Descripción: Fisura en la zona lateral | Gravedad: 5

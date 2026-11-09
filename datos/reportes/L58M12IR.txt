@@ -1,0 +1,9 @@
+
+Reporte: L58M12IR
+Fecha: 2026-11-09
+Muestra: L58M12
+Lote: L58
+Responsable: Agustina Ramos
+1. Tipo: Desviación moderada | Descripción: Medida 8.1478 excedió la tolerancia por 0.1478 | Gravedad: 2
+2. Tipo: Desviación crítica | Descripción: Medida 7.7119 excedió la tolerancia por 0.2881 | Gravedad: 5
+3. Tipo: Desviación moderada | Descripción: Medida 8.1420 excedió la tolerancia por 0.1420 | Gravedad: 2

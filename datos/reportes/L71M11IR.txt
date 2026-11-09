@@ -1,0 +1,13 @@
+
+Reporte: L71M11IR
+Fecha: 2026-11-09
+Muestra: L71M11
+Lote: L71
+Responsable: Morena Salinas
+1. Tipo: Desviación leve | Descripción: Medida 8.1339 excedió la tolerancia por 0.1339 | Gravedad: 1
+2. Tipo: Desviación seria | Descripción: Medida 8.1826 excedió la tolerancia por 0.1826 | Gravedad: 3
+3. Tipo: Desviación leve | Descripción: Medida 8.1016 excedió la tolerancia por 0.1016 | Gravedad: 1
+4. Tipo: Desviación moderada | Descripción: Medida 8.1512 excedió la tolerancia por 0.1512 | Gravedad: 2
+5. Tipo: Desviación moderada | Descripción: Medida 8.1676 excedió la tolerancia por 0.1676 | Gravedad: 2
+6. Tipo: Desviación leve | Descripción: Medida 8.1226 excedió la tolerancia por 0.1226 | Gravedad: 1
+7. Tipo: Desviación moderada | Descripción: Medida 7.8289 excedió la tolerancia por 0.1711 | Gravedad: 2

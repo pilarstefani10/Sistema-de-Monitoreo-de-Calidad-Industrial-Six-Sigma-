@@ -1,0 +1,8 @@
+
+Reporte: L73M11IR
+Fecha: 2026-11-09
+Muestra: L73M11
+Lote: L73
+Responsable: Micaela Rojas
+1. Tipo: Desviación severa | Descripción: Medida 8.2396 excedió la tolerancia por 0.2396 | Gravedad: 4
+2. Tipo: Desviación moderada | Descripción: Medida 8.1408 excedió la tolerancia por 0.1408 | Gravedad: 2

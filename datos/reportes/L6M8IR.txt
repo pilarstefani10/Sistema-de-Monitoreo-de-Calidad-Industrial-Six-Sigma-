@@ -1,0 +1,7 @@
+
+Reporte: L6M8IR
+Fecha: 2026-11-09
+Muestra: L6M8
+Lote: L6
+Responsable: Rocio Navarro
+1. Tipo: Anomalía Visual del procedimiento Control de soldadura | Descripción: Fisura en la zona lateral | Gravedad: 5

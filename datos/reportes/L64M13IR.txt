@@ -1,0 +1,7 @@
+
+Reporte: L64M13IR
+Fecha: 2026-11-09
+Muestra: L64M13
+Lote: L64
+Responsable: Joaquin Aguirre
+1. Tipo: Anomalía Visual del procedimiento Control de pintura | Descripción: Rayadura en la zona superior | Gravedad: 5

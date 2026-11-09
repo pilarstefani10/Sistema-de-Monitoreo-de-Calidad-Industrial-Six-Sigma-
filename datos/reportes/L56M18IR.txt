@@ -1,0 +1,10 @@
+
+Reporte: L56M18IR
+Fecha: 2026-11-09
+Muestra: L56M18
+Lote: L56
+Responsable: Agustina Ramos
+1. Tipo: Desviación leve | Descripción: Medida 7.8709 excedió la tolerancia por 0.1291 | Gravedad: 1
+2. Tipo: Desviación moderada | Descripción: Medida 8.1420 excedió la tolerancia por 0.1420 | Gravedad: 2
+3. Tipo: Desviación leve | Descripción: Medida 7.8783 excedió la tolerancia por 0.1217 | Gravedad: 1
+4. Tipo: Desviación seria | Descripción: Medida 7.8106 excedió la tolerancia por 0.1894 | Gravedad: 3

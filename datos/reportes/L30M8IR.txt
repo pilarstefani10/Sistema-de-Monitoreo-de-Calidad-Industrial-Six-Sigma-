@@ -1,0 +1,7 @@
+
+Reporte: L30M8IR
+Fecha: 2026-11-09
+Muestra: L30M8
+Lote: L30
+Responsable: Maximiliano Vera
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Porosidad en la zona lateral | Gravedad: 5

@@ -1,0 +1,8 @@
+
+Reporte: L45M7IR
+Fecha: 2026-11-09
+Muestra: L45M7
+Lote: L45
+Responsable: Morena Salinas
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Rayadura en la zona lateral | Gravedad: 5
+2. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Rayadura en la zona superior | Gravedad: 5

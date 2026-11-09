@@ -1,0 +1,9 @@
+
+Reporte: L19M11IR
+Fecha: 2026-11-09
+Muestra: L19M11
+Lote: L19
+Responsable: Santiago Luna
+1. Tipo: Desviación moderada | Descripción: Medida 8.1443 excedió la tolerancia por 0.1443 | Gravedad: 2
+2. Tipo: Desviación moderada | Descripción: Medida 8.1591 excedió la tolerancia por 0.1591 | Gravedad: 2
+3. Tipo: Desviación moderada | Descripción: Medida 7.8274 excedió la tolerancia por 0.1726 | Gravedad: 2

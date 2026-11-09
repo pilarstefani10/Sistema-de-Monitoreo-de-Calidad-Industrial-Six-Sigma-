@@ -1,0 +1,10 @@
+
+Reporte: L95M9IR
+Fecha: 2026-11-09
+Muestra: L95M9
+Lote: L95
+Responsable: Micaela Rojas
+1. Tipo: Desviación leve | Descripción: Medida 14.8958 excedió la tolerancia por 0.1042 | Gravedad: 1
+2. Tipo: Desviación leve | Descripción: Medida 14.8945 excedió la tolerancia por 0.1055 | Gravedad: 1
+3. Tipo: Desviación seria | Descripción: Medida 14.8135 excedió la tolerancia por 0.1865 | Gravedad: 3
+4. Tipo: Desviación seria | Descripción: Medida 14.8129 excedió la tolerancia por 0.1871 | Gravedad: 3

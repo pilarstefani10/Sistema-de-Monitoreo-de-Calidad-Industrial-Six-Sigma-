@@ -1,0 +1,10 @@
+
+Reporte: L24M9IR
+Fecha: 2026-11-09
+Muestra: L24M9
+Lote: L24
+Responsable: Paula Benitez
+1. Tipo: Desviación leve | Descripción: Medida 8.1312 excedió la tolerancia por 0.1312 | Gravedad: 1
+2. Tipo: Desviación moderada | Descripción: Medida 8.1582 excedió la tolerancia por 0.1582 | Gravedad: 2
+3. Tipo: Desviación moderada | Descripción: Medida 8.1455 excedió la tolerancia por 0.1455 | Gravedad: 2
+4. Tipo: Desviación leve | Descripción: Medida 8.1018 excedió la tolerancia por 0.1018 | Gravedad: 1

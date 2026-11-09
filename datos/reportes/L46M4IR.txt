@@ -1,0 +1,10 @@
+
+Reporte: L46M4IR
+Fecha: 2026-11-09
+Muestra: L46M4
+Lote: L46
+Responsable: Delfina Ponce
+1. Tipo: Desviación moderada | Descripción: Medida 7.8383 excedió la tolerancia por 0.1617 | Gravedad: 2
+2. Tipo: Desviación moderada | Descripción: Medida 8.1711 excedió la tolerancia por 0.1711 | Gravedad: 2
+3. Tipo: Desviación leve | Descripción: Medida 8.1263 excedió la tolerancia por 0.1263 | Gravedad: 1
+4. Tipo: Desviación leve | Descripción: Medida 8.1023 excedió la tolerancia por 0.1023 | Gravedad: 1

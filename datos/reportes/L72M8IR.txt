@@ -1,0 +1,7 @@
+
+Reporte: L72M8IR
+Fecha: 2026-11-09
+Muestra: L72M8
+Lote: L72
+Responsable: Camila Ortiz
+1. Tipo: Anomalía Visual del procedimiento Control de ensamblaje | Descripción: Porosidad en la zona lateral | Gravedad: 5

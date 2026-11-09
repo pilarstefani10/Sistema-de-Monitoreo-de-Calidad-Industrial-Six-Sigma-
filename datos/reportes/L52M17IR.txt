@@ -1,0 +1,9 @@
+
+Reporte: L52M17IR
+Fecha: 2026-11-09
+Muestra: L52M17
+Lote: L52
+Responsable: Bruno Castillo
+1. Tipo: Desviación seria | Descripción: Medida 7.7868 excedió la tolerancia por 0.2132 | Gravedad: 3
+2. Tipo: Desviación moderada | Descripción: Medida 7.8597 excedió la tolerancia por 0.1403 | Gravedad: 2
+3. Tipo: Desviación moderada | Descripción: Medida 8.1538 excedió la tolerancia por 0.1538 | Gravedad: 2
