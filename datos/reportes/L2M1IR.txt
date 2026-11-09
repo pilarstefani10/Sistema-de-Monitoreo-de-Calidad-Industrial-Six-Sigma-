@@ -1,7 +1,0 @@
-
-Reporte: L2M1IR
-Fecha: 2026-11-02
-Muestra: L2M1
-Lote: L2
-Responsable: Marcos Diaz
-1. Tipo: Desviación crítica | Descripción: Medida 21.1000 excedió la tolerancia por 1.1000 | Gravedad: 5

@@ -1,11 +1,11 @@
 id,tipo,nombre,categoria_equipo,certificaciones_requeridas,limite_gravedad,valor_esperado,tolerancia,desvio,rangos_gravedad,probabilidad,zonas_posibles,descripciones
-PR1,dimensional,Control de diametro,dimensional,"[""Metrologia dimensional""]",5,10.0,0.1,0.25,"{""leve"": 0.2, ""moderado"": 0.4, ""serio"": 0.6, ""severo"": 0.8, ""crítico"": 1.0}",,,
-PR2,dimensional,Control de longitud,dimensional,"[""Metrologia dimensional""]",5,20.0,0.1,0.25,"{""leve"": 0.2, ""moderado"": 0.4, ""serio"": 0.6, ""severo"": 0.8, ""crítico"": 1.0}",,,
-PR3,dimensional,Control de espesor,dimensional,"[""Metrologia dimensional""]",5,5.0,0.1,0.25,"{""leve"": 0.2, ""moderado"": 0.4, ""serio"": 0.6, ""severo"": 0.8, ""crítico"": 1.0}",,,
-PR4,dimensional,Control de altura,dimensional,"[""Metrologia dimensional""]",5,15.0,0.1,0.25,"{""leve"": 0.2, ""moderado"": 0.4, ""serio"": 0.6, ""severo"": 0.8, ""crítico"": 1.0}",,,
-PR5,dimensional,Control de ancho,dimensional,"[""Metrologia dimensional""]",6,8.0,0.1,0.25,"{""leve"": 0.2, ""moderado"": 0.4, ""serio"": 0.6, ""severo"": 0.8, ""crítico"": 1.0}",,,
-PR6,visual,Control de superficie,visual,"[""Inspeccion visual""]",5,,,,,0.2,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
-PR7,visual,Control de pintura,visual,"[""Inspeccion visual""]",5,,,,,0.2,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
-PR8,visual,Control de soldadura,visual,"[""Inspeccion visual""]",5,,,,,0.2,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
-PR9,visual,Control de acabado,visual,"[""Inspeccion visual""]",5,,,,,0.2,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
-PR10,visual,Control de ensamblaje,visual,"[""Inspeccion visual""]",5,,,,,0.2,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
+PR1,dimensional,Control de diametro,dimensional,"[""Metrologia dimensional""]",5,10.0,0.1,0.04,"{""leve"": 0.14, ""moderado"": 0.18, ""serio"": 0.22, ""severo"": 0.26, ""crítico"": 0.30}",,,
+PR2,dimensional,Control de longitud,dimensional,"[""Metrologia dimensional""]",5,20.0,0.1,0.045,"{""leve"": 0.14, ""moderado"": 0.18, ""serio"": 0.22, ""severo"": 0.26, ""crítico"": 0.30}",,,
+PR3,dimensional,Control de espesor,dimensional,"[""Metrologia dimensional""]",5,5.0,0.1,0.05,"{""leve"": 0.14, ""moderado"": 0.18, ""serio"": 0.22, ""severo"": 0.26, ""crítico"": 0.30}",,,
+PR4,dimensional,Control de altura,dimensional,"[""Metrologia dimensional""]",5,15.0,0.1,0.06,"{""leve"": 0.14, ""moderado"": 0.18, ""serio"": 0.22, ""severo"": 0.26, ""crítico"": 0.30}",,,
+PR5,dimensional,Control de ancho,dimensional,"[""Metrologia dimensional""]",5,8.0,0.1,0.085,"{""leve"": 0.14, ""moderado"": 0.18, ""serio"": 0.22, ""severo"": 0.26, ""crítico"": 0.30}",,,
+PR6,visual,Control de superficie,visual,"[""Inspeccion visual""]",5,,,,,0.004,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
+PR7,visual,Control de pintura,visual,"[""Inspeccion visual""]",5,,,,,0.006,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
+PR8,visual,Control de soldadura,visual,"[""Inspeccion visual""]",5,,,,,0.012,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
+PR9,visual,Control de acabado,visual,"[""Inspeccion visual""]",5,,,,,0.005,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
+PR10,visual,Control de ensamblaje,visual,"[""Inspeccion visual""]",5,,,,,0.008,"[""superior"", ""inferior"", ""lateral""]","[""Rayadura"", ""Fisura"", ""Mancha"", ""Porosidad""]"
