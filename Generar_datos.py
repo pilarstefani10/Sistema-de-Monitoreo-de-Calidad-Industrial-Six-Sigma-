@@ -1,3 +1,4 @@
+#ESTO ES PARA LA PROXIMA ENTREGA Y NO SABIAMOS COMO REBRANCHEAR PARA EMPEZARLO, IGNORAR
 import random
 from datetime import date
 import numpy as np

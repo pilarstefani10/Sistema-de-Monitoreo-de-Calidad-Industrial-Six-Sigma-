@@ -155,6 +155,18 @@ class Persistencia:
                 raise ValueError("Estado incompatible para lote " + lote.getter_id())
         lote.restaurar_estado(estado)
 
+        
+    @staticmethod
+    def _restaurar_defecto(fila, muestras):
+        defecto = Defecto(
+            fila["tipo"],
+            int(fila["gravedad"]),
+            fila["descripcion"]
+        )
+
+        muestra = muestras[fila["muestra_id"]]
+        muestra.restaurar_defecto(defecto)
+
     def cargar_estado_total(self, empresa):
         # 1. Administradores (su __init__ registra automáticamente en Empresa).
         filas = self._leer("administradores.csv")
@@ -256,16 +268,7 @@ class Persistencia:
 
         # 10. Defectos: crear objetos sin evaluar nuevamente.
         for fila in self._leer("defectos.csv"):
-
-            defecto = Defecto(
-                fila["tipo"],
-                int(fila["gravedad"]),
-                fila["descripcion"]
-            )
-
-            muestra = muestras[fila["muestra_id"]]
-
-            muestra.restaurar_defecto(defecto)
+            self._restaurar_defecto(fila, muestras)
 
         # 11. Estados y colas / pilas profesionales.
         for muestra in muestras.values():
@@ -329,14 +332,30 @@ class Persistencia:
                 profesional.getter_inspecciones_pendientes()
             )
 
-        def fila_inspeccion(inspeccion):
-            fila = inspeccion.estandarizar()
-            if inspeccion in finalizadas:
-                estado = "FINALIZADA"
-            elif inspeccion.getter_muestra().getter_estado() == "NO_CONFORME":
-                estado = "REPORTE_PENDIENTE"
-            else:
-                estado = "PENDIENTE"
-            return {**fila, "estado_inspeccion": estado}
+        self._guardar(
+            "inspecciones.csv",
+            map(
+                lambda inspeccion: self._serializar_inspeccion(
+                    inspeccion, finalizadas
+                ),
+                pendientes + finalizadas
+            )
+        )
+    
+    @staticmethod
+    def _serializar_inspeccion(inspeccion, finalizadas):
+        fila = inspeccion.estandarizar()
 
-        self._guardar("inspecciones.csv", map(fila_inspeccion, pendientes + finalizadas))
+        if inspeccion in finalizadas:
+            estado = "FINALIZADA"
+
+        elif inspeccion.getter_muestra().getter_estado() == "NO_CONFORME":
+            estado = "REPORTE_PENDIENTE"
+
+        else:
+            estado = "PENDIENTE"
+
+        fila["estado_inspeccion"] = estado
+
+        return fila
+
