@@ -27,6 +27,8 @@ def analisis_general():
     estados_lotes = columna(lotes, "estado")
 
     # ---------- Métricas ----------
+
+    # Comparar un array con un valor compara cada elemento y devuelve True/False para cada uno
     inspeccionadas = estados != "PENDIENTE"
     no_conformes = estados == "NO_CONFORME"
 
@@ -34,6 +36,7 @@ def analisis_general():
     porcentaje_conformes = np.sum(estados == "CONFORME") / cantidad_inspeccionadas * 100
     porcentaje_no_conformes = np.sum(no_conformes) / cantidad_inspeccionadas * 100
     cantidad_reportes = np.sum(no_conformes)          # cada muestra No Conforme genera un reporte
+    # np.mean (el promedio) de True/False es la proporción de True.
     tasa_rechazo_lotes = np.mean(estados_lotes == "RECHAZADO") * 100
 
     print("\n========== ANÁLISIS GENERAL DE CALIDAD ==========")
@@ -47,11 +50,15 @@ def analisis_general():
     # ---------- Conformidad por lote ----------
     ids_lotes = columna(lotes, "id")
     muestras_por_lote = np.array(list(map(lambda lote: np.sum(lote_de_muestra == lote), ids_lotes)))
+    # mascara
     no_conformes_por_lote = np.array(list(map(lambda lote: np.sum(no_conformes[lote_de_muestra == lote]), ids_lotes)))
     conformes_por_lote = muestras_por_lote - no_conformes_por_lote
     porcentaje_nc_por_lote = no_conformes_por_lote / muestras_por_lote * 100
 
     # Lotes problemáticos: los de mayor porcentaje de muestras No Conformes
+    # np.argsort(...) devuelve las POSICIONES ordenadas de menor a mayor valor
+    # [::-1] da vuelta la lista: de mayor a menor
+    # [:5] se queda con los primeros 5
     orden = np.argsort(porcentaje_nc_por_lote)[::-1][:5]
     print("\nLotes más problemáticos (mayor % de muestras No Conformes):")
     print("\n".join(map(lambda i: f"  {ids_lotes[i]}: {no_conformes_por_lote[i]} de {muestras_por_lote[i]} "
