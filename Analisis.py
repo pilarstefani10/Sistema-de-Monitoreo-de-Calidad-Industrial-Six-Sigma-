@@ -168,15 +168,69 @@ def distribucion_defectos():
     gravedad_maxima = np.max(gravedades)#Gravedad máxima
 
     porcentaje_criticos = np.mean(gravedades == 5) * 100#Porcentaje de críticos
-    print("Cantidad total de defectos:", len(defectos))
-    print("Tipos:", tipos_unicos)
-    print("Cantidades:", cantidades)
-    print(f"Gravedad promedio: {gravedad_promedio:.2f}")
-    print("Gravedad máxima:", gravedad_maxima)
-    print(f"Porcentaje de críticos: {porcentaje_criticos:.2f}%")
 
     #3. Mostrar resultados
+    print("\n========== DISTRIBUCIÓN DE DEFECTOS ==========")
+
+    print("Cantidad total de defectos:", len(defectos))
+
+    print("\n---------- Cantidad por tipo ----------")
+    print("\n".join(map(
+        lambda tipo, cantidad: f"  {tipo}: {cantidad}",
+        tipos_unicos, cantidades
+    )))
+
+    print(f"\nGravedad promedio: {gravedad_promedio:.2f}")
+    print(f"Gravedad máxima: {gravedad_maxima}")
+    print(f"Porcentaje de defectos críticos: {porcentaje_criticos:.2f}%")
+
+    #4. Análisis de Riesgo
+    gravedad_por_tipo = np.array(list(map(
+        lambda tipo: np.mean(gravedades[tipos == tipo]),
+        tipos_unicos
+    )))
+
+    criticos_por_tipo = np.array(list(map(
+        lambda tipo: np.sum(gravedades[tipos == tipo] == 5),
+        tipos_unicos
+    )))
+
+    print("\n---------- Riesgo por tipo de defecto ----------")
+
+    print("\n".join(map(
+        lambda tipo, promedio, criticos:
+            f"  {tipo}: gravedad promedio {promedio:.2f} | críticos: {criticos}",
+        tipos_unicos, gravedad_por_tipo, criticos_por_tipo
+    )))
+
+        #5.Gráfico de barras por tipo
+        # ---------- Separar defectos por categoría ----------
+
+    son_visuales = np.char.startswith(tipos, "Anomalía Visual")
+    son_dimensionales = np.char.startswith(tipos, "Desviación ")
+
+    tipos_visuales = tipos[son_visuales]
+    tipos_dimensionales = tipos[son_dimensionales]
+
+    # Cantidad de defectos de cada categoría
+    cantidad_visuales = np.sum(son_visuales)
+    cantidad_dimensionales = np.sum(son_dimensionales)
+    
+    plt.figure(figsize=(12, 6))
+
+    plt.barh(tipos_unicos, cantidades, color="#1E88E5")
+
+    plt.title("Cantidad de defectos por tipo")
+    plt.xlabel("Cantidad de defectos")
+    plt.ylabel("Tipo de defecto")
+
+    plt.gca().invert_yaxis()
+
+    plt.tight_layout()
+    plt.show()
     pass
+
+
 
 
 
@@ -269,7 +323,9 @@ def desempeno_profesionales():
     if len(nombres) == 0:
         print("No hay profesionales para analizar.")
         return
-
+    if np.sum(inspeccionadas) == 0:
+        print("No hay inspecciones finalizadas para analizar.")
+        return
     # ---------- Resultados ----------
 
     print("\n========== DESEMPEÑO DE PROFESIONALES ==========")
@@ -285,7 +341,7 @@ def desempeno_profesionales():
     print(f"Desviación estándar de inspecciones: "
           f"{np.std(inspeccionadas):.2f}")
 
-        # ---------- Análisis extra ----------
+    # ---------- Análisis extra ----------
 
     print("\n---------- ANÁLISIS EXTRA ----------")
 
