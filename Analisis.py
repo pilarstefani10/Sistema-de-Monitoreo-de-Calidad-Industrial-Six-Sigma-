@@ -150,6 +150,192 @@ def analisis_general():
     plt.show()
 
 # ==========================================
+# EJERCICIO 2: DISTRIBUCIÓN DE DEFECTOS
+# ==========================================
+def distribucion_defectos():
+    #1. Obtención de datos
+    defectos = cargar("defectos.csv")
+
+    tipos = columna(defectos, "tipo")
+    gravedades = columna(defectos, "gravedad").astype(int)
+    muestras = columna(defectos, "muestra_id")
+
+    #2. Métricas
+    tipos_unicos, cantidades = np.unique(tipos, return_counts=True) #Cantidad de defectos por tipo
+
+    gravedad_promedio = np.mean(gravedades)#Gravedad promedio
+
+    gravedad_maxima = np.max(gravedades)#Gravedad máxima
+
+    porcentaje_criticos = np.mean(gravedades == 5) * 100#Porcentaje de críticos
+    pass
+
+
+
+# ==========================================
+# EJERCICIO 5: DESEMPEÑO DE PROFESIONALES
+# ==========================================
+
+def desempeno_profesionales():
+    profesionales = cargar("profesionales.csv")
+    inspecciones = cargar("inspecciones.csv")
+    muestras = cargar("muestras.csv")
+    defectos = cargar("defectos.csv")
+
+    # ---------- Organizar los datos ----------
+
+    # Solo considerar inspecciones finalizadas
+    finalizadas = list(filter(
+        lambda i: i["estado_inspeccion"] == "FINALIZADA",
+        inspecciones
+    ))
+
+    # Relacionar cada muestra con su estado
+    estados_muestras = {
+        muestra["id"]: muestra["estado"]
+        for muestra in muestras
+    }
+
+    # Relacionar cada muestra con sus defectos
+    defectos_por_muestra = {}
+
+    for defecto in defectos:
+        id_muestra = defecto["muestra_id"]
+
+        if id_muestra not in defectos_por_muestra:
+            defectos_por_muestra[id_muestra] = []
+
+        defectos_por_muestra[id_muestra].append(defecto)
+
+    # ---------- Calcular métricas ----------
+
+    nombres = []
+    inspeccionadas = []
+    reportes = []
+    total_defectos = []
+    defectos_criticos = []
+
+    for profesional in profesionales:
+        id_profesional = profesional["id"]
+
+        propias = list(filter(
+            lambda i: i["profesional_id"] == id_profesional,
+            finalizadas
+        ))
+
+        muestras_propias = list(map(
+            lambda i: i["muestra_id"],
+            propias
+        ))
+
+        defectos_propios = [
+            defecto
+            for id_muestra in muestras_propias
+            for defecto in defectos_por_muestra.get(id_muestra, [])
+        ]
+
+        nombres.append(profesional["nombre"])
+        inspeccionadas.append(len(muestras_propias))
+
+        # Una muestra no conforme finalizada tiene un reporte
+        reportes.append(sum(map(
+            lambda id_muestra:
+                estados_muestras[id_muestra] == "NO_CONFORME",
+            muestras_propias
+        )))
+
+        total_defectos.append(len(defectos_propios))
+
+        defectos_criticos.append(sum(map(
+            lambda defecto: int(defecto["gravedad"]) == 5,
+            defectos_propios
+        )))
+
+    # Convertir las listas a arrays NumPy
+    nombres = np.array(nombres)
+    inspeccionadas = np.array(inspeccionadas)
+    reportes = np.array(reportes)
+    total_defectos = np.array(total_defectos)
+    defectos_criticos = np.array(defectos_criticos)
+
+    if len(nombres) == 0:
+        print("No hay profesionales para analizar.")
+        return
+
+    # ---------- Resultados ----------
+
+    print("\n========== DESEMPEÑO DE PROFESIONALES ==========")
+
+    print("Total de inspecciones:", np.sum(inspeccionadas))
+    print("Total de reportes:", np.sum(reportes))
+    print("Total de defectos:", np.sum(total_defectos))
+    print("Total de defectos críticos:", np.sum(defectos_criticos))
+
+    print(f"\nPromedio de inspecciones por profesional: "
+          f"{np.mean(inspeccionadas):.2f}")
+
+    print(f"Desviación estándar de inspecciones: "
+          f"{np.std(inspeccionadas):.2f}")
+
+    # Ranking de profesionales
+    orden = np.argsort(inspeccionadas)[::-1]
+
+    print("\n---------- RANKING DE INSPECTORES ----------")
+
+    for i in orden:
+        print(f"{nombres[i]}:")
+        print(f"  Inspecciones: {inspeccionadas[i]}")
+        print(f"  Reportes: {reportes[i]}")
+        print(f"  Defectos: {total_defectos[i]}")
+        print(f"  Críticos: {defectos_criticos[i]}")
+
+    # Mayor detección de defectos críticos
+    indice = np.argmax(defectos_criticos)
+
+    print("\nMayor cantidad de defectos críticos:")
+    print(nombres[indice], "-", defectos_criticos[indice])
+
+    # ---------- Gráficos ----------
+
+    # Mostrar los 10 profesionales con más inspecciones
+    top = orden[:10]
+
+    plt.figure(figsize=(12, 6))
+    plt.bar(nombres[top], inspeccionadas[top],
+            color="#1E88E5")
+    plt.title("Ranking de profesionales por inspecciones")
+    plt.xlabel("Profesionales")
+    plt.ylabel("Muestras inspeccionadas")
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+
+    # Comparación de defectos y defectos críticos
+    posiciones = np.arange(len(top))
+    ancho = 0.35
+
+    plt.figure(figsize=(12, 6))
+    plt.bar(posiciones - ancho / 2,
+            total_defectos[top],
+            ancho, label="Defectos totales",
+            color="#FF9800")
+
+    plt.bar(posiciones + ancho / 2,
+            defectos_criticos[top],
+            ancho, label="Defectos críticos",
+            color="#E53935")
+
+    plt.xticks(posiciones, nombres[top],
+               rotation=45, ha="right")
+    plt.title("Defectos detectados por profesional")
+    plt.xlabel("Profesionales")
+    plt.ylabel("Cantidad de defectos")
+    plt.legend()
+    plt.tight_layout()
+
+    plt.show()
+
+
+# ==========================================
 # MENÚ DE ANÁLISIS
 # ==========================================
 
@@ -175,3 +361,7 @@ def menu():
 
 if __name__ == "__main__":
     menu()
+
+
+
+    
