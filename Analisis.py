@@ -235,19 +235,86 @@ def distribucion_defectos():
         lambda gravedad: np.sum(gravedades[son_dimensionales] == gravedad),
         niveles_gravedad
     )))
+    # ---------- Gráficos de distribución de defectos ----------
+
+    figura, ((visuales, dimensionales), (proporcion, comparacion)) = plt.subplots(
+        2, 2, figsize=(20, 14)
+    )
+
+    figura.suptitle(
+        "Distribución de Defectos",
+        fontsize=16,
+        fontweight="bold"
+)
+    # ---------- Gráfico 1: Defectos visuales ----------
+
+    nombres_visuales = np.char.replace(
+        visuales_unicos,
+        "Anomalía Visual del procedimiento ",
+        ""
+    )
+
+    visuales.barh(
+        nombres_visuales,
+        cantidades_visuales,
+        color="#E53935"
+    )
+
+    visuales.invert_yaxis()
+    visuales.set_title("Defectos visuales por procedimiento")
+    visuales.set_xlabel("Cantidad de defectos")
+    visuales.set_ylabel("Procedimiento visual")
+
+    # ---------- Gráfico 2: Defectos dimensionales ----------
+
+    dimensionales.bar(
+        niveles_gravedad,
+        cantidades_dimensionales,
+        color="#1E88E5"
+    )
+
+    dimensionales.set_title("Defectos dimensionales por gravedad")
+    dimensionales.set_xlabel("Gravedad")
+    dimensionales.set_ylabel("Cantidad de defectos")
+    dimensionales.set_xticks(niveles_gravedad)
+
+    # ---------- Gráfico 3: Proporción de defectos ----------
+
+    proporcion.pie(
+        [cantidad_visuales, cantidad_dimensionales],
+        labels=["Visuales", "Dimensionales"],
+        autopct="%1.1f%%",
+        colors=["#E53935", "#1E88E5"],
+        startangle=90
+    )
+
+    proporcion.set_title("Proporción sobre el total de defectos")
+
+    # ---------- Gráfico 4: Comparación general ----------
+
+    nombres_generales = np.char.replace(
+        tipos_unicos,
+        "Anomalía Visual del procedimiento ",
+        "Visual: "
+    )
+
+    colores = list(map(
+        lambda tipo: "#E53935" if tipo.startswith("Anomalía Visual") else "#1E88E5",
+        tipos_unicos
+    ))
+
+    comparacion.barh(
+        nombres_generales,
+        cantidades,
+        color=colores
+    )
+
+    comparacion.invert_yaxis()
+    comparacion.set_title("Comparación general de defectos")
+    comparacion.set_xlabel("Cantidad de defectos")
+    comparacion.set_ylabel("Tipo de defecto")
+    #6. Historigrama de Gravedad
     
-    plt.figure(figsize=(12, 6))
-
-    plt.barh(tipos_unicos, cantidades, color="#1E88E5")
-
-    plt.title("Cantidad de defectos por tipo")
-    plt.xlabel("Cantidad de defectos")
-    plt.ylabel("Tipo de defecto")
-
-    plt.gca().invert_yaxis()
-
-    plt.tight_layout()
-    plt.show()
     pass
 
 
@@ -364,14 +431,6 @@ def desempeno_profesionales():
     # ---------- Análisis extra ----------
 
     print("\n---------- ANÁLISIS EXTRA ----------")
-
-    # Promedio de defectos por inspección
-    defectos_por_inspeccion = np.divide(
-        total_defectos,
-        inspeccionadas,
-        out=np.zeros(len(inspeccionadas), dtype=float),
-        where=inspeccionadas != 0
-    )
 
     # Promedio de defectos críticos por inspección
     criticos_por_inspeccion = np.divide(
