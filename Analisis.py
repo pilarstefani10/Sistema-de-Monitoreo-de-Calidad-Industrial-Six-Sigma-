@@ -38,6 +38,7 @@ def analisis_general():
     cantidad_reportes = np.sum(no_conformes)          # cada muestra No Conforme genera un reporte
     # np.mean (el promedio) de True/False es la proporción de True.
     tasa_rechazo_lotes = np.mean(estados_lotes == "RECHAZADO") * 100
+    rechazados = estados_lotes == "RECHAZADO"
 
     print("\n========== ANÁLISIS GENERAL DE CALIDAD ==========")
     print("Muestras inspeccionadas:", cantidad_inspeccionadas)
@@ -64,6 +65,24 @@ def analisis_general():
     print("\n".join(map(lambda i: f"  {ids_lotes[i]}: {no_conformes_por_lote[i]} de {muestras_por_lote[i]} "
                                   f"muestras ({porcentaje_nc_por_lote[i]:.1f}%) - {estados_lotes[i]}", orden)))
 
+    # ---------- Análisis extra ----------
+    print("\n---------- Análisis extra ----------")
+    print(f"% No conformes por lote → promedio: {np.mean(porcentaje_nc_por_lote):.1f}% | "
+          f"mediana: {np.median(porcentaje_nc_por_lote):.1f}% | desvío: {np.std(porcentaje_nc_por_lote):.1f}%")
+    print(f"Muestras por lote → mínimo: {np.min(muestras_por_lote)} | máximo: {np.max(muestras_por_lote)} | "
+          f"promedio: {np.mean(muestras_por_lote):.1f}")
+
+    rechazados_por_una = np.sum(rechazados & (no_conformes_por_lote == 1))
+    print(f"Lotes rechazados por UNA sola muestra No Conforme: {rechazados_por_una} de {np.sum(rechazados)}")
+
+    correlacion = np.corrcoef(muestras_por_lote, porcentaje_nc_por_lote)[0, 1]
+    print(f"Correlación entre cantidad de muestras y % No conformes: {correlacion:.2f}")
+
+    limites = np.arange(0, 26)                                  # límites de 0% a 25%
+    rechazo_segun_limite = np.array(list(map(lambda limite: np.mean(porcentaje_nc_por_lote > limite) * 100, limites)))
+    print(f"Simulación → con límite 5%: {rechazo_segun_limite[5]:.0f}% de lotes rechazados | "
+          f"con límite 10%: {rechazo_segun_limite[10]:.0f}%")
+   
     # ---------- Gráficos ----------
     figura, (torta, barras) = plt.subplots(1, 2, figsize=(16, 6), gridspec_kw={"width_ratios": [1, 3]})
     figura.suptitle("Análisis General de Calidad", fontsize=14, fontweight="bold")
@@ -88,6 +107,48 @@ def analisis_general():
     plt.tight_layout()
     plt.show()
 
+
+    # ---------- Ventana 2: análisis extra ----------
+    figura, (heatmap, scatter, curva) = plt.subplots(1, 3, figsize=(18, 6))
+    figura.suptitle("Análisis General de Calidad - Análisis extra", fontsize=14, fontweight="bold")
+
+    # Heatmap: los lotes en una grilla de 10 columnas, coloreados por % No conformes
+    filas = int(np.ceil(len(ids_lotes) / 10))
+    grilla = np.full(filas * 10, np.nan)                       # celdas vacías si no completa la grilla
+    grilla[:len(ids_lotes)] = porcentaje_nc_por_lote
+    imagen = heatmap.imshow(grilla.reshape(filas, 10), cmap="Reds")
+    heatmap.set_title("Mapa de calor de lotes (% No conformes)")
+    heatmap.set_xlabel("Lote (dentro de la fila)")
+    heatmap.set_ylabel("Grupo de lotes")
+    heatmap.set_xticks(np.arange(10))
+    heatmap.set_xticklabels(np.arange(1, 11))
+    heatmap.set_yticks(np.arange(filas))
+    heatmap.set_yticklabels(list(map(lambda f: f"L{f * 10 + 1}-L{f * 10 + 10}", range(filas))))
+    figura.colorbar(imagen, ax=heatmap, label="% No conformes")
+
+    # Scatter: tamaño del lote vs % No conformes
+    scatter.scatter(muestras_por_lote[~rechazados], porcentaje_nc_por_lote[~rechazados],
+                    color="#4CAF50", label="Aprobados")
+    scatter.scatter(muestras_por_lote[rechazados], porcentaje_nc_por_lote[rechazados],
+                    color="#E53935", label="Rechazados")
+    tamanios = np.arange(5, 21)
+    scatter.plot(tamanios, 100 / tamanios, "k--", label="Una sola muestra No conforme")
+    scatter.axhline(5, color="gray", linestyle=":", label="Límite 5%")
+    scatter.set_title(f"Muestras por lote vs % No conformes (correlación: {correlacion:.2f})")
+    scatter.set_xlabel("Cantidad de muestras del lote")
+    scatter.set_ylabel("% No conformes")
+    scatter.legend()
+
+    # Curva: % de lotes rechazados según el límite elegido
+    curva.plot(limites, rechazo_segun_limite, marker="o", color="#1E88E5", label="% lotes rechazados")
+    curva.axvline(5, color="#E53935", linestyle="--", label="Límite actual (5%)")
+    curva.set_title("Simulación: rechazo según el límite")
+    curva.set_xlabel("Límite de No conformes (%)")
+    curva.set_ylabel("% de lotes rechazados")
+    curva.legend()
+
+    plt.tight_layout()
+    plt.show()
 
 # ==========================================
 # MENÚ DE ANÁLISIS
