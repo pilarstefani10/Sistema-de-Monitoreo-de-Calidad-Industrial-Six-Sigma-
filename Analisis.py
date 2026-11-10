@@ -238,7 +238,9 @@ def distribucion_defectos():
     # ---------- Gráficos de distribución de defectos ----------
 
     figura, ((visuales, dimensionales), (proporcion, comparacion)) = plt.subplots(
-        2, 2, figsize=(20, 14)
+        2, 2,
+        figsize=(20, 14),
+        layout="constrained"
     )
 
     figura.suptitle(
@@ -282,10 +284,15 @@ def distribucion_defectos():
 
     proporcion.pie(
         [cantidad_visuales, cantidad_dimensionales],
-        labels=["Visuales", "Dimensionales"],
         autopct="%1.1f%%",
         colors=["#E53935", "#1E88E5"],
         startangle=90
+    )
+
+    proporcion.legend(
+        ["Visuales", "Dimensionales"],
+        loc="lower center",
+        bbox_to_anchor=(0.5, -0.15)
     )
 
     proporcion.set_title("Proporción sobre el total de defectos")
@@ -314,6 +321,8 @@ def distribucion_defectos():
     comparacion.set_xlabel("Cantidad de defectos")
     comparacion.set_ylabel("Tipo de defecto")
 
+    plt.show()
+
 #6. Historigrama de Gravedad
     plt.figure(figsize=(10, 6))
 
@@ -338,53 +347,67 @@ def distribucion_defectos():
 
 #7. Diagrama de Parteto
 
-    # Ordenar los tipos de mayor a menor frecuencia
+    # Ordenar de mayor a menor frecuencia
     orden = np.argsort(cantidades)[::-1]
 
     tipos_pareto = tipos_unicos[orden]
     cantidades_pareto = cantidades[orden]
 
-    # Calcular el porcentaje acumulado
-    porcentaje_acumulado = np.cumsum(cantidades_pareto) / np.sum(cantidades_pareto) * 100
+    # Acortar los nombres visuales
+    nombres_pareto = np.char.replace(
+        tipos_pareto,
+        "Anomalía Visual del procedimiento ",
+        "Visual: "
+    )
 
-    # Crear el gráfico
-    figura, barras = plt.subplots(figsize=(14, 7))
+    # Calcular porcentaje acumulado
+    porcentaje_acumulado = (
+        np.cumsum(cantidades_pareto) / np.sum(cantidades_pareto) * 100
+    )
+
+    # Crear figura
+    figura, barras = plt.subplots(figsize=(13, 7))
 
     posiciones = np.arange(len(tipos_pareto))
 
-    # Barras: cantidad de defectos
-    barras.bar(posiciones, cantidades_pareto, color="#1E88E5")
+    # Barras horizontales
+    barras.barh(
+        posiciones,
+        cantidades_pareto,
+        color="#1E88E5"
+    )
+
+    barras.set_yticks(posiciones)
+    barras.set_yticklabels(nombres_pareto)
+    barras.invert_yaxis()
 
     barras.set_title("Diagrama de Pareto de Defectos")
-    barras.set_xlabel("Tipo de defecto")
-    barras.set_ylabel("Cantidad de defectos")
+    barras.set_xlabel("Cantidad de defectos")
+    barras.set_ylabel("Tipo de defecto")
 
-    barras.set_xticks(posiciones)
-    barras.set_xticklabels(tipos_pareto, rotation=45, ha="right")
-
-    # Segundo eje: porcentaje acumulado
-    linea = barras.twinx()
+    # Eje secundario de porcentaje acumulado
+    linea = barras.twiny()
 
     linea.plot(
-        posiciones,
         porcentaje_acumulado,
+        posiciones,
         color="#E53935",
         marker="o",
         label="Porcentaje acumulado"
     )
 
-    linea.set_ylabel("Porcentaje acumulado (%)")
-    linea.set_ylim(0, 105)
+    linea.set_xlabel("Porcentaje acumulado (%)")
+    linea.set_xlim(0, 105)
 
     # Línea de referencia del 80%
-    linea.axhline(
+    linea.axvline(
         80,
         color="gray",
         linestyle="--",
         label="Referencia 80%"
     )
 
-    linea.legend(loc="center right")
+    linea.legend(loc="lower right")
 
     plt.tight_layout()
     plt.show()
@@ -557,9 +580,9 @@ def desempeno_profesionales():
     # Ranking de profesionales
     orden = np.argsort(inspeccionadas)[::-1]
 
-    print("\n---------- RANKING DE INSPECTORES ----------")
+    print("\n---------- TOP 10 INSPECTORES ----------")
 
-    for i in orden:
+    for i in orden[:10]:
         print(f"{nombres[i]}:")
         print(f"  Inspecciones: {inspeccionadas[i]}")
         print(f"  Reportes: {reportes[i]}")
