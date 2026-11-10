@@ -105,7 +105,6 @@ def analisis_general():
     barras.legend()
 
     plt.tight_layout()
-    plt.show()
 
 
     # ---------- Ventana 2: análisis extra ----------
