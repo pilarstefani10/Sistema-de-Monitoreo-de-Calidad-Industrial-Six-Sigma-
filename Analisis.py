@@ -168,6 +168,14 @@ def distribucion_defectos():
     gravedad_maxima = np.max(gravedades)#Gravedad máxima
 
     porcentaje_criticos = np.mean(gravedades == 5) * 100#Porcentaje de críticos
+    print("Cantidad total de defectos:", len(defectos))
+    print("Tipos:", tipos_unicos)
+    print("Cantidades:", cantidades)
+    print(f"Gravedad promedio: {gravedad_promedio:.2f}")
+    print("Gravedad máxima:", gravedad_maxima)
+    print(f"Porcentaje de críticos: {porcentaje_criticos:.2f}%")
+
+    #3. Mostrar resultados
     pass
 
 
@@ -277,6 +285,67 @@ def desempeno_profesionales():
     print(f"Desviación estándar de inspecciones: "
           f"{np.std(inspeccionadas):.2f}")
 
+        # ---------- Análisis extra ----------
+
+    print("\n---------- ANÁLISIS EXTRA ----------")
+
+    # Promedio de defectos por inspección
+    defectos_por_inspeccion = np.divide(
+        total_defectos,
+        inspeccionadas,
+        out=np.zeros(len(inspeccionadas), dtype=float),
+        where=inspeccionadas != 0
+    )
+
+    # Promedio de defectos críticos por inspección
+    criticos_por_inspeccion = np.divide(
+        defectos_criticos,
+        inspeccionadas,
+        out=np.zeros(len(inspeccionadas), dtype=float),
+        where=inspeccionadas != 0
+    )
+
+    print(f"Promedio global de defectos por inspección: "
+        f"{np.sum(total_defectos) / np.sum(inspeccionadas):.3f}")
+
+    print(f"Promedio global de críticos por inspección: "
+        f"{np.sum(defectos_criticos) / np.sum(inspeccionadas):.3f}")
+
+    print(f"Mediana de inspecciones por profesional: "
+        f"{np.median(inspeccionadas):.1f}")
+
+    print(f"Mínimo de inspecciones: {np.min(inspeccionadas)}")
+    print(f"Máximo de inspecciones: {np.max(inspeccionadas)}")
+
+    # Ranking normalizado de defectos críticos
+    orden_criticos = np.argsort(criticos_por_inspeccion)[::-1][:5]
+
+    print("\nProfesionales con más críticos por inspección:")
+
+    for i in orden_criticos:
+        print(
+            f"{nombres[i]}: {criticos_por_inspeccion[i]:.3f} "
+            f"({defectos_criticos[i]} críticos en "
+            f"{inspeccionadas[i]} inspecciones)"
+        )
+
+    # Interpretación automática
+    print("\n---------- INTERPRETACIÓN ----------")
+
+    print(
+        "La cantidad de inspecciones realizadas presenta una "
+        f"desviación estándar de {np.std(inspeccionadas):.2f}, "
+        "lo que permite observar la dispersión de la carga "
+        "de trabajo entre profesionales."
+    )
+
+    print(
+        "Para comparar la detección de defectos críticos, "
+        "se considera también su frecuencia por inspección, "
+        "ya que los profesionales no necesariamente realizaron "
+        "la misma cantidad de inspecciones."
+    )
+
     # Ranking de profesionales
     orden = np.argsort(inspeccionadas)[::-1]
 
@@ -290,10 +359,13 @@ def desempeno_profesionales():
         print(f"  Críticos: {defectos_criticos[i]}")
 
     # Mayor detección de defectos críticos
-    indice = np.argmax(defectos_criticos)
+    maximo_criticos = np.max(defectos_criticos)
+    indices = np.where(defectos_criticos == maximo_criticos)[0]
 
-    print("\nMayor cantidad de defectos críticos:")
-    print(nombres[indice], "-", defectos_criticos[indice])
+    print("\nProfesionales con más defectos críticos:")
+
+    for i in indices:
+        print(nombres[i], "-", defectos_criticos[i])
 
     # ---------- Gráficos ----------
 
@@ -310,21 +382,24 @@ def desempeno_profesionales():
     plt.tight_layout()
 
     # Comparación de defectos y defectos críticos
-    posiciones = np.arange(len(top))
+ 
+    top_criticos = np.argsort(defectos_criticos)[::-1][:10]
+
+    posiciones = np.arange(len(top_criticos))
     ancho = 0.35
 
     plt.figure(figsize=(12, 6))
     plt.bar(posiciones - ancho / 2,
-            total_defectos[top],
+            total_defectos[top_criticos],
             ancho, label="Defectos totales",
             color="#FF9800")
 
     plt.bar(posiciones + ancho / 2,
-            defectos_criticos[top],
+            defectos_criticos[top_criticos],
             ancho, label="Defectos críticos",
             color="#E53935")
 
-    plt.xticks(posiciones, nombres[top],
+    plt.xticks(posiciones, nombres[top_criticos],
                rotation=45, ha="right")
     plt.title("Defectos detectados por profesional")
     plt.xlabel("Profesionales")
@@ -333,7 +408,6 @@ def desempeno_profesionales():
     plt.tight_layout()
 
     plt.show()
-
 
 # ==========================================
 # MENÚ DE ANÁLISIS
