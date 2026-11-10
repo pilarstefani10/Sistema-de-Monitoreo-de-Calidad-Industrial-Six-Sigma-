@@ -153,14 +153,14 @@ def analisis_general():
 # EJERCICIO 2: DISTRIBUCIÓN DE DEFECTOS
 # ==========================================
 def distribucion_defectos():
-    #1. Obtención de datos
+#1. Obtención de datos
     defectos = cargar("defectos.csv")
 
     tipos = columna(defectos, "tipo")
     gravedades = columna(defectos, "gravedad").astype(int)
     muestras = columna(defectos, "muestra_id")
 
-    #2. Métricas
+#2. Métricas
     tipos_unicos, cantidades = np.unique(tipos, return_counts=True) #Cantidad de defectos por tipo
 
     gravedad_promedio = np.mean(gravedades)#Gravedad promedio
@@ -169,7 +169,7 @@ def distribucion_defectos():
 
     porcentaje_criticos = np.mean(gravedades == 5) * 100#Porcentaje de críticos
 
-    #3. Mostrar resultados
+#3. Mostrar resultados
     print("\n========== DISTRIBUCIÓN DE DEFECTOS ==========")
 
     print("Cantidad total de defectos:", len(defectos))
@@ -184,7 +184,7 @@ def distribucion_defectos():
     print(f"Gravedad máxima: {gravedad_maxima}")
     print(f"Porcentaje de defectos críticos: {porcentaje_criticos:.2f}%")
 
-    #4. Análisis de Riesgo
+#4. Análisis de Riesgo
     gravedad_por_tipo = np.array(list(map(
         lambda tipo: np.mean(gravedades[tipos == tipo]),
         tipos_unicos
@@ -203,7 +203,7 @@ def distribucion_defectos():
         tipos_unicos, gravedad_por_tipo, criticos_por_tipo
     )))
 
-        #5.Gráfico de barras por tipo
+#5.Gráfico de barras por tipo
         # ---------- Separar defectos por categoría ----------
 
     son_visuales = np.char.startswith(tipos, "Anomalía Visual")
@@ -313,8 +313,81 @@ def distribucion_defectos():
     comparacion.set_title("Comparación general de defectos")
     comparacion.set_xlabel("Cantidad de defectos")
     comparacion.set_ylabel("Tipo de defecto")
-    #6. Historigrama de Gravedad
-    
+
+#6. Historigrama de Gravedad
+    plt.figure(figsize=(10, 6))
+
+    frecuencias, limites, barras = plt.hist(
+        gravedades,
+        bins=np.arange(0.5, 6.5, 1),
+        color="#7E57C2",
+        edgecolor="black"
+    )
+
+    # Mostrar la cantidad encima de cada barra
+    plt.bar_label(barras, fmt="%.0f", padding=3)
+
+    plt.title("Distribución de gravedad de los defectos")
+    plt.xlabel("Gravedad")
+    plt.ylabel("Cantidad de defectos")
+
+    plt.xticks(np.arange(1, 6))
+
+    plt.tight_layout()
+    plt.show()
+
+#7. Diagrama de Parteto
+
+    # Ordenar los tipos de mayor a menor frecuencia
+    orden = np.argsort(cantidades)[::-1]
+
+    tipos_pareto = tipos_unicos[orden]
+    cantidades_pareto = cantidades[orden]
+
+    # Calcular el porcentaje acumulado
+    porcentaje_acumulado = np.cumsum(cantidades_pareto) / np.sum(cantidades_pareto) * 100
+
+    # Crear el gráfico
+    figura, barras = plt.subplots(figsize=(14, 7))
+
+    posiciones = np.arange(len(tipos_pareto))
+
+    # Barras: cantidad de defectos
+    barras.bar(posiciones, cantidades_pareto, color="#1E88E5")
+
+    barras.set_title("Diagrama de Pareto de Defectos")
+    barras.set_xlabel("Tipo de defecto")
+    barras.set_ylabel("Cantidad de defectos")
+
+    barras.set_xticks(posiciones)
+    barras.set_xticklabels(tipos_pareto, rotation=45, ha="right")
+
+    # Segundo eje: porcentaje acumulado
+    linea = barras.twinx()
+
+    linea.plot(
+        posiciones,
+        porcentaje_acumulado,
+        color="#E53935",
+        marker="o",
+        label="Porcentaje acumulado"
+    )
+
+    linea.set_ylabel("Porcentaje acumulado (%)")
+    linea.set_ylim(0, 105)
+
+    # Línea de referencia del 80%
+    linea.axhline(
+        80,
+        color="gray",
+        linestyle="--",
+        label="Referencia 80%"
+    )
+
+    linea.legend(loc="center right")
+
+    plt.tight_layout()
+    plt.show()
     pass
 
 
