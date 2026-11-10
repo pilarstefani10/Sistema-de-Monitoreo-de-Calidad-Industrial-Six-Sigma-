@@ -215,6 +215,26 @@ def distribucion_defectos():
     # Cantidad de defectos de cada categoría
     cantidad_visuales = np.sum(son_visuales)
     cantidad_dimensionales = np.sum(son_dimensionales)
+
+    # ---------- Preparar datos para los gráficos ----------
+
+    # Defectos visuales por procedimiento
+    visuales_unicos, cantidades_visuales = np.unique(
+        tipos_visuales, return_counts=True
+    )
+
+    # Ordenar de mayor a menor frecuencia
+    orden_visuales = np.argsort(cantidades_visuales)[::-1]
+    visuales_unicos = visuales_unicos[orden_visuales]
+    cantidades_visuales = cantidades_visuales[orden_visuales]
+
+    # Defectos dimensionales por gravedad (1 a 5)
+    niveles_gravedad = np.arange(1, 6)
+
+    cantidades_dimensionales = np.array(list(map(
+        lambda gravedad: np.sum(gravedades[son_dimensionales] == gravedad),
+        niveles_gravedad
+    )))
     
     plt.figure(figsize=(12, 6))
 
