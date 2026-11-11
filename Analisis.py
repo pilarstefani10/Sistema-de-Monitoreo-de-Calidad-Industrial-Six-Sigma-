@@ -88,7 +88,9 @@ def analisis_general():
           f"mediana: {np.median(porcentaje_nc_por_lote):.1f}% | desvío: {np.std(porcentaje_nc_por_lote):.1f}%")
     print(f"Muestras por lote → mínimo: {np.min(muestras_por_lote)} | máximo: {np.max(muestras_por_lote)} | "
           f"promedio: {np.mean(muestras_por_lote):.1f}")
-
+    valores, repeticiones = np.unique(porcentaje_nc_por_lote, return_counts=True)
+    moda = valores[np.argmax(repeticiones)]
+    print(f"Moda de % NC por lote: {moda:.1f}% ({np.max(repeticiones)} lotes)")
     rechazados_por_una = np.sum(rechazados & (no_conformes_por_lote == 1))
     print(f"Lotes rechazados por UNA sola muestra No Conforme: {rechazados_por_una} de {np.sum(rechazados)}")
 
