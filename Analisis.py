@@ -226,126 +226,133 @@ def distribucion_defectos():
             f"  {tipo}: gravedad promedio {promedio:.2f} | críticos: {criticos}",
         tipos_unicos, gravedad_por_tipo, criticos_por_tipo
     )))
+        #  5. Defectos por procedimiento 
 
-#5.Gráfico de barras por tipo
-        # ---------- Separar defectos por categoría ----------
-
+    # Separar defectos por categoría
     son_visuales = np.char.startswith(tipos, "Anomalía Visual")
     son_dimensionales = np.char.startswith(tipos, "Desviación ")
 
-    tipos_visuales = tipos[son_visuales]
-    tipos_dimensionales = tipos[son_dimensionales]
-
-    # Cantidad de defectos de cada categoría
     cantidad_visuales = np.sum(son_visuales)
     cantidad_dimensionales = np.sum(son_dimensionales)
 
-    # ---------- Preparar datos para los gráficos ----------
+    # Cargar datos relacionados
+    inspecciones = cargar("inspecciones.csv")
+    procedimientos = cargar("procedimientos.csv")
+    datos_muestras = cargar("muestras.csv")
 
-    # Defectos visuales por procedimiento
-    visuales_unicos, cantidades_visuales = np.unique(
-        tipos_visuales, return_counts=True
+    # Considerar solamente muestras cerradas
+    muestras_cerradas = list(filter(
+        lambda m: m["estado"] in ("CONFORME", "NO_CONFORME"),
+        datos_muestras
+    ))
+
+    ids_cerradas = set(map(lambda m: m["id"], muestras_cerradas))
+
+    inspecciones_cerradas = list(filter(
+        lambda i: i["muestra_id"] in ids_cerradas,
+        inspecciones
+    ))
+
+    # Relacionar muestras con procedimientos
+    procedimiento_por_muestra = {
+        i["muestra_id"]: i["procedimiento_id"]
+        for i in inspecciones_cerradas
+    }
+
+    # Datos de los procedimientos
+    ids_procedimientos = columna(procedimientos, "id")
+    nombres_procedimientos = columna(procedimientos, "nombre")
+    categorias_procedimientos = columna(procedimientos, "tipo")
+
+    # Cantidad de inspecciones por procedimiento
+    inspecciones_por_procedimiento = np.array(list(map(
+        lambda id_proc: sum(
+            i["procedimiento_id"] == id_proc
+            for i in inspecciones_cerradas
+        ),
+        ids_procedimientos
+    )))
+
+    # Cantidad de defectos por procedimiento
+    defectos_por_procedimiento = np.array(list(map(
+        lambda id_proc: sum(
+            procedimiento_por_muestra.get(d["muestra_id"]) == id_proc
+            for d in defectos
+        ),
+        ids_procedimientos
+    )))
+
+    # Defectos por inspección
+    tasa_defectos = np.divide(
+        defectos_por_procedimiento,
+        inspecciones_por_procedimiento,
+        out=np.zeros(len(procedimientos), dtype=float),
+        where=inspecciones_por_procedimiento != 0
     )
 
-    # Ordenar de mayor a menor frecuencia
-    orden_visuales = np.argsort(cantidades_visuales)[::-1]
-    visuales_unicos = visuales_unicos[orden_visuales]
-    cantidades_visuales = cantidades_visuales[orden_visuales]
+    # Ordenar de mayor a menor
+    orden = np.argsort(tasa_defectos)[::-1]
 
-    # Defectos dimensionales por gravedad (1 a 5)
-    niveles_gravedad = np.arange(1, 6)
+    # Mostrar resultados
+    print("\n---------- Defectos por procedimiento ----------")
 
-    cantidades_dimensionales = np.array(list(map(
-        lambda gravedad: np.sum(gravedades[son_dimensionales] == gravedad),
-        niveles_gravedad
-    )))
-    # ---------- Gráficos de distribución de defectos ----------
+    for i in orden:
+        print(
+            f"{nombres_procedimientos[i]}: "
+            f"{defectos_por_procedimiento[i]} defectos en "
+            f"{inspecciones_por_procedimiento[i]} inspecciones "
+            f"({tasa_defectos[i]:.2f} defectos/inspección)"
+        )
 
-    figura, ((visuales, dimensionales), (proporcion, comparacion)) = plt.subplots(
-        2, 2,
-        figsize=(20, 14),
+    # Preparar etiquetas
+    etiquetas = [
+        f"{nombres_procedimientos[i]} (n={inspecciones_por_procedimiento[i]})"
+        for i in orden
+    ]
+
+    colores = [
+        AMARILLO if categorias_procedimientos[i] == "visual" else AZUL
+        for i in orden
+    ]
+
+    # Crear gráfico
+    figura, grafico = plt.subplots(
+        figsize=(13, 8),
         layout="constrained"
     )
 
-    figura.suptitle(
-        "Distribución de Defectos",
-        fontsize=16,
-        fontweight="bold"
-)
-    # ---------- Gráfico 1: Defectos visuales ----------
-
-    nombres_visuales = np.char.replace(
-        visuales_unicos,
-        "Anomalía Visual del procedimiento ",
-        ""
-    )
-
-    visuales.barh(
-        nombres_visuales,
-        cantidades_visuales,
-        color=AMARILLO
-    )
-
-    visuales.invert_yaxis()
-    visuales.set_title("Defectos visuales por procedimiento")
-    visuales.set_xlabel("Cantidad de defectos")
-    visuales.set_ylabel("Procedimiento visual")
-
-    # ---------- Gráfico 2: Defectos dimensionales ----------
-
-    dimensionales.bar(
-        niveles_gravedad,
-        cantidades_dimensionales,
-        color=AZUL
-    )
-
-    dimensionales.set_title("Defectos dimensionales por gravedad")
-    dimensionales.set_xlabel("Gravedad")
-    dimensionales.set_ylabel("Cantidad de defectos")
-    dimensionales.set_xticks(niveles_gravedad)
-
-    # ---------- Gráfico 3: Proporción de defectos ----------
-
-    proporcion.pie(
-        [cantidad_visuales, cantidad_dimensionales],
-        autopct="%1.1f%%",
-        colors=[AMARILLO, AZUL],
-        startangle=90
-    )
-
-    proporcion.legend(
-        ["Visuales", "Dimensionales"],
-        loc="lower center",
-        bbox_to_anchor=(0.5, -0.15)
-    )
-
-    proporcion.set_title("Proporción sobre el total de defectos")
-
-    # ---------- Gráfico 4: Comparación general ----------
-
-    nombres_generales = np.char.replace(
-        tipos_unicos,
-        "Anomalía Visual del procedimiento ",
-        "Visual: "
-    )
-
-    colores = list(map(
-        lambda tipo: AMARILLO if tipo.startswith("Anomalía Visual") else AZUL,
-        tipos_unicos
-    ))
-
-    comparacion.barh(
-        nombres_generales,
-        cantidades,
+    barras = grafico.barh(
+        etiquetas,
+        tasa_defectos[orden],
         color=colores
     )
 
-    comparacion.invert_yaxis()
-    comparacion.set_title("Comparación general de defectos")
-    comparacion.set_xlabel("Cantidad de defectos")
-    comparacion.set_ylabel("Tipo de defecto")
+    grafico.invert_yaxis()
+
+    grafico.bar_label(
+        barras,
+        labels=[
+            f"{tasa_defectos[i]:.2f} ({defectos_por_procedimiento[i]} defectos)"
+            for i in orden
+        ],
+        padding=4
+    )
+
+    grafico.set_xlim(0, max(tasa_defectos) * 1.35)
+
+    grafico.set_title(
+        "Frecuencia de defectos por procedimiento\n"
+        f"{len(inspecciones_cerradas)} inspecciones cerradas | "
+        f"{len(defectos)} defectos registrados"
+    )
+
+    grafico.set_xlabel("Defectos detectados por inspección")
+    grafico.set_ylabel("Procedimiento (cantidad de inspecciones)")
 
     plt.show()
+
+    # 5. Gráfico de barras por tipo
+    # Sección comentada por no ejecutarse en esta versión.
 
 #6. Historigrama de Gravedad
     plt.figure(figsize=(10, 6))
@@ -436,71 +443,79 @@ def distribucion_defectos():
     plt.tight_layout()
     plt.show()
 
-    #8. Mapa de calor: Procedimientos vs gravedad
+        #8. Mapa de calor: Procedimientos vs gravedad
 
-    inspecciones = cargar("inspecciones.csv")
-    procedimientos = cargar("procedimientos.csv")
-
-    # Relacionar cada muestra con su procedimiento
-    procedimiento_por_muestra = {
-        inspeccion["muestra_id"]: inspeccion["procedimiento_id"]
-        for inspeccion in inspecciones
-    }
-
-    # IDs y nombres de todos los procedimientos
-    ids_procedimientos = columna(procedimientos, "id")
-    nombres_procedimientos = columna(procedimientos, "nombre")
-
-    # Crear una matriz de procedimientos x gravedades
+    # Matriz de cantidades absolutas
     matriz = np.zeros((len(procedimientos), 5), dtype=int)
 
-    # Contar defectos según procedimiento y gravedad
     for i, procedimiento in enumerate(ids_procedimientos):
         for gravedad in range(1, 6):
-            matriz[i, gravedad - 1] = np.sum([
-                procedimiento_por_muestra.get(defecto["muestra_id"]) == procedimiento
-                and int(defecto["gravedad"]) == gravedad
-                for defecto in defectos
-            ])
+            matriz[i, gravedad - 1] = sum(
+                procedimiento_por_muestra.get(d["muestra_id"]) == procedimiento
+                and int(d["gravedad"]) == gravedad
+                for d in defectos
+            )
 
-    # Crear el mapa de calor
+    # Normalizar por cantidad de inspecciones
+    matriz_normalizada = np.divide(
+        matriz,
+        inspecciones_por_procedimiento[:, None],
+        out=np.zeros_like(matriz, dtype=float),
+        where=inspecciones_por_procedimiento[:, None] != 0
+    ) * 100
+
+    # Etiquetas con cantidad de inspecciones
+    etiquetas = [
+        f"{nombres_procedimientos[i]} (n={inspecciones_por_procedimiento[i]})"
+        for i in range(len(procedimientos))
+    ]
+
+    # Crear mapa de calor
     figura, heatmap = plt.subplots(
-        figsize=(12, 8),
+        figsize=(13, 8),
         layout="constrained"
     )
 
-    imagen = heatmap.imshow(matriz, cmap=MAPA_AZULES, aspect="auto")
+    imagen = heatmap.imshow(
+        matriz_normalizada,
+        cmap=MAPA_AZULES,
+        aspect="auto"
+    )
 
-    heatmap.set_title("Distribución de gravedad por procedimiento")
+    heatmap.set_title(
+        "Gravedad de defectos por procedimiento\n"
+        "Cantidad de defectos por cada 100 inspecciones"
+    )
+
     heatmap.set_xlabel("Gravedad del defecto")
-    heatmap.set_ylabel("Procedimiento")
+    heatmap.set_ylabel("Procedimiento (inspecciones cerradas)")
 
     heatmap.set_xticks(np.arange(5))
     heatmap.set_xticklabels([1, 2, 3, 4, 5])
 
-    heatmap.set_yticks(np.arange(len(nombres_procedimientos)))
-    heatmap.set_yticklabels(nombres_procedimientos)
+    heatmap.set_yticks(np.arange(len(procedimientos)))
+    heatmap.set_yticklabels(etiquetas)
 
-    # Mostrar cantidades dentro de cada celda
+    # Mostrar valores dentro de cada celda
     for i in range(len(procedimientos)):
         for j in range(5):
+            valor = matriz_normalizada[i, j]
+
             heatmap.text(
-                j, i, matriz[i, j],
+                j, i, f"{valor:.1f}",
                 ha="center",
                 va="center",
-                color="white" if matriz[i, j] > np.max(matriz) / 2 else "black"
+                color="white" if valor > np.max(matriz_normalizada) / 2 else "black"
             )
 
     figura.colorbar(
         imagen,
         ax=heatmap,
-        label="Cantidad de defectos"
+        label="Defectos por 100 inspecciones"
     )
 
     plt.show()
-
-
-        #9. Concentración de gravedad por categoría
+    #9. Concentración de gravedad por categoría
 
     gravedad_visual = np.sum(gravedades[son_visuales])
     gravedad_dimensional = np.sum(gravedades[son_dimensionales])
