@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+from matplotlib.colors import LinearSegmentedColormap
 from GestorArchivos import GestorArchivos
 
 # ==========================================
@@ -11,19 +13,13 @@ from matplotlib.colors import LinearSegmentedColormap
 from GestorArchivos import GestorArchivos
 
 # ---------- Paleta de colores ----------
-AZUL = "#5B84B1"
-AZUL_CLARO = "#8FB9E3"
-AMARILLO = "#F2C14E"
-GRIS_AZULADO = "#A7B6C6"
-GRIS_OSCURO = "#6E7781"
-
-
-# Mapa de calor coherente con la paleta
-MAPA_AZULES = LinearSegmentedColormap.from_list(
-    "mapa_azules",
-    ["#F4F7FA", "#C9D9EA", "#8FB9E3", "#5B84B1"]
-)
-
+AZULES = ["#DCEAF7", "#B8D3EE", "#86B4DD", "#4F8FC6", "#2E6FAE"]
+AMARILLOS = ["#F8E5A4", "#F4D37A", "#F2C14E", "#EAAF3D", "#D99A30"]
+AZUL = AZULES[3]
+AMARILLO = AMARILLOS[2]
+GRIS_OSCURO = "#606D7A"
+GRIS_CLARO = "#E3E8ED"
+MAPA_AMARILLO_AZUL = LinearSegmentedColormap.from_list("amarillo_a_azul", ["#FFF2CF", "#F2D276", "#C2D8EB", "#7BA9D1", "#2E6FAE"])
 # ==========================================
 # OBTENER LOS DATOS
 # ==========================================
@@ -177,449 +173,403 @@ def analisis_general():
 # EJERCICIO 2: DISTRIBUCIÓN DE DEFECTOS
 # ==========================================
 def distribucion_defectos():
-#1. Obtención de datos
+    # 1. Obtención y validación de datos
     defectos = cargar("defectos.csv")
+    datos_muestras = cargar("muestras.csv")
+    inspecciones = cargar("inspecciones.csv")
+    procedimientos = cargar("procedimientos.csv")
+
+    if any(datos is None for datos in (defectos, datos_muestras, inspecciones, procedimientos)):
+        print("Faltan archivos CSV para realizar el análisis de defectos.")
+        return
+    if not defectos:
+        print("No hay defectos registrados para analizar.")
+        return
 
     tipos = columna(defectos, "tipo")
     gravedades = columna(defectos, "gravedad").astype(int)
-    muestras = columna(defectos, "muestra_id")
+    ids_muestras_defecto = columna(defectos, "muestra_id")
 
-#2. Métricas
-    tipos_unicos, cantidades = np.unique(tipos, return_counts=True) #Cantidad de defectos por tipo
+    son_visuales = np.char.startswith(tipos, "Anomalía Visual")
+    son_dimensionales = np.char.startswith(tipos, "Desviación ")
+    if not np.all(son_visuales | son_dimensionales):
+        raise ValueError("Hay defectos con tipos no clasificados como visuales o dimensionales.")
 
-    gravedad_promedio = np.mean(gravedades)#Gravedad promedio
+    # 2. Métricas generales y por tipo
+    tipos_unicos, cantidades = np.unique(tipos, return_counts=True)
+    gravedad_promedio = np.mean(gravedades)
+    gravedad_maxima = np.max(gravedades)
+    porcentaje_criticos = np.mean(gravedades == 5) * 100
 
-    gravedad_maxima = np.max(gravedades)#Gravedad máxima
-
-    porcentaje_criticos = np.mean(gravedades == 5) * 100#Porcentaje de críticos
-
-#3. Mostrar resultados
+    # 3. Resultados generales
     print("\n========== DISTRIBUCIÓN DE DEFECTOS ==========")
-
     print("Cantidad total de defectos:", len(defectos))
-
     print("\n---------- Cantidad por tipo ----------")
     print("\n".join(map(
         lambda tipo, cantidad: f"  {tipo}: {cantidad}",
         tipos_unicos, cantidades
     )))
-
     print(f"\nGravedad promedio: {gravedad_promedio:.2f}")
     print(f"Gravedad máxima: {gravedad_maxima}")
     print(f"Porcentaje de defectos críticos: {porcentaje_criticos:.2f}%")
 
-#4. Análisis de Riesgo
-    gravedad_por_tipo = np.array(list(map(
-        lambda tipo: np.mean(gravedades[tipos == tipo]),
-        tipos_unicos
-    )))
-
-    criticos_por_tipo = np.array(list(map(
-        lambda tipo: np.sum(gravedades[tipos == tipo] == 5),
-        tipos_unicos
-    )))
-
+    # 4. Riesgo por tipo
+    gravedad_por_tipo = np.array([
+        np.mean(gravedades[tipos == tipo]) for tipo in tipos_unicos
+    ])
+    criticos_por_tipo = np.array([
+        np.sum(gravedades[tipos == tipo] == 5) for tipo in tipos_unicos
+    ])
     print("\n---------- Riesgo por tipo de defecto ----------")
-
     print("\n".join(map(
         lambda tipo, promedio, criticos:
             f"  {tipo}: gravedad promedio {promedio:.2f} | críticos: {criticos}",
         tipos_unicos, gravedad_por_tipo, criticos_por_tipo
     )))
-        #  5. Defectos por procedimiento 
 
-    # Separar defectos por categoría
-    son_visuales = np.char.startswith(tipos, "Anomalía Visual")
-    son_dimensionales = np.char.startswith(tipos, "Desviación ")
+    # Muestras cerradas e inspecciones correspondientes
+    muestras_cerradas = [
+        m for m in datos_muestras if m["estado"] in ("CONFORME", "NO_CONFORME")
+    ]
+    if not muestras_cerradas:
+        print("No hay muestras cerradas para los análisis por inspección.")
+        return
+    ids_cerradas = {m["id"] for m in muestras_cerradas}
+    inspecciones_cerradas = [
+        i for i in inspecciones if i["muestra_id"] in ids_cerradas
+    ]
+    procedimiento_por_muestra = {
+        i["muestra_id"]: i["procedimiento_id"] for i in inspecciones_cerradas
+    }
+    ids_procedimientos = columna(procedimientos, "id")
+    nombres_procedimientos = columna(procedimientos, "nombre")
+    categorias_procedimientos = columna(procedimientos, "tipo")
 
-    cantidad_visuales = np.sum(son_visuales)
-    cantidad_dimensionales = np.sum(son_dimensionales)
+    inspecciones_por_procedimiento = np.array([
+        sum(i["procedimiento_id"] == id_proc for i in inspecciones_cerradas)
+        for id_proc in ids_procedimientos
+    ])
+    defectos_por_procedimiento = np.array([
+        sum(procedimiento_por_muestra.get(d["muestra_id"]) == id_proc for d in defectos)
+        for id_proc in ids_procedimientos
+    ])
+    tasa_defectos = np.divide(
+        defectos_por_procedimiento, inspecciones_por_procedimiento,
+        out=np.zeros(len(procedimientos), dtype=float),
+        where=inspecciones_por_procedimiento != 0
+    )
 
-    # Cargar datos relacionados
-    inspecciones = cargar("inspecciones.csv")
-    procedimientos = cargar("procedimientos.csv")
+    # 5. Frecuencia de defectos por procedimiento (tonos alternados dentro de cada categoría)
+    orden = np.argsort(tasa_defectos)[::-1]
+    etiquetas = [
+        f"{nombres_procedimientos[i]} (n={inspecciones_por_procedimiento[i]})"
+        for i in orden
+    ]
+    color_por_procedimiento = {}
+    for categoria, paleta in (("dimensional", AZULES), ("visual", AMARILLOS)):
+        indices = [i for i in orden if categorias_procedimientos[i].lower() == categoria]
+        for posicion, i in enumerate(indices):
+            color_por_procedimiento[i] = paleta[posicion % len(paleta)]
+    colores = [color_por_procedimiento[i] for i in orden]
+
+    print("\n---------- Defectos por procedimiento ----------")
+    for i in orden:
+        print(
+            f"{nombres_procedimientos[i]}: {defectos_por_procedimiento[i]} defectos "
+            f"en {inspecciones_por_procedimiento[i]} inspecciones "
+            f"({tasa_defectos[i]:.2f} defectos/inspección)"
+        )
+
+    figura, grafico = plt.subplots(figsize=(14, 8), layout="constrained")
+    barras = grafico.barh(etiquetas, tasa_defectos[orden], color=colores, edgecolor=GRIS_OSCURO, linewidth=0.6)
+    grafico.invert_yaxis()
+    grafico.bar_label(barras, labels=[
+        f"{tasa_defectos[i]:.2f} ({defectos_por_procedimiento[i]} defectos)" for i in orden
+    ], padding=4, fontsize=9)
+    grafico.set_xlim(0, max(tasa_defectos.max(), 0.1) * 1.45)
+    grafico.set_title(
+        "Defectos detectados por procedimiento\n"
+        f"{len(inspecciones_cerradas)} inspecciones de muestras cerradas · {len(defectos)} defectos"
+    )
+    grafico.set_xlabel("Defectos por inspección")
+    grafico.set_ylabel("Procedimiento (n = inspecciones)")
+    grafico.legend(handles=[
+        Patch(color=AZUL, label="Dimensionales"),
+        Patch(color=AMARILLO, label="Visuales")
+    ], loc="lower right")
+    plt.show()
+
+    # 6. Gravedad de los defectos (dimensionales en escala azul; visuales amarillo)
+    niveles = np.arange(1, 6)
+    dimensionales_gravedad = np.array([
+        np.sum(gravedades[son_dimensionales] == nivel) for nivel in niveles
+    ])
+    visuales_gravedad = np.array([
+        np.sum(gravedades[son_visuales] == nivel) for nivel in niveles
+    ])
+    totales_gravedad = dimensionales_gravedad + visuales_gravedad
+
+    figura, grafico = plt.subplots(figsize=(11, 6), layout="constrained")
+    grafico.bar(niveles, dimensionales_gravedad, color=AZULES,
+                edgecolor=GRIS_OSCURO, linewidth=0.6)
+    grafico.bar(niveles, visuales_gravedad, bottom=dimensionales_gravedad,
+                color=AMARILLO, edgecolor=GRIS_OSCURO, linewidth=0.6)
+    for x, total in zip(niveles, totales_gravedad):
+        grafico.text(x, total + max(totales_gravedad) * 0.015,
+                     str(total), ha="center", va="bottom", fontsize=10)
+    grafico.set_ylim(0, max(totales_gravedad) * 1.13)
+    grafico.set_title(f"Distribución de gravedad · {len(defectos)} defectos")
+    grafico.set_xlabel("Gravedad (1 = leve, 5 = crítica)")
+    grafico.set_ylabel("Cantidad de defectos")
+    grafico.set_xticks(niveles)
+    grafico.legend(handles=[
+        Patch(color=AZUL, label="Dimensionales"), Patch(color=AMARILLO, label="Visuales")
+    ])
+    # Aclarar el desglose del último nivel sin ocultar el aporte dimensional
+    grafico.annotate(f"5 dimensionales + {visuales_gravedad[-1]} visuales",
+                     xy=(5, totales_gravedad[-1]), xytext=(4.0, max(totales_gravedad) * 0.38),
+                     arrowprops={"arrowstyle": "->", "color": GRIS_OSCURO}, fontsize=9)
+    plt.show()
+
+    # 7. Pareto agrupado: cinco gravedades dimensionales + todos los visuales
+    nombres_pareto = np.array(["Leve", "Moderada", "Seria", "Severa", "Crítica", "Visuales"])
+    cantidades_pareto = np.append(dimensionales_gravedad, np.sum(son_visuales))
+
+    # Orden ascendente, como en la versión que venías usando. Para Pareto convencional, añadir [::-1].
+    orden_pareto = np.argsort(cantidades_pareto)
+    nombres_pareto = nombres_pareto[orden_pareto]
+    cantidades_pareto = cantidades_pareto[orden_pareto]
+    porcentaje_acumulado = np.cumsum(cantidades_pareto) / np.sum(cantidades_pareto) * 100
+    colores_pareto = {
+        "Leve": AZULES[0], "Moderada": AZULES[1], "Seria": AZULES[2],
+        "Severa": AZULES[3], "Crítica": AZULES[4], "Visuales": AMARILLO
+    }
+    posiciones = np.arange(len(nombres_pareto))
+    figura, grafico = plt.subplots(figsize=(12, 7), layout="constrained")
+    barras = grafico.bar(posiciones, cantidades_pareto,
+                         color=[colores_pareto[n] for n in nombres_pareto],
+                         edgecolor=GRIS_OSCURO, linewidth=0.6)
+    grafico.bar_label(barras, padding=3)
+    grafico.set_title(f"Frecuencia acumulada por tipo · {len(defectos)} defectos")
+    grafico.set_xlabel("Dimensionales por gravedad y visuales agrupados")
+    grafico.set_ylabel("Cantidad de defectos")
+    grafico.set_xticks(posiciones)
+    grafico.set_xticklabels(nombres_pareto)
+    grafico.set_ylim(0, max(cantidades_pareto) * 1.17)
+    linea = grafico.twinx()
+    linea.plot(posiciones, porcentaje_acumulado, color=GRIS_OSCURO,
+               marker="o", linewidth=2, label="Porcentaje acumulado")
+    linea.set_ylim(0, 105)
+    linea.set_ylabel("Porcentaje acumulado (%)")
+    linea.axhline(80, color=AMARILLOS[3], linestyle="--", label="Referencia 80 %")
+    linea.legend(loc="upper left")
+    plt.show()
+
+    # 8. Heatmap: gravedades por procedimiento, por cada 100 inspecciones
+    matriz = np.zeros((len(procedimientos), 5), dtype=int)
+    for i, id_proc in enumerate(ids_procedimientos):
+        for gravedad in niveles:
+            matriz[i, gravedad - 1] = sum(
+                procedimiento_por_muestra.get(d["muestra_id"]) == id_proc
+                and int(d["gravedad"]) == gravedad for d in defectos
+            )
+    matriz_normalizada = np.divide(
+        matriz, inspecciones_por_procedimiento[:, None],
+        out=np.zeros_like(matriz, dtype=float),
+        where=inspecciones_por_procedimiento[:, None] != 0
+    ) * 100
+    etiquetas = [
+        f"{nombres_procedimientos[i]} (n={inspecciones_por_procedimiento[i]})"
+        for i in range(len(procedimientos))
+    ]
+    figura, heatmap = plt.subplots(figsize=(13, 8), layout="constrained")
+    imagen = heatmap.imshow(matriz_normalizada, cmap=MAPA_AMARILLO_AZUL, aspect="auto")
+    heatmap.set_title("Gravedad por procedimiento · Defectos por 100 inspecciones")
+    heatmap.set_xlabel("Gravedad del defecto")
+    heatmap.set_ylabel("Procedimiento (n = inspecciones cerradas)")
+    heatmap.set_xticks(np.arange(5), labels=[1, 2, 3, 4, 5])
+    heatmap.set_yticks(np.arange(len(procedimientos)), labels=etiquetas)
+    maximo_celda = matriz_normalizada.max()
+    for i in range(len(procedimientos)):
+        for j in range(5):
+            valor = matriz_normalizada[i, j]
+            heatmap.text(j, i, f"{valor:.1f}", ha="center", va="center",
+                         color="white" if valor > maximo_celda * 0.65 else "#263747", fontsize=9)
+    figura.colorbar(imagen, ax=heatmap, label="Defectos por 100 inspecciones")
+    plt.show()
+
+    # 9. Concentración de gravedad: comparar categorías con colores fijos
+    gravedad_visual = np.sum(gravedades[son_visuales])
+    gravedad_dimensional = np.sum(gravedades[son_dimensionales])
+    gravedad_acumulada = np.array([gravedad_visual, gravedad_dimensional])
+    porcentaje_gravedad = gravedad_acumulada / gravedad_acumulada.sum() * 100
+    print("\n---------- Concentración de gravedad ----------")
+    print(f"Gravedad acumulada visual: {gravedad_visual} ({porcentaje_gravedad[0]:.2f} %)")
+    print(f"Gravedad acumulada dimensional: {gravedad_dimensional} ({porcentaje_gravedad[1]:.2f} %)")
+    figura, grafico = plt.subplots(figsize=(9, 6), layout="constrained")
+    barras = grafico.bar(["Visuales", "Dimensionales"], gravedad_acumulada,
+                         color=[AMARILLO, AZUL], edgecolor=GRIS_OSCURO, linewidth=0.6)
+    grafico.bar_label(barras, padding=4)
+    grafico.set_title("Gravedad acumulada por categoría")
+    grafico.set_xlabel("Categoría")
+    grafico.set_ylabel("Suma de gravedades (indicador descriptivo)")
+    grafico.set_ylim(0, max(gravedad_acumulada) * 1.13)
+    plt.show()
+
+    # 10. Defectos por muestra; colores graduados por número de defectos
+
+    # Cargar muestras y considerar solo las cerradas
     datos_muestras = cargar("muestras.csv")
 
-    # Considerar solamente muestras cerradas
     muestras_cerradas = list(filter(
         lambda m: m["estado"] in ("CONFORME", "NO_CONFORME"),
         datos_muestras
     ))
 
-    ids_cerradas = set(map(lambda m: m["id"], muestras_cerradas))
-
-    inspecciones_cerradas = list(filter(
-        lambda i: i["muestra_id"] in ids_cerradas,
-        inspecciones
-    ))
-
-    # Relacionar muestras con procedimientos
-    procedimiento_por_muestra = {
-        i["muestra_id"]: i["procedimiento_id"]
-        for i in inspecciones_cerradas
-    }
-
-    # Datos de los procedimientos
-    ids_procedimientos = columna(procedimientos, "id")
-    nombres_procedimientos = columna(procedimientos, "nombre")
-    categorias_procedimientos = columna(procedimientos, "tipo")
-
-    # Cantidad de inspecciones por procedimiento
-    inspecciones_por_procedimiento = np.array(list(map(
-        lambda id_proc: sum(
-            i["procedimiento_id"] == id_proc
-            for i in inspecciones_cerradas
-        ),
-        ids_procedimientos
-    )))
-
-    # Cantidad de defectos por procedimiento
-    defectos_por_procedimiento = np.array(list(map(
-        lambda id_proc: sum(
-            procedimiento_por_muestra.get(d["muestra_id"]) == id_proc
-            for d in defectos
-        ),
-        ids_procedimientos
-    )))
-
-    # Defectos por inspección
-    tasa_defectos = np.divide(
-        defectos_por_procedimiento,
-        inspecciones_por_procedimiento,
-        out=np.zeros(len(procedimientos), dtype=float),
-        where=inspecciones_por_procedimiento != 0
-    )
-
-    # Ordenar de mayor a menor
-    orden = np.argsort(tasa_defectos)[::-1]
-
-    # Mostrar resultados
-    print("\n---------- Defectos por procedimiento ----------")
-
-    for i in orden:
-        print(
-            f"{nombres_procedimientos[i]}: "
-            f"{defectos_por_procedimiento[i]} defectos en "
-            f"{inspecciones_por_procedimiento[i]} inspecciones "
-            f"({tasa_defectos[i]:.2f} defectos/inspección)"
-        )
-
-    # Preparar etiquetas
-    etiquetas = [
-        f"{nombres_procedimientos[i]} (n={inspecciones_por_procedimiento[i]})"
-        for i in orden
-    ]
-
-    colores = [
-        AMARILLO if categorias_procedimientos[i] == "visual" else AZUL
-        for i in orden
-    ]
-
-    # Crear gráfico
-    figura, grafico = plt.subplots(
-        figsize=(13, 8),
-        layout="constrained"
-    )
-
-    barras = grafico.barh(
-        etiquetas,
-        tasa_defectos[orden],
-        color=colores
-    )
-
-    grafico.invert_yaxis()
-
-    grafico.bar_label(
-        barras,
-        labels=[
-            f"{tasa_defectos[i]:.2f} ({defectos_por_procedimiento[i]} defectos)"
-            for i in orden
-        ],
-        padding=4
-    )
-
-    grafico.set_xlim(0, max(tasa_defectos) * 1.35)
-
-    grafico.set_title(
-        "Frecuencia de defectos por procedimiento\n"
-        f"{len(inspecciones_cerradas)} inspecciones cerradas | "
-        f"{len(defectos)} defectos registrados"
-    )
-
-    grafico.set_xlabel("Defectos detectados por inspección")
-    grafico.set_ylabel("Procedimiento (cantidad de inspecciones)")
-
-    plt.show()
-
-    # 5. Gráfico de barras por tipo
-    # Sección comentada por no ejecutarse en esta versión.
-
-#6. Historigrama de Gravedad
-    plt.figure(figsize=(10, 6))
-
-    frecuencias, limites, barras = plt.hist(
-        gravedades,
-        bins=np.arange(0.5, 6.5, 1),
-        color=GRIS_AZULADO,
-        edgecolor=GRIS_OSCURO
-    )
-
-    # Mostrar la cantidad encima de cada barra
-    plt.bar_label(barras, fmt="%.0f", padding=3)
-
-    plt.title("Distribución de gravedad de los defectos")
-    plt.xlabel("Gravedad")
-    plt.ylabel("Cantidad de defectos")
-
-    plt.xticks(np.arange(1, 6))
-
-    plt.tight_layout()
-    plt.show()
-
-#7. Diagrama de Parteto
-
-    # Ordenar de mayor a menor frecuencia
-    orden = np.argsort(cantidades)[::-1]
-
-    tipos_pareto = tipos_unicos[orden]
-    cantidades_pareto = cantidades[orden]
-
-    # Acortar los nombres visuales
-    nombres_pareto = np.char.replace(
-        tipos_pareto,
-        "Anomalía Visual del procedimiento ",
-        "Visual: "
-    )
-
-    # Calcular porcentaje acumulado
-    porcentaje_acumulado = (
-        np.cumsum(cantidades_pareto) / np.sum(cantidades_pareto) * 100
-    )
-
-    # Crear figura
-    figura, barras = plt.subplots(figsize=(13, 7))
-
-    posiciones = np.arange(len(tipos_pareto))
-
-    # Barras horizontales
-    barras.barh(
-        posiciones,
-        cantidades_pareto,
-        color=AZUL
-    )
-
-    barras.set_yticks(posiciones)
-    barras.set_yticklabels(nombres_pareto)
-    barras.invert_yaxis()
-
-    barras.set_title("Diagrama de Pareto de Defectos")
-    barras.set_xlabel("Cantidad de defectos")
-    barras.set_ylabel("Tipo de defecto")
-
-    # Eje secundario de porcentaje acumulado
-    linea = barras.twiny()
-
-    linea.plot(
-        porcentaje_acumulado,
-        posiciones,
-        color=AMARILLO,
-        marker="o",
-        label="Porcentaje acumulado"
-    )
-
-    linea.set_xlabel("Porcentaje acumulado (%)")
-    linea.set_xlim(0, 105)
-
-    # Línea de referencia del 80%
-    linea.axvline(
-        80,
-        color=GRIS_OSCURO,
-        linestyle="--",
-        label="Referencia 80%"
-    )
-
-    linea.legend(loc="lower right")
-
-    plt.tight_layout()
-    plt.show()
-
-        #8. Mapa de calor: Procedimientos vs gravedad
-
-    # Matriz de cantidades absolutas
-    matriz = np.zeros((len(procedimientos), 5), dtype=int)
-
-    for i, procedimiento in enumerate(ids_procedimientos):
-        for gravedad in range(1, 6):
-            matriz[i, gravedad - 1] = sum(
-                procedimiento_por_muestra.get(d["muestra_id"]) == procedimiento
-                and int(d["gravedad"]) == gravedad
-                for d in defectos
-            )
-
-    # Normalizar por cantidad de inspecciones
-    matriz_normalizada = np.divide(
-        matriz,
-        inspecciones_por_procedimiento[:, None],
-        out=np.zeros_like(matriz, dtype=float),
-        where=inspecciones_por_procedimiento[:, None] != 0
-    ) * 100
-
-    # Etiquetas con cantidad de inspecciones
-    etiquetas = [
-        f"{nombres_procedimientos[i]} (n={inspecciones_por_procedimiento[i]})"
-        for i in range(len(procedimientos))
-    ]
-
-    # Crear mapa de calor
-    figura, heatmap = plt.subplots(
-        figsize=(13, 8),
-        layout="constrained"
-    )
-
-    imagen = heatmap.imshow(
-        matriz_normalizada,
-        cmap=MAPA_AZULES,
-        aspect="auto"
-    )
-
-    heatmap.set_title(
-        "Gravedad de defectos por procedimiento\n"
-        "Cantidad de defectos por cada 100 inspecciones"
-    )
-
-    heatmap.set_xlabel("Gravedad del defecto")
-    heatmap.set_ylabel("Procedimiento (inspecciones cerradas)")
-
-    heatmap.set_xticks(np.arange(5))
-    heatmap.set_xticklabels([1, 2, 3, 4, 5])
-
-    heatmap.set_yticks(np.arange(len(procedimientos)))
-    heatmap.set_yticklabels(etiquetas)
-
-    # Mostrar valores dentro de cada celda
-    for i in range(len(procedimientos)):
-        for j in range(5):
-            valor = matriz_normalizada[i, j]
-
-            heatmap.text(
-                j, i, f"{valor:.1f}",
-                ha="center",
-                va="center",
-                color="white" if valor > np.max(matriz_normalizada) / 2 else "black"
-            )
-
-    figura.colorbar(
-        imagen,
-        ax=heatmap,
-        label="Defectos por 100 inspecciones"
-    )
-
-    plt.show()
-    #9. Concentración de gravedad por categoría
-
-    gravedad_visual = np.sum(gravedades[son_visuales])
-    gravedad_dimensional = np.sum(gravedades[son_dimensionales])
-
-    categorias = ["Visuales", "Dimensionales"]
-
-    gravedad_acumulada = np.array([
-        gravedad_visual,
-        gravedad_dimensional
-    ])
-
-    porcentaje_gravedad = (
-        gravedad_acumulada / np.sum(gravedad_acumulada) * 100
-    )
-
-    # Mostrar resultados
-    print("\n---------- Concentración de gravedad ----------")
-
-    print(f"Gravedad acumulada visual: {gravedad_visual}")
-    print(f"Gravedad acumulada dimensional: {gravedad_dimensional}")
-
-    print(f"Porcentaje visual: {porcentaje_gravedad[0]:.2f}%")
-    print(f"Porcentaje dimensional: {porcentaje_gravedad[1]:.2f}%")
-
-    # Crear gráfico
-    figura, barras = plt.subplots(figsize=(10, 6))
-
-    columnas = barras.bar(
-        categorias,
-        gravedad_acumulada,
-        color=[AMARILLO, AZUL]
-    )
-
-    barras.bar_label(columnas, padding=3)
-
-    barras.set_title("Concentración de gravedad por categoría")
-    barras.set_xlabel("Categoría de defecto")
-    barras.set_ylabel("Gravedad acumulada")
-
-    plt.tight_layout()
-    plt.show()
-
-        #10. Defectos por muestra
-
-    datos_muestras = cargar("muestras.csv")
-
-    # Considerar únicamente muestras cerradas
-    muestras_cerradas = list(filter(
-        lambda muestra: muestra["estado"] in ("CONFORME", "NO_CONFORME"),
-        datos_muestras
-    ))
-
+    # Obtener IDs y estados
     ids_muestras = columna(muestras_cerradas, "id")
+    estados_muestras = columna(muestras_cerradas, "estado")
 
-    # Contar defectos por muestra, incluyendo las que tienen cero
+    # Contar cuántos defectos tiene cada muestra
+    # ids_muestras_defecto viene del paso 1
     ids_con_defectos, conteos = np.unique(
-        muestras,
+        ids_muestras_defecto,
         return_counts=True
     )
 
     defectos_por_muestra = dict(zip(ids_con_defectos, conteos))
 
-    cantidades_por_muestra = np.array(list(map(
-        lambda id_muestra: defectos_por_muestra.get(id_muestra, 0),
-        ids_muestras
-    )))
+    # Incluir también las muestras que tienen cero defectos
+    cantidades_por_muestra = np.array([
+        defectos_por_muestra.get(id_muestra, 0)
+        for id_muestra in ids_muestras
+    ])
 
-    # Métricas
+    # ---------- Métricas ----------
+
     promedio_muestra = np.mean(cantidades_por_muestra)
     mediana_muestra = np.median(cantidades_por_muestra)
-    maximo_muestra = np.max(cantidades_por_muestra)
+    maximo_muestra = int(np.max(cantidades_por_muestra))
 
     muestras_sin_defectos = np.sum(cantidades_por_muestra == 0)
     muestras_con_defectos = np.sum(cantidades_por_muestra > 0)
 
     print("\n---------- Defectos por muestra ----------")
-
     print("Muestras inspeccionadas:", len(ids_muestras))
     print("Muestras sin defectos:", muestras_sin_defectos)
     print("Muestras con defectos:", muestras_con_defectos)
-
     print(f"Promedio de defectos por muestra: {promedio_muestra:.2f}")
     print(f"Mediana de defectos por muestra: {mediana_muestra:.2f}")
     print("Máximo de defectos en una muestra:", maximo_muestra)
 
-    # Histograma
-    figura, histograma = plt.subplots(figsize=(11, 6))
+    # ---------- Preparar los gráficos ----------
 
-    frecuencias, limites, barras = histograma.hist(
-        cantidades_por_muestra,
-        bins=np.arange(-0.5, maximo_muestra + 1.5, 1),
-        color=AZUL_CLARO,
+    # Excluir del gráfico las muestras sin defectos
+    niveles = np.arange(1, maximo_muestra + 1)
+
+    # Cantidad de muestras conformes y no conformes por nivel
+    conformes = np.array([
+        np.sum(
+            (cantidades_por_muestra == n) &
+            (estados_muestras == "CONFORME")
+        )
+        for n in niveles
+    ])
+
+    no_conformes = np.array([
+        np.sum(
+            (cantidades_por_muestra == n) &
+            (estados_muestras == "NO_CONFORME")
+        )
+        for n in niveles
+    ])
+
+    totales = conformes + no_conformes
+
+    # Porcentaje no conforme para cada cantidad de defectos
+    porcentajes_nc = np.divide(
+        no_conformes,
+        totales,
+        out=np.zeros(len(niveles), dtype=float),
+        where=totales != 0
+    ) * 100
+
+    # ---------- Crear los dos gráficos ----------
+
+    figura, (barras, porcentajes) = plt.subplots(
+        1, 2,
+        figsize=(16, 6),
+        layout="constrained"
+    )
+
+    figura.suptitle(
+        "Defectos por muestra y conformidad\n"
+        f"{muestras_con_defectos} muestras con defectos de "
+        f"{len(ids_muestras)} inspeccionadas",
+        fontsize=14,
+        fontweight="bold"
+    )
+
+    # ---------- Gráfico A: Cantidad de muestras ----------
+
+    barras.bar(
+        niveles,
+        conformes,
+        color="#B8C8D7",
+        label="Conformes",
         edgecolor=GRIS_OSCURO
     )
 
-    histograma.set_title("Distribución de defectos por muestra")
-    histograma.set_xlabel("Cantidad de defectos por muestra")
-    histograma.set_ylabel("Cantidad de muestras")
+    barras.bar(
+        niveles,
+        no_conformes,
+        bottom=conformes,
+        color=AZULES[4],
+        label="No conformes",
+        edgecolor=GRIS_OSCURO
+    )
 
-    histograma.set_xticks(np.arange(0, maximo_muestra + 1))
+    barras.set_title("Muestras según cantidad de defectos")
+    barras.set_xlabel("Defectos por muestra")
+    barras.set_ylabel("Cantidad de muestras")
+    barras.set_xticks(niveles)
+    barras.legend()
 
-    plt.tight_layout()
+    # ---------- Gráfico B: Porcentaje no conforme ----------
+
+# Degradé según cantidad de defectos, no según porcentaje
+    colores_porcentaje = [
+        AMARILLOS[min(
+            int((n - 1) * len(AMARILLOS) / len(niveles)),
+            len(AMARILLOS) - 1
+        )]
+        for n in niveles
+    ]
+
+    columnas = porcentajes.bar(
+        niveles,
+        porcentajes_nc,
+        color=colores_porcentaje,
+        edgecolor=GRIS_OSCURO
+    )
+
+    porcentajes.bar_label(
+        columnas,
+        labels=[
+            f"{porcentajes_nc[i]:.1f}%\n(n={totales[i]})"
+            for i in range(len(niveles))
+        ],
+        padding=3,
+        fontsize=9
+    )
+
+    porcentajes.set_title("No conformidad según cantidad de defectos")
+    porcentajes.set_xlabel("Defectos por muestra")
+    porcentajes.set_ylabel("Muestras no conformes (%)")
+    porcentajes.set_xticks(niveles)
+    porcentajes.set_ylim(0, 115)
+
     plt.show()
-    pass
 
 
 
