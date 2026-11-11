@@ -411,6 +411,173 @@ def distribucion_defectos():
 
     plt.tight_layout()
     plt.show()
+
+    #8. Mapa de calor: Procedimientos vs gravedad
+
+    inspecciones = cargar("inspecciones.csv")
+    procedimientos = cargar("procedimientos.csv")
+
+    # Relacionar cada muestra con su procedimiento
+    procedimiento_por_muestra = {
+        inspeccion["muestra_id"]: inspeccion["procedimiento_id"]
+        for inspeccion in inspecciones
+    }
+
+    # IDs y nombres de todos los procedimientos
+    ids_procedimientos = columna(procedimientos, "id")
+    nombres_procedimientos = columna(procedimientos, "nombre")
+
+    # Crear una matriz de procedimientos x gravedades
+    matriz = np.zeros((len(procedimientos), 5), dtype=int)
+
+    # Contar defectos según procedimiento y gravedad
+    for i, procedimiento in enumerate(ids_procedimientos):
+        for gravedad in range(1, 6):
+            matriz[i, gravedad - 1] = np.sum([
+                procedimiento_por_muestra.get(defecto["muestra_id"]) == procedimiento
+                and int(defecto["gravedad"]) == gravedad
+                for defecto in defectos
+            ])
+
+    # Crear el mapa de calor
+    figura, heatmap = plt.subplots(
+        figsize=(12, 8),
+        layout="constrained"
+    )
+
+    imagen = heatmap.imshow(matriz, cmap="Reds", aspect="auto")
+
+    heatmap.set_title("Distribución de gravedad por procedimiento")
+    heatmap.set_xlabel("Gravedad del defecto")
+    heatmap.set_ylabel("Procedimiento")
+
+    heatmap.set_xticks(np.arange(5))
+    heatmap.set_xticklabels([1, 2, 3, 4, 5])
+
+    heatmap.set_yticks(np.arange(len(nombres_procedimientos)))
+    heatmap.set_yticklabels(nombres_procedimientos)
+
+    # Mostrar cantidades dentro de cada celda
+    for i in range(len(procedimientos)):
+        for j in range(5):
+            heatmap.text(
+                j, i, matriz[i, j],
+                ha="center",
+                va="center",
+                color="white" if matriz[i, j] > np.max(matriz) / 2 else "black"
+            )
+
+    figura.colorbar(
+        imagen,
+        ax=heatmap,
+        label="Cantidad de defectos"
+    )
+
+    plt.show()
+        #9. Concentración de gravedad por categoría
+
+    gravedad_visual = np.sum(gravedades[son_visuales])
+    gravedad_dimensional = np.sum(gravedades[son_dimensionales])
+
+    categorias = ["Visuales", "Dimensionales"]
+
+    gravedad_acumulada = np.array([
+        gravedad_visual,
+        gravedad_dimensional
+    ])
+
+    porcentaje_gravedad = (
+        gravedad_acumulada / np.sum(gravedad_acumulada) * 100
+    )
+
+    # Mostrar resultados
+    print("\n---------- Concentración de gravedad ----------")
+
+    print(f"Gravedad acumulada visual: {gravedad_visual}")
+    print(f"Gravedad acumulada dimensional: {gravedad_dimensional}")
+
+    print(f"Porcentaje visual: {porcentaje_gravedad[0]:.2f}%")
+    print(f"Porcentaje dimensional: {porcentaje_gravedad[1]:.2f}%")
+
+    # Crear gráfico
+    figura, barras = plt.subplots(figsize=(10, 6))
+
+    columnas = barras.bar(
+        categorias,
+        gravedad_acumulada,
+        color=["#E53935", "#1E88E5"]
+    )
+
+    barras.bar_label(columnas, padding=3)
+
+    barras.set_title("Concentración de gravedad por categoría")
+    barras.set_xlabel("Categoría de defecto")
+    barras.set_ylabel("Gravedad acumulada")
+
+    plt.tight_layout()
+    plt.show()
+
+        #10. Defectos por muestra
+
+    datos_muestras = cargar("muestras.csv")
+
+    # Considerar únicamente muestras cerradas
+    muestras_cerradas = list(filter(
+        lambda muestra: muestra["estado"] in ("CONFORME", "NO_CONFORME"),
+        datos_muestras
+    ))
+
+    ids_muestras = columna(muestras_cerradas, "id")
+
+    # Contar defectos por muestra, incluyendo las que tienen cero
+    ids_con_defectos, conteos = np.unique(
+        muestras,
+        return_counts=True
+    )
+
+    defectos_por_muestra = dict(zip(ids_con_defectos, conteos))
+
+    cantidades_por_muestra = np.array(list(map(
+        lambda id_muestra: defectos_por_muestra.get(id_muestra, 0),
+        ids_muestras
+    )))
+
+    # Métricas
+    promedio_muestra = np.mean(cantidades_por_muestra)
+    mediana_muestra = np.median(cantidades_por_muestra)
+    maximo_muestra = np.max(cantidades_por_muestra)
+
+    muestras_sin_defectos = np.sum(cantidades_por_muestra == 0)
+    muestras_con_defectos = np.sum(cantidades_por_muestra > 0)
+
+    print("\n---------- Defectos por muestra ----------")
+
+    print("Muestras inspeccionadas:", len(ids_muestras))
+    print("Muestras sin defectos:", muestras_sin_defectos)
+    print("Muestras con defectos:", muestras_con_defectos)
+
+    print(f"Promedio de defectos por muestra: {promedio_muestra:.2f}")
+    print(f"Mediana de defectos por muestra: {mediana_muestra:.2f}")
+    print("Máximo de defectos en una muestra:", maximo_muestra)
+
+    # Histograma
+    figura, histograma = plt.subplots(figsize=(11, 6))
+
+    frecuencias, limites, barras = histograma.hist(
+        cantidades_por_muestra,
+        bins=np.arange(-0.5, maximo_muestra + 1.5, 1),
+        color="#7E57C2",
+        edgecolor="black"
+    )
+
+    histograma.set_title("Distribución de defectos por muestra")
+    histograma.set_xlabel("Cantidad de defectos por muestra")
+    histograma.set_ylabel("Cantidad de muestras")
+
+    histograma.set_xticks(np.arange(0, maximo_muestra + 1))
+
+    plt.tight_layout()
+    plt.show()
     pass
 
 
