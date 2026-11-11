@@ -134,9 +134,12 @@ def analisis_general():
 
     # Heatmap: los lotes en una grilla de 10 columnas, coloreados por % No conformes
     filas = int(np.ceil(len(ids_lotes) / 10))
+    
+    # np.full(...) crea un array de tamaño filas*10 lleno de np.nan (celdas vacías)
     grilla = np.full(filas * 10, np.nan)                       # celdas vacías si no completa la grilla
     grilla[:len(ids_lotes)] = porcentaje_nc_por_lote
     imagen = heatmap.imshow(grilla.reshape(filas, 10), cmap="Reds")
+
     heatmap.set_title("Mapa de calor de lotes (% No conformes)")
     heatmap.set_xlabel("Lote (dentro de la fila)")
     heatmap.set_ylabel("Grupo de lotes")
@@ -154,7 +157,7 @@ def analisis_general():
     tamanios = np.arange(5, 21)
     scatter.plot(tamanios, 100 / tamanios, "k--", label="Una sola muestra No conforme")
     scatter.axhline(5, color="gray", linestyle=":", label="Límite 5%")
-    scatter.set_title(f"Muestras por lote vs % No conformes (correlación: {correlacion:.2f})")
+    scatter.set_title(f"Muestras por lote vs % No conformes")
     scatter.set_xlabel("Cantidad de muestras del lote")
     scatter.set_ylabel("% No conformes")
     scatter.legend()
