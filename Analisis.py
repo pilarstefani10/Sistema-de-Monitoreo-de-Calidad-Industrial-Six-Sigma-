@@ -2,6 +2,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 from GestorArchivos import GestorArchivos
 
+# ==========================================
+# PALETA DE COLORES
+# ==========================================
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+from GestorArchivos import GestorArchivos
+
+# ---------- Paleta de colores ----------
+AZUL = "#5B84B1"
+AZUL_CLARO = "#8FB9E3"
+AMARILLO = "#F2C14E"
+GRIS_AZULADO = "#A7B6C6"
+GRIS_OSCURO = "#6E7781"
+
+
+# Mapa de calor coherente con la paleta
+MAPA_AZULES = LinearSegmentedColormap.from_list(
+    "mapa_azules",
+    ["#F4F7FA", "#C9D9EA", "#8FB9E3", "#5B84B1"]
+)
 
 # ==========================================
 # OBTENER LOS DATOS
@@ -259,7 +280,7 @@ def distribucion_defectos():
     visuales.barh(
         nombres_visuales,
         cantidades_visuales,
-        color="#E53935"
+        color=AMARILLO
     )
 
     visuales.invert_yaxis()
@@ -272,7 +293,7 @@ def distribucion_defectos():
     dimensionales.bar(
         niveles_gravedad,
         cantidades_dimensionales,
-        color="#1E88E5"
+        color=AZUL
     )
 
     dimensionales.set_title("Defectos dimensionales por gravedad")
@@ -285,7 +306,7 @@ def distribucion_defectos():
     proporcion.pie(
         [cantidad_visuales, cantidad_dimensionales],
         autopct="%1.1f%%",
-        colors=["#E53935", "#1E88E5"],
+        colors=[AMARILLO, AZUL],
         startangle=90
     )
 
@@ -306,7 +327,7 @@ def distribucion_defectos():
     )
 
     colores = list(map(
-        lambda tipo: "#E53935" if tipo.startswith("Anomalía Visual") else "#1E88E5",
+        lambda tipo: AMARILLO if tipo.startswith("Anomalía Visual") else AZUL,
         tipos_unicos
     ))
 
@@ -329,8 +350,8 @@ def distribucion_defectos():
     frecuencias, limites, barras = plt.hist(
         gravedades,
         bins=np.arange(0.5, 6.5, 1),
-        color="#7E57C2",
-        edgecolor="black"
+        color=GRIS_AZULADO,
+        edgecolor=GRIS_OSCURO
     )
 
     # Mostrar la cantidad encima de cada barra
@@ -374,7 +395,7 @@ def distribucion_defectos():
     barras.barh(
         posiciones,
         cantidades_pareto,
-        color="#1E88E5"
+        color=AZUL
     )
 
     barras.set_yticks(posiciones)
@@ -391,7 +412,7 @@ def distribucion_defectos():
     linea.plot(
         porcentaje_acumulado,
         posiciones,
-        color="#E53935",
+        color=AMARILLO,
         marker="o",
         label="Porcentaje acumulado"
     )
@@ -402,7 +423,7 @@ def distribucion_defectos():
     # Línea de referencia del 80%
     linea.axvline(
         80,
-        color="gray",
+        color=GRIS_OSCURO,
         linestyle="--",
         label="Referencia 80%"
     )
@@ -445,7 +466,7 @@ def distribucion_defectos():
         layout="constrained"
     )
 
-    imagen = heatmap.imshow(matriz, cmap="Reds", aspect="auto")
+    imagen = heatmap.imshow(matriz, cmap=MAPA_AZULES, aspect="auto")
 
     heatmap.set_title("Distribución de gravedad por procedimiento")
     heatmap.set_xlabel("Gravedad del defecto")
@@ -474,6 +495,8 @@ def distribucion_defectos():
     )
 
     plt.show()
+
+
         #9. Concentración de gravedad por categoría
 
     gravedad_visual = np.sum(gravedades[son_visuales])
@@ -505,7 +528,7 @@ def distribucion_defectos():
     columnas = barras.bar(
         categorias,
         gravedad_acumulada,
-        color=["#E53935", "#1E88E5"]
+        color=[AMARILLO, AZUL]
     )
 
     barras.bar_label(columnas, padding=3)
@@ -566,8 +589,8 @@ def distribucion_defectos():
     frecuencias, limites, barras = histograma.hist(
         cantidades_por_muestra,
         bins=np.arange(-0.5, maximo_muestra + 1.5, 1),
-        color="#7E57C2",
-        edgecolor="black"
+        color=AZUL_CLARO,
+        edgecolor=GRIS_OSCURO
     )
 
     histograma.set_title("Distribución de defectos por muestra")
